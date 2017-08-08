@@ -14,3 +14,21 @@ a:hover {
 a.active {
   font-weight: 500;
 }
+
+img {
+  float:left;
+  height: 50px;
+}
+
+#left {
+  float:left;
+}
+
+#navbar {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#header {
+  margin-top: 10px;
+}

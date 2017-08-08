@@ -10,6 +10,7 @@ import createStore from './store/store';
 
 import Account from './components/Account/Account';
 import Game from './components/Game/Game';
+import Chat from "./components/Chat/Chat";
 
 const store = createStore();
 
@@ -19,26 +20,43 @@ class App extends Component {
             <Provider store={store}>
                 <BrowserRouter>
                     <div className="App">
-                        <div style={{backgroundColor: '#eee', padding: '16px'}}>
-                            <img src={logo} style={{height: '80px'}} alt="logo"/>
-                            <br />
-                            <NavLink
-                                style={{padding: '0 8px'}}
-                                activeStyle={{textDecoration: 'underline'}}
-                                exact={true}
-                                to="/">
-                                Chats
-                            </NavLink>
+                        <div className="row around-xs" id="header">
+                            <div className="col-xs-2" id="left">
+                            <img src={logo} id="logo" alt="logo"/>
+                            <br/>
+                            </div>
+
+                            <div className="col-xs-2" id="navbar">
                             <NavLink
                                 style={{padding: '0 8px'}}
                                 activeStyle={{textDecoration: 'underline'}}
                                 to="/account">
                                 Account
                             </NavLink>
+
+                            <NavLink
+                                style={{padding: '0 8px'}}
+                                activeStyle={{textDecoration: 'underline'}}
+                                exact={true}
+                                to="/">
+                                Game
+                            </NavLink>
+
+                            <NavLink
+                            style={{padding:"0 8px"}}
+                            to="/chat">
+                            Chat
+                            </NavLink>
+                            </div>
+
+                            <div className="col-xs-2">
+                            </div>
+
                         </div>
                         <Switch>
                             <Route exact path="/" component={Game}/>
-                            <Route exact path="/account" component={Account}/>
+                            <Route path="/chat" component={Chat}/>
+                            <Route path="/account" component={Account}/>
                         </Switch>
                     </div>
                 </BrowserRouter>
