@@ -38,7 +38,7 @@ class App extends Component {
                         </div>
                         <Switch>
                             <Route exact path="/" component={Game}/>
-                            <Route exact path="/account" component={Account}/>
+                            <Route path="/account" component={Account}/>
                         </Switch>
                     </div>
                 </BrowserRouter>
