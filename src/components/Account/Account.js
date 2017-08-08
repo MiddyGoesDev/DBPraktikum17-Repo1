@@ -9,7 +9,7 @@ import { login, register, logout } from '../../actions/auth'
 
 class Account extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       username: null,
       password: null
@@ -18,21 +18,21 @@ class Account extends Component {
 
   handleInputChange = (event) => {
     this.setState({ [event.target.name]: event.target.value })
-  }
+  };
 
   handleLogin = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     this.props.actions.login(this.state.username, this.state.password)
-  }
+  };
 
   handleRegister = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     this.props.actions.register(this.state.username, this.state.password)
-  }
+  };
 
   handleLogout = (event) => {
     this.props.actions.logout()
-  }
+  };
 
   render() {
     return (
@@ -68,7 +68,7 @@ class Account extends Component {
 
 Account.propTypes = {
   user: PropTypes.object
-}
+};
 
 function mapStateToProps(state) {
   return { auth: state.auth, user: state.auth.user }

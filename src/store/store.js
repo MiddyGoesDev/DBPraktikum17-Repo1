@@ -7,15 +7,10 @@ import reducers from '../reducers'
 import { db } from 'baqend/lib/baqend'
 
 export default (initialState = {}) => {
-  const reducer = combineReducers({
-    baqend: baqendReducer,
-    ...reducers
-  })
-  const middleware = applyMiddleware(
-    ...middlewares
-  )
+  const reducer = combineReducers({ baqend: baqendReducer, ...reducers });
+  const middleware = applyMiddleware(...middlewares);
   return createStoreWithBaqend(
-    db.connect('app-starter', true),
+    db.connect('black-water-73', true),
     reducer,
     initialState,
     middleware
