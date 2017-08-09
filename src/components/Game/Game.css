@@ -4,15 +4,3 @@
     height: 80%;
     position: relative;
 }
-
-#chat {
-    float: right;
-    border: 1px solid black;
-    width: 15%;
-    height: 70%;
-    bottom: 0px;
-    right: 0px;
-    margin-bottom: 2.5%;
-    margin-right: 2.5%;
-    position: fixed;
-}

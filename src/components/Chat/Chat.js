@@ -4,8 +4,16 @@ import React from 'react';
 class Chat extends React.Component {
     render() {
         return (
-            <div id="Chat">
-                <p>Chat goes here</p>
+            <div className="chat-room">
+                <div className="chat-messages">
+
+                </div>
+                <div className="chat-interface">
+                    <form>
+                        <input type="text" placeholder="Send a message"/>
+                        <input type="submit" value={"send"}/>
+                    </form>
+                </div>
             </div>
         );
     }
