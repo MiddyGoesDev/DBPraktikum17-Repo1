@@ -8,7 +8,7 @@ class GameChat extends React.Component {
 
     render() {
         return (
-            <div className="gamechat">
+            <div className="game-chat-window">
                 <div className="game-main"><Game /></div>
                 <div className="game-chat"><Chat /></div>
             </div>

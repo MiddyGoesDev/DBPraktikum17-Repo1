@@ -1,20 +1,16 @@
 .chat-room {
     float: right;
-
-    width: 20%;
-    height: 700px;
-    right: 0px;
-    margin-bottom: 2.5%;
-    margin-right: 2.5%;
-    background-color: red;
+    border: 1px solid black;
+    height: 100%;
+    width: 100%;
 }
 
 .chat-interface {
-    height: 50px;
+    height: 5%;
 }
 
 .chat-messages {
-    height: 350px;
+    height: 95%;
 }
 
 .chat-message {

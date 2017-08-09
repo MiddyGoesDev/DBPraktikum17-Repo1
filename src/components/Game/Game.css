@@ -1,14 +1,10 @@
-#gameField {
+#game-field {
     border: 1px solid black;
-    position: relative;
+    height: 100%;
+    width: 100%
 }
 
-.gameWindow {
-    
-    overflow: hidden;
-    display: block;
-    margin-left: 2.5%;
-    margin-right: auto;
-    background-color: green;
-    float: left;
+.game-window {
+    height: 100%;
+    width: 100%;
 }

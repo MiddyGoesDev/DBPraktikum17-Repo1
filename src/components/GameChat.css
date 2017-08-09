@@ -1,15 +1,21 @@
-.gamechat {
-    width: 100%;
-    background-color: blue;
-    float: left;
-
+.game-chat-window {
+    height: 80%;
+    width: 80%;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
 }
-
 
 .game-main {
-
+    float: left;
+    height: 100%;
+    width: 80%;
 }
 
-.game-chat{
-
+.game-chat {
+    float: left;
+    width: 18%;
+    height: 100%;
+    margin-left: 20px;
 }
