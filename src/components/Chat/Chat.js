@@ -1,7 +1,33 @@
 import './Chat.css';
-import React from 'react';
+import { db } from 'baqend/lib/baqend';
+import {sendMessage} from '../../actions/message'
+
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+
 
 class Chat extends React.Component {
+
+    constructor(props) {
+    super(props);
+    this.state = {
+        name: "test static user",
+        message: "test static message"
+    }
+}
+
+     handleMessage = (event) => {
+     event.preventDefault();
+     this.props.actions.sendMessage(this.state.name, this.state.message)
+ };
+
+     handleInputChange = (event) => {
+     this.setState({[event.target.name]: event.target.value})
+    };
+
     render() {
         return (
             <div className="chat-room">
@@ -9,25 +35,22 @@ class Chat extends React.Component {
 
                 </div>
                 <div className="chat-interface">
-                    <form onSubmit="leaveMessage(this.message.value); this.reset(); return false;">
-                        <input type="text" name="message" placeholder="Send a message"/>
-                        <button type="submit">Send</button>
+                    <form onChange={this.handleInputChange}>
+                        <input
+                           className="form-control"
+                           name="message"
+                           placeholder="Send a message"/>
+                        <button onClick={this.handleMessage}>Send</button>
                     </form>
                 </div>
             </div>
         );
     }
+
 }
 
-export default Chat
+function mapDispatchToProps(dispatch) {
+    return {actions: bindActionCreators({sendMessage}, dispatch)}
+}
 
-/**
-<div class="jumbotron">
-    <form onsubmit="leaveMessage(this.message.value);
-    this.reset(); return false;" class="form-inline text-center container">
-    <input class="form-control" name="message" placeholder="Message">
-    <button type="submit" class="btn btn-primary">Leave Message</button>
-    </form>
-    </div>
-<div class="container"><div class="row" id="messages"></div>
-**/
+export default connect(null, mapDispatchToProps)(Chat)
