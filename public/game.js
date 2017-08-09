@@ -1,3 +1,4 @@
+import * as KEYCODE from './key_codes';
 
 setTimeout(() => { startGame() });
 
@@ -27,9 +28,6 @@ var spriteSheet = new createjs.SpriteSheet(data);
 var guy = new createjs.Sprite(spriteSheet, "stand");
 
 function startGame() {
-
-    console.log(document.getElementById('gameField'));
-
     gameStage = new createjs.Stage('gameField');
 
     circle = new createjs.Shape();
@@ -49,23 +47,20 @@ function startGame() {
     document.onkeydown = keyPressed;
 }
 
-var KEYCODE_LEFT = 37,
-    KEYCODE_RIGHT = 39,
-    KEYCODE_UP = 38,
-    KEYCODE_DOWN = 40;
+
 
 function keyPressed(event) {
     switch(event.keyCode) {
-        case KEYCODE_LEFT:
+        case KEYCODE.LEFT:
             guy.x -= 10;
             break;
-        case KEYCODE_RIGHT:
+        case KEYCODE.RIGHT:
             guy.x += 10;
             break;
-        case KEYCODE_UP:
+        case KEYCODE.UP:
             guy.y -= 10;
             break;
-        case KEYCODE_DOWN:
+        case KEYCODE.DOWN:
             guy.y += 10;
             break;
     }
