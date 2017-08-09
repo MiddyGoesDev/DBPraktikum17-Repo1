@@ -6,15 +6,21 @@ var rectangle;
 var gameStage;
 var circle;
 
+var framesWalk = [];
+for(var i = 0; i < 3; i++)
+{
+    framesWalk.push([16 + 16*i, 144, 16, 16]);
+}
+
 var data = {
     images: ['./assets/sprites.png'],
-    frames: [
+    frames:
         // x, y, width, height, imageIndex*, regX*, regY*
-        [16, 16, 16, 16]
+        framesWalk
         // etc.
-    ],
+    ,
     animations: {
-        stand: 0
+        walk: [0,2]
     }
     /*frames: {width:16, height:16, regX: 32, regY:64, spacing:0, margin:0},
 
@@ -25,7 +31,7 @@ var data = {
     }*/
 };
 var spriteSheet = new createjs.SpriteSheet(data);
-var guy = new createjs.Sprite(spriteSheet, "stand");
+var guy = new createjs.Sprite(spriteSheet, "walk");
 
 function startGame() {
     gameStage = new createjs.Stage('gameField');
