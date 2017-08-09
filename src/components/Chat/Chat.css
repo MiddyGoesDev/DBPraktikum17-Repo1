@@ -1,11 +1,22 @@
-#Chat {
+.chat-room {
     position: fixed;
     float: right;
     border: 1px solid black;
     width: 300px;
-    height: 400px;
     bottom: 0;
     right: 0;
     margin-bottom: 20px;
     margin-right: 20px;
+}
+
+.chat-interface {
+    height: 50px;
+}
+
+.chat-messages {
+    height: 350px;
+}
+
+.chat-message {
+
 }
