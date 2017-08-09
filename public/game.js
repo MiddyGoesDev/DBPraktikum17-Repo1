@@ -1,5 +1,3 @@
-import * as KEYCODE from './key_codes';
-
 setTimeout(() => { startGame() });
 
 var rectangle;
@@ -47,20 +45,23 @@ function startGame() {
     document.onkeydown = keyPressed;
 }
 
-
+const KEYCODE_LEFT = 37;
+const KEYCODE_RIGHT = 39;
+const KEYCODE_UP = 38;
+const KEYCODE_DOWN = 40;
 
 function keyPressed(event) {
     switch(event.keyCode) {
-        case KEYCODE.LEFT:
+        case KEYCODE_LEFT:
             guy.x -= 10;
             break;
-        case KEYCODE.RIGHT:
+        case KEYCODE_RIGHT:
             guy.x += 10;
             break;
-        case KEYCODE.UP:
+        case KEYCODE_UP:
             guy.y -= 10;
             break;
-        case KEYCODE.DOWN:
+        case KEYCODE_DOWN:
             guy.y += 10;
             break;
     }

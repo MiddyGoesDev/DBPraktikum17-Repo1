@@ -1,7 +1,7 @@
 import './Chat.css';
 import React from 'react';
 
-class Chat extends React.Component {
+class Message extends React.Component {
     render() {
         return (
             <div className="chat-message">
