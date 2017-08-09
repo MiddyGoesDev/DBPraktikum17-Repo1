@@ -5,10 +5,12 @@ class Game extends React.Component {
 
     render() {
         return (
-            <div className="gameWindows">
-                <canvas id="gameField" />
+            <div id="wrapper">
+                <div id="game">
+                    <canvas id="gameField" />
+                </div>
 
-                <div id="Chat">
+                <div id="chat">
                     <p>Chat goes here</p>
                 </div>
             </div>

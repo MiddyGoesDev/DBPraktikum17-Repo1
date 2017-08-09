@@ -48,4 +48,3 @@ function keyPressed(event) {
     }
     gameStage.update();
 }
-
