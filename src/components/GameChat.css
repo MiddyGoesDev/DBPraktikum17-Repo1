@@ -1,7 +1,15 @@
+.gamechat {
+    width: 100%;
+    background-color: blue;
+    float: left;
+
+}
+
+
 .game-main {
 
 }
 
-.game-chat {
-    
+.game-chat{
+
 }
