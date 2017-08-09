@@ -37,6 +37,7 @@ var data = {
 };
 
 var spriteSheet = new createjs.SpriteSheet(data);
+// var guy = new Character(spriteSheet, "idle", 42);
 var guy = new createjs.Sprite(spriteSheet, "idle");
 guy.idling = true;
 guy.x = 10;
@@ -84,7 +85,42 @@ const KEYCODE_LEFT = 37;
 const KEYCODE_RIGHT = 39;
 const KEYCODE_UP = 38;
 const KEYCODE_DOWN = 40;
-var movespeed = 3;
+const DIRECTION_WEST = 0;
+const DIRECTION_EAST = 1;
+const DIRECTION_NORTH = 2;
+const DIRECTION_SOUTH = 3;
+
+var movespeed = 4;
+
+function tryMove(direction, speed) {
+    switch(direction) {
+        case DIRECTION_WEST: // left
+            guy.x -= speed;
+            while (checkCollision(guy, rectangle)) {
+                guy.x += 1;
+            }
+            break;
+        case DIRECTION_EAST: // right
+            guy.x += speed;
+            while (checkCollision(guy, rectangle)) {
+                guy.x -= 1;
+            }
+            break;
+        case DIRECTION_NORTH: // up
+            guy.y -= speed;
+            while (checkCollision(guy, rectangle)) {
+                guy.y += 1;
+            }
+            break;
+        case DIRECTION_SOUTH: // down
+            guy.y += speed;
+            while (checkCollision(guy, rectangle)) {
+                guy.y -= 1;
+            }
+            break;
+    }
+
+}
 
 function keyPressed(event) {
     switch(event.keyCode) {
@@ -93,28 +129,29 @@ function keyPressed(event) {
                 guy.gotoAndPlay("walk");
             }
             guy.idling = false;
-            guy.x -= movespeed;
+            tryMove(DIRECTION_WEST, movespeed);
             break;
         case KEYCODE_RIGHT:
             if(guy.idling) {
                 guy.gotoAndPlay("walk");
             }
             guy.idling = false;
-            guy.x += movespeed;
+            tryMove(DIRECTION_EAST, movespeed);
             break;
         case KEYCODE_UP:
             if(guy.idling) {
                 guy.gotoAndPlay("walk");
             }
             guy.idling = false;
-            guy.y -= movespeed;
+            tryMove(DIRECTION_NORTH, movespeed);
+
             break;
         case KEYCODE_DOWN:
             if(guy.idling) {
                 guy.gotoAndPlay("walk");
             }
             guy.idling = false;
-            guy.y += movespeed;
+            tryMove(DIRECTION_SOUTH, movespeed);
             break;
         case KEYCODE_S:
             gameStage.addChild(bullet);
@@ -130,7 +167,6 @@ function keyReleased(event) {
         case KEYCODE_LEFT:
             guy.idling = true;
             guy.gotoAndPlay("idle");
-            console.log(guy.getBounds());
             break;
         case KEYCODE_RIGHT:
             guy.idling = true;
@@ -179,3 +215,36 @@ function handleTick(event) {
         gameStage.update();
     }
 }
+
+// mc1 = Objekt1, mc2 = Objekt2
+function checkCollision(mc1, mc2) {
+
+    m1x = mc1.x;
+    m1y = mc1.y;
+    m1w = mc1.getBounds().width;
+    m1h = mc1.getBounds().height;
+
+
+    m2x = mc2.graphics.command.x;
+    m2y = mc2.graphics.command.y;
+    m2w = mc2.graphics.command.w;
+    m2h = mc2.graphics.command.h;
+
+
+    if (    m1x >= m2x + m2w     //  mc1 rechts von mc2
+        ||  m1x + m1w <= m2x     //  mc1 links von mc2
+        ||  m1y >= m2y + m2h     //  mc1 unterhalb von mc2
+        ||  m1y + m1h <= m2y) {  //  mc1 oberhalb von mc2
+        return false;
+    } else {
+        return true;
+    }
+}
+
+/*
+function Character(spriteSheet, state, subject) {
+    createjs.Sprite.call(spriteSheet, state);
+
+    this.subject = subject;
+}
+*/
