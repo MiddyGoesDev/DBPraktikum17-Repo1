@@ -7,11 +7,11 @@ var circle;
 
 var data = {
     images: ['./assets/sprites.png'],
-    frames:
+    frames: [
         // x, y, width, height, imageIndex*, regX*, regY*
-        {width:16, height:16, regX: 32, regY:64, spacing:0, margin:0},
+        [16, 16, 16, 16]
         // etc.
-
+    ],
     animations: {
         stand: 0
     }
