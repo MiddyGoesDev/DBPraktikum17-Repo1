@@ -70,6 +70,9 @@ function startGame() {
     gameStage.addChild(guy);
     gameStage.update();
 
+    createjs.Ticker.addEventListener("tick", handleTick);
+
+
     document.onkeydown = keyPressed;
     document.onkeyup = keyReleased;
     // document.onkeypress = keyHeld;
@@ -127,6 +130,7 @@ function keyReleased(event) {
         case KEYCODE_LEFT:
             guy.idling = true;
             guy.gotoAndPlay("idle");
+            console.log(guy.getBounds());
             break;
         case KEYCODE_RIGHT:
             guy.idling = true;
@@ -168,12 +172,10 @@ function keyHeld(event) {
 }
 */
 
-createjs.Ticker.addEventListener("tick", handleTick);
 function handleTick(event) {
     // Actions carried out each tick (aka frame)
     if (!event.paused) {
         // Actions carried out when the Ticker is not paused.
-        bullet.x += 5;
         gameStage.update();
     }
 }
