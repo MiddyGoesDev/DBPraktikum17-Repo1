@@ -4,7 +4,7 @@ import React from 'react';
 class Chat extends React.Component {
     render() {
         return (
-            <div className="Chat">
+            <div id="Chat">
                 <p>Chat goes here</p>
             </div>
         );

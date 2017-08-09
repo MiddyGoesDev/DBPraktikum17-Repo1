@@ -5,8 +5,12 @@ class Game extends React.Component {
 
     render() {
         return (
-            <div className="game">
+            <div className="gameWindows">
                 <canvas id="gameField" />
+
+                <div id="Chat">
+                    <p>Chat goes here</p>
+                </div>
             </div>
         );
     }

@@ -1,5 +1,7 @@
-#chat {
+#Chat {
     border: 1px solid black;
-    width: 400;
-    height: 800px;
+    width: 200px;
+    height: 400px;
+    float: right;
+    margin-top: 20%;
 }
