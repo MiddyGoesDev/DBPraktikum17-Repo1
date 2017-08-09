@@ -6,11 +6,7 @@ class Game extends React.Component {
     render() {
         return (
             <div className="gameWindows">
-                <canvas id="gameField" />
-
-                <div id="Chat">
-                    <p>Chat goes here</p>
-                </div>
+                <canvas id="gameField" width={2000} height={2000} />
             </div>
         );
     }
