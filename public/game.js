@@ -32,7 +32,11 @@ var spriteSheet = new createjs.SpriteSheet(data);
 var guy = new createjs.Sprite(spriteSheet, "walk");
 
 function startGame() {
-    gameStage = new createjs.Stage('gameField');
+    var gameField = document.getElementById('game-field');
+    var gameWindow = document.getElementById('game-window');
+    gameField.width = gameWindow.clientWidth;
+    gameField.height = gameWindow.clientHeight;
+    gameStage = new createjs.Stage('game-field');
 
     circle = new createjs.Shape();
     circle.graphics.beginFill("red").drawCircle(100, 100, 10);
