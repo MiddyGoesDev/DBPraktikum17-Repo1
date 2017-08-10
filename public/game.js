@@ -1,5 +1,7 @@
 setTimeout(() => { startGame() });
 
+
+
 var socket = io('http://localhost:3001');
 
 var rectangle;
@@ -18,7 +20,7 @@ for(var i = 0; i < 4; i++)
     framesIdle.push([16 + 16*i, 112, 16, 16]);
 }
 
-var data = {
+var guyData = {
     images: ['./assets/sprites.png'],
     frames: framesWalk.concat(framesIdle)
         // x, y, width, height, imageIndex*, regX*, regY*
@@ -38,7 +40,9 @@ var data = {
     }*/
 };
 
-var spriteSheet = new createjs.SpriteSheet(data);
+
+
+var spriteSheet = new createjs.SpriteSheet(guyData);
 // var guy = new Character(spriteSheet, "idle", 42);
 var guys = [];
 var guy = new createjs.Sprite(spriteSheet, "idle");
@@ -46,6 +50,15 @@ guy.idling = true;
 guy.x = 10;
 guy.y = 10;
 guy.id = Math.floor(Math.random() * 1000000);
+
+var wallData = {
+    images: ['./assets/brickwall.png'],
+    frames: {width:64, height:64, count:1, regX: 0, regY:0, spacing:0, margin:0}
+};
+
+
+var wallSpriteSheet = new createjs.SpriteSheet(wallData);
+rectangle = new createjs.Sprite(wallSpriteSheet);
 
 var bullet;
 bullet = new createjs.Shape();
@@ -66,14 +79,18 @@ function startGame() {
     circle.x = 100;
     circle.y = 50;
 
-    rectangle = new createjs.Shape();
-    rectangle.graphics.beginFill("#ff0000").drawRect(50, 50, 50, 50);     // x, y, width, height
+
+     rectangle.x = 64;
+    //rectangle.y = 64;
 
 
     gameStage.addChild(circle);
     gameStage.addChild(rectangle);
     gameStage.addChild(guy);
     gameStage.update();
+
+    //console.log(ndgmr.checkPixelCollision(guy,rectangle,0,true));
+    console.log(ndgmr.checkRectCollision(guy,rectangle));
 
     createjs.Ticker.addEventListener("tick", handleTick);
 
@@ -225,17 +242,24 @@ function handleTick(event) {
 // mc1 = Objekt1, mc2 = Objekt2
 function checkCollision(mc1, mc2) {
 
+    // für sprites
     m1x = mc1.x;
     m1y = mc1.y;
     m1w = mc1.getBounds().width;
     m1h = mc1.getBounds().height;
 
+    m2x = mc2.x;
+    m2y = mc2.y;
+    m2w = mc2.getBounds().width;
+    m2h = mc2.getBounds().height;
 
+
+    /* für shapes
     m2x = mc2.graphics.command.x;
     m2y = mc2.graphics.command.y;
     m2w = mc2.graphics.command.w;
     m2h = mc2.graphics.command.h;
-
+    */
 
     if (    m1x >= m2x + m2w     //  mc1 rechts von mc2
         ||  m1x + m1w <= m2x     //  mc1 links von mc2
