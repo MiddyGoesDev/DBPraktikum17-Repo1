@@ -17,19 +17,31 @@ export function sendMessage(text) {
   }
 }
 
-export function showMessages() {
+export function getMessages() {
 
     return {
         'BAQEND': {
             type: MESSAGE,
             payload: (db) => {
-               var messageList = db.Message.find()
-                  .descending("date")
-                  .limit(30)
-                  .resultList()
-                  return messageList;
+              return db.Message.find()
+              .ascending("date")
+              .resultList()
+              .then((results) => {
+                var html =""
+                results.forEach((message) => {
+                  html += '<div class="kp">'+ message.name +": " +  message.message +'</div>'
+                });
+                document.getElementById("chat-message").innerHTML = html;
+                //console.log(results)
+                //return results
+              })
             }
-          }
+            //payload: async (db) => {
+            //  let messages = await db.Message.find().resultList()
+            //  console.log(messages)
+            //  return messages
+            //  }
+        }
     }
 }
 
@@ -47,6 +59,4 @@ function showMessages() {
         });
         document.getElementById("messages").innerHTML = html;
     });
-}
-
-**/
+    **/
