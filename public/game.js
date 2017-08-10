@@ -1,8 +1,8 @@
-setTimeout(() => { startGame() });
+setTimeout(() => { startGame(); });
 
 
 
-var socket = io('http://localhost:3001');
+var socket = io('http://207.154.243.43');
 
 var rectangle;
 var gameStage;
@@ -31,6 +31,12 @@ function Character(posX, posY, type) {
     this.punch = () => {
         this.gotoAndPlay('punch');
     };
+
+    this.setPosition = (x, y) => {
+        this.x = x;
+        this.y = y;
+        this.updateSpritePosition(x, y);
+    }
 
     this.move = () => {
         var axis;
@@ -264,18 +270,16 @@ socket.on('initialize player', function (data) {
     }
 });
 socket.on('update guy', function (guy) {
-    guys[guy.id].x = guy.x;
-    guys[guy.id].y = guy.y;
+    guys[guy.id].setPosition(guy.x, guy.y);
     gameStage.update();
 });
 
 function addGuy(guy) {
     if (typeof(guys[guy.id]) === "undefined") {
-        guys[guy.id] = new createjs.Sprite(spriteSheet, "idle");
-        guys[guy.id].x = guy.x;
-        guys[guy.id].y = guy.y;
+        guys[guy.id] = new Character(10, 10, "idle");
+        guys[guy.id].setPosition(guy.x, guy.y);
 
-        gameStage.addChild(guys[guy.id]);
+        gameStage.addChild(guys[guy.id].sprite);
         gameStage.update();
 
         $('#chat-messages').append('<div class="chat-message">Player ' + guy.id + ' has joined</div>');
