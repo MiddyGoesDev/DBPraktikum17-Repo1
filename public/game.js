@@ -160,7 +160,7 @@ function startGame() {
     gameField.height = gameWindow.clientHeight;
     gameStage = new createjs.Stage('game-field');
 
-    rectangle.x = 30;
+    rectangle.x = 200;
     //rectangle.y = 64;
 
     guys[guy.id] = guy;
@@ -170,7 +170,6 @@ function startGame() {
     gameStage.update();
 
     createjs.Ticker.addEventListener("tick", handleTick);
-
 
     document.onkeydown = keyPressed;
     document.onkeyup = keyReleased;
@@ -237,6 +236,10 @@ function handleTick(event) {
         // Actions carried out when the Ticker is not paused.
         gameStage.update();
         bullet.x += 6;
+        var detectedCollision = ndgmr.checkPixelCollision(bullet,rectangle,0.01,true);
+        if (detectedCollision !== false) {
+            gameStage.removeChild(bullet);
+        }
     }
 }
 
