@@ -7,7 +7,7 @@ export function sendMessage(Name, texT) {
       type: MESSAGE,
       payload: (db) => {
         var messageObj = new db.Message({
-          'name':Name,
+          'name':db.User.me.username,
           'message':texT,
           'date':new Date()
         });
