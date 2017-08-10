@@ -80,7 +80,7 @@ function startGame() {
     circle.y = 50;
 
 
-     rectangle.x = 64;
+    rectangle.x = 30;
     //rectangle.y = 64;
 
     guys[guy.id] = guy;
@@ -90,8 +90,8 @@ function startGame() {
     gameStage.addChild(guy);
     gameStage.update();
 
-    //console.log(ndgmr.checkPixelCollision(guy,rectangle,0,true));
-    console.log(ndgmr.checkRectCollision(guy,rectangle));
+    console.log(ndgmr.checkPixelCollision(guy,rectangle,0.01,true) !== null);
+    //console.log(ndgmr.checkRectCollision(guy,rectangle));
 
     createjs.Ticker.addEventListener("tick", handleTick);
 
@@ -111,69 +111,129 @@ const DIRECTION_WEST = 0;
 const DIRECTION_EAST = 1;
 const DIRECTION_NORTH = 2;
 const DIRECTION_SOUTH = 3;
+var movespeed = 3;
 
-var movespeed = 4;
 
 function tryMove(direction, speed) {
+    var overlapThreshold = movespeed;
+    var detectedCollision;
+
     switch(direction) {
         case DIRECTION_WEST: // left
             guy.x -= speed;
-            while (checkCollision(guy, rectangle)) {
-                guy.x += 1;
+            detectedCollision = ndgmr.checkPixelCollision(guy,rectangle,0.01,true);
+            if (detectedCollision !== false) {
+                var width = detectedCollision.width;
+                var height = detectedCollision.height;
+                if (height >= overlapThreshold){
+                    guy.x += width;
+                }
             }
             break;
         case DIRECTION_EAST: // right
             guy.x += speed;
-            while (checkCollision(guy, rectangle)) {
-                guy.x -= 1;
+            detectedCollision = ndgmr.checkPixelCollision(guy,rectangle,0.01,true);
+            console.log(ndgmr.checkPixelCollision(guy,rectangle,0.01,true));
+            if (detectedCollision !== false) {
+                var width = detectedCollision.width;
+                var height = detectedCollision.height;
+                if (height >= overlapThreshold){
+                    guy.x -= width;
+                }
+
             }
             break;
         case DIRECTION_NORTH: // up
             guy.y -= speed;
-            while (checkCollision(guy, rectangle)) {
-                guy.y += 1;
+            detectedCollision = ndgmr.checkPixelCollision(guy,rectangle,0.01,true);
+            if (detectedCollision !== false) {
+                var width = detectedCollision.width;
+                var height = detectedCollision.height;
+                if (width >= overlapThreshold){
+                    guy.y += height;
+                }
             }
             break;
         case DIRECTION_SOUTH: // down
             guy.y += speed;
-            while (checkCollision(guy, rectangle)) {
-                guy.y -= 1;
+            detectedCollision = ndgmr.checkPixelCollision(guy,rectangle,0.01,true);
+            if (detectedCollision !== false) {
+                var width = detectedCollision.width;
+                var height = detectedCollision.height;
+                if (width >= overlapThreshold){
+                    guy.y -= height;
+                }
             }
             break;
     }
+}
 
+function move(direction, speed){
+    var axis;
+    var sign;
+    var detectedCollision;
+    var width;
+    var height;
+    var overlapThreshold = movespeed;
+
+    switch(direction) {
+        case DIRECTION_WEST: // LEFT
+            axis = 'x';
+            sign = -1;
+            break;
+        case DIRECTION_EAST: // RIGHT
+            axis = 'x';
+            sign = 1;
+            break;
+        case DIRECTION_NORTH: // UP
+            axis = 'y';
+            sign = -1;
+            break;
+        case DIRECTION_SOUTH: // DOWN
+            axis = 'y';
+            sign = 1;
+            break;
+    }
+
+    if(guy.idling) {
+        guy.gotoAndPlay("walk");
+        guy.idling = false;
+    }
+
+    guy[axis] += sign * speed;
+    detectedCollision = ndgmr.checkPixelCollision(guy,rectangle,0.01,true);
+
+    if (detectedCollision !== false) {
+        width = detectedCollision.width;
+        height = detectedCollision.height;
+        if(axis === 'y') {
+            if (width >= overlapThreshold) {
+                guy[axis] -= sign * height;
+            }
+        }
+        else {
+            if (height >= overlapThreshold){
+            guy[axis] -= sign * width;
+            }
+
+        }
+
+    }
 }
 
 function keyPressed(event) {
-    var direction = DIRECTION_SOUTH;
     switch(event.keyCode) {
         case KEYCODE_LEFT:
-            if(guy.idling) {
-                guy.gotoAndPlay("walk");
-            }
-            guy.idling = false;
-            direction = DIRECTION_WEST;
+            move(DIRECTION_WEST, movespeed);
             break;
         case KEYCODE_RIGHT:
-            if(guy.idling) {
-                guy.gotoAndPlay("walk");
-            }
-            guy.idling = false;
-            direction = DIRECTION_EAST;
+            move(DIRECTION_EAST, movespeed);
             break;
         case KEYCODE_UP:
-            if(guy.idling) {
-                guy.gotoAndPlay("walk");
-            }
-            guy.idling = false;
-            direction = DIRECTION_NORTH;
+            move(DIRECTION_NORTH, movespeed);
             break;
         case KEYCODE_DOWN:
-            if(guy.idling) {
-                guy.gotoAndPlay("walk");
-            }
-            guy.idling = false;
-            direction = DIRECTION_SOUTH;
+            move(DIRECTION_SOUTH, movespeed);
             break;
         case KEYCODE_S:
             gameStage.addChild(bullet);
@@ -181,7 +241,6 @@ function keyPressed(event) {
             bullet.y = guy.y;
             break;
     }
-    tryMove(direction, movespeed);
     gameStage.update();
 }
 
