@@ -41,15 +41,28 @@ var guyData = {
 
 function Character(posX, posY, data, type) {
 
-    this.move = (direction, speed) => {
+    this.update = () => {
+        if (this.walkingDirection !== null) {
+            this.move();
+            if(this.sprite.currentAnimation === 'idle')
+            {
+                this.gotoAndPlay("walk");
+            }
+        }
+        else if (this.sprite.currentAnimation !== 'idle') {
+            this.gotoAndPlay("idle");
+        }
+    };
+
+    this.move = () => {
         var axis;
         var sign;
         var detectedCollision;
         var width;
         var height;
-        var overlapThreshold = movespeed;
+        var overlapThreshold = this.moveSpeed;
 
-        switch(direction) {
+        switch(this.walkingDirection) {
             case DIRECTION_WEST: // LEFT
                 axis = 'x';
                 sign = -1;
@@ -68,12 +81,9 @@ function Character(posX, posY, data, type) {
                 break;
         }
 
-        if(this.idling) {
-            this.gotoAndPlay("walk");
-            this.idling = false;
-        }
 
-        this[axis] += sign * speed;
+
+        this[axis] += sign * this.moveSpeed;
         this.updateSpritePosition();
 
         detectedCollision = ndgmr.checkPixelCollision(this.sprite,rectangle,0.01,true);
@@ -110,8 +120,11 @@ function Character(posX, posY, data, type) {
     this.type = type;
     this.id = Math.floor(Math.random() * 1000000);
     this.idling = true;
-    var spriteSheet = new createjs.SpriteSheet(data);
-    this.sprite = new createjs.Sprite(spriteSheet, type);
+    this.moveSpeed = 3;
+    this.sprite = new createjs.Sprite(new createjs.SpriteSheet(data), type);
+
+    this.walkingDirection = null;
+
 
 
     this.updateSpritePosition();
@@ -177,7 +190,7 @@ const DIRECTION_WEST = 0;
 const DIRECTION_EAST = 1;
 const DIRECTION_NORTH = 2;
 const DIRECTION_SOUTH = 3;
-var movespeed = 3;
+
 
 
 
@@ -186,16 +199,16 @@ function keyPressed(event) {
     // console.log(event.keyCode);
     switch(event.keyCode) {
         case KEYCODE_LEFT:
-            guy.move(DIRECTION_WEST, movespeed);
+            guy.walkingDirection = DIRECTION_WEST;
             break;
         case KEYCODE_RIGHT:
-            guy.move(DIRECTION_EAST, movespeed);
+            guy.walkingDirection = DIRECTION_EAST;
             break;
         case KEYCODE_UP:
-            guy.move(DIRECTION_NORTH, movespeed);
+            guy.walkingDirection = DIRECTION_NORTH;
             break;
         case KEYCODE_DOWN:
-            guy.move(DIRECTION_SOUTH, movespeed);
+            guy.walkingDirection = DIRECTION_SOUTH;
             break;
         case KEYCODE_S:
             gameStage.addChild(bullet);
@@ -206,6 +219,20 @@ function keyPressed(event) {
     gameStage.update();
 }
 
+function keyReleased(event) {
+    switch(event.keyCode) {
+        case KEYCODE_LEFT:
+        case KEYCODE_RIGHT:
+        case KEYCODE_UP:
+        case KEYCODE_DOWN:
+            guy.walkingDirection = null;
+            break;
+    }
+    socket.emit('move guy', { id: guy.id, x: guy.x, y: guy.y });
+    gameStage.update();
+}
+
+/*
 function keyReleased(event) {
     switch(event.keyCode) {
         case KEYCODE_LEFT:
@@ -228,9 +255,12 @@ function keyReleased(event) {
     socket.emit('move guy', { id: guy.id, x: guy.x, y: guy.y });
     gameStage.update();
 }
+*/
 
 function handleTick(event) {
     // Actions carried out each tick (aka frame)
+    guy.update();
+
     if (!event.paused) {
         // Actions carried out when the Ticker is not paused.
         gameStage.update();
