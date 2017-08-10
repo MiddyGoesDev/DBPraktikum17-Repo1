@@ -15,26 +15,23 @@ class Chat extends React.Component {
     super(props);
     this.state = {
         name: "test static user",
-        message: "test static message"
+        message: ""
     }
 }
 
      handleMessage = (event) => {
      event.preventDefault();
      this.props.actions.sendMessage(this.state.name, this.state.message);
+     this.setState({message: ""})
  };
 
      handleInputChange = (event) => {
      this.setState({[event.target.name]: event.target.value})
     };
 
-    handleClick = () => {
-        this.refs.from.value="";
-    };
-
     handleMessageSend = (event) => {
         this.handleMessage(event);
-        this.handleClick();
+        this.setState({message: ""})
     }
 
     render() {
@@ -48,7 +45,8 @@ class Chat extends React.Component {
                         <input
                            className="form-control"
                            name="message"
-                           placeholder="Send a message"/>
+                           placeholder="Send a message"
+                           value={this.state.message}/>
                         <button onClick={this.handleMessage}>Send</button>
                     </form>
                 </div>
