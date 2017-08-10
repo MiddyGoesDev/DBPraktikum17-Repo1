@@ -14,19 +14,23 @@ io.on('connection', function(socket) {
         console.log('user ' + socket.id + ' has connected');
         connected[socket.id] = guy;
 
-        console.log(connected);
+        console.log(Object.assign({}, connected));
 
         socket.broadcast.emit('guy joined', guy);
+
+        socket.emit('initialize player', Object.assign({}, connected));
     });
 
     socket.on('disconnect', function() {
         console.log('user disconnected');
-        socket.broadcast.emit('guy disconnected', connected[socket.id]);
+        socket.broadcast.emit('guy left', connected[socket.id]);
         delete connected[socket.id];
     });
 
     socket.on('move guy', function (guy) {
         console.log('Object has moved');
+
+        connected[socket.id] = guy;
 
         socket.broadcast.emit('update guy', guy);
     });
