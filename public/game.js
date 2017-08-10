@@ -7,51 +7,29 @@ var socket = io('http://localhost:3001');
 var rectangle;
 var gameStage;
 
-var framesWalk = [];
-for(let i = 0; i < 3; i++)
-{
-    framesWalk.push([16 + 16*i, 144, 16, 16]);
-}
 
-var framesIdle = [];
-for(let i = 0; i < 4; i++)
-{
-    framesIdle.push([16 + 16*i, 112, 16, 16]);
-}
-
-var guyData = {
-    images: ['./assets/sprites.png'],
-    frames: framesWalk.concat(framesIdle)
-        // x, y, width, height, imageIndex*, regX*, regY*
-
-        // etc.
-    ,
-    animations: {
-        walk: [0,2,"walk",0.3],
-        idle: [3,6, "idle", 0.25]
-    }
-    /*frames: {width:16, height:16, regX: 32, regY:64, spacing:0, margin:0},
-
-    animations: {
-        stand:0,
-        run:[1,1],
-        jump:[6,8,"run"]
-    }*/
-};
-
-function Character(posX, posY, data, type) {
+function Character(posX, posY, type) {
 
     this.update = () => {
+        if(this.sprite.currentAnimation !== 'punch') {
         if (this.walkingDirection !== null) {
             this.move();
+
             if(this.sprite.currentAnimation === 'idle')
             {
                 this.gotoAndPlay("walk");
             }
         }
+        else if(this.punching) {
+            this.gotoAndPlay('punch');
+        }
         else if (this.sprite.currentAnimation !== 'idle') {
             this.gotoAndPlay("idle");
         }
+    }};
+
+    this.punch = () => {
+        this.gotoAndPlay('punch');
     };
 
     this.move = () => {
@@ -115,17 +93,35 @@ function Character(posX, posY, data, type) {
         this.sprite.y = this.y;
     };
 
+    // Felder
+
+    this.frames = [];
+
+    for (let j = 0; j < 18; j++) {
+        for(let i = 0; i < 12; i++) {
+            this.frames.push([16 + 16 * i, 16 + 16 * j, 16, 16]);
+        }
+    }
+
+    this.guyData = {
+        images: ['./assets/sprites.png'],
+        frames: this.frames,
+        animations: {
+            walk: [8 * 12, 8 * 12 + 2,"walk",0.3],
+            idle: [6 * 12,6 * 12 + 3, "idle", 0.25],
+            punch: [15 * 12, 15 * 12 + 2, 'idle', 0.5],
+            runningKick: [15 * 12 + 7, 15 * 12 + 10, 'idle', 0.25]
+        }
+    };
+
     this.x = posX;
     this.y = posY;
     this.type = type;
     this.id = Math.floor(Math.random() * 1000000);
-    this.idling = true;
     this.moveSpeed = 3;
-    this.sprite = new createjs.Sprite(new createjs.SpriteSheet(data), type);
+    this.sprite = new createjs.Sprite(new createjs.SpriteSheet(this.guyData), type);
 
     this.walkingDirection = null;
-
-
 
     this.updateSpritePosition();
 }
@@ -133,7 +129,7 @@ function Character(posX, posY, data, type) {
 
 var guys = [];
 
-var guy = new Character(10, 10, guyData, "idle");
+var guy = new Character(10, 10, "idle");
 
 
 
@@ -211,9 +207,10 @@ function keyPressed(event) {
             guy.walkingDirection = DIRECTION_SOUTH;
             break;
         case KEYCODE_S:
-            gameStage.addChild(bullet);
-            bullet.x = guy.x;
+            guy.punch();
+            bullet.x = guy.x + 7;
             bullet.y = guy.y;
+            gameStage.addChild(bullet);
             break;
     }
     gameStage.update();
@@ -231,31 +228,6 @@ function keyReleased(event) {
     socket.emit('move guy', { id: guy.id, x: guy.x, y: guy.y });
     gameStage.update();
 }
-
-/*
-function keyReleased(event) {
-    switch(event.keyCode) {
-        case KEYCODE_LEFT:
-            guy.idling = true;
-            guy.gotoAndPlay("idle");
-            break;
-        case KEYCODE_RIGHT:
-            guy.idling = true;
-            guy.gotoAndPlay("idle");
-            break;
-        case KEYCODE_UP:
-            guy.idling = true;
-            guy.gotoAndPlay("idle");
-            break;
-        case KEYCODE_DOWN:
-            guy.idling = true;
-            guy.gotoAndPlay("idle");
-            break;
-    }
-    socket.emit('move guy', { id: guy.id, x: guy.x, y: guy.y });
-    gameStage.update();
-}
-*/
 
 function handleTick(event) {
     // Actions carried out each tick (aka frame)
