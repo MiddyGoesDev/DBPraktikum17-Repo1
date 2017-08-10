@@ -255,16 +255,26 @@ function Character(spriteSheet, state, subject) {
 }
 */
 
-socket.emit('add guy', { id: guy.id, x: guy.x, y: guy.y });
-socket.on('guy joined', function (guy) {
-    console.log(guy);
-    var newGuy = new createjs.Sprite(spriteSheet, "idle");
-    guys[guy.id] = newGuy;
-    newGuy.x = guy.x;
-    newGuy.y = guy.y;
-    gameStage.addChild(newGuy);
+socket.emit('join', { id: guy.id, x: guy.x, y: guy.y });
+socket.on('guy joined', function (enemy) {
+    if (guys[enemy.id] == null) {
+        guys[enemy.id] = new createjs.Sprite(spriteSheet, "idle");
+        guys[enemy.id].x = enemy.x;
+        guys[enemy.id].y = enemy.y;
+        gameStage.addChild(guys[enemy.id]);
 
-    socket.emit('update object', { id: guy.id, x: guy.x, y: guy.y });
+
+        $('#chat-messages').append('<div class="chat-message">Player ' + enemy.id + ' has joined</div>');
+    }
+    socket.emit('add', { id: guy.id, x: guy.x, y: guy.y});
+});
+socket.on('guy disconnected', function (enemy) {
+    gameStage.removeChild(guys[enemy.id]);
+    delete guys[enemy.id];
+    $('#chat-messages').append('<div class="chat-message">Player ' + enemy.id + ' has disconnected</div>');
+});
+socket.on('add guy', function (guy) {
+    console.log('add guy');
 });
 socket.on('update guy', function (guy) {
     guys[guy.id].x = guy.x;

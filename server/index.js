@@ -10,15 +10,18 @@ var connected = [];
 
 io.on('connection', function(socket) {
 
-    socket.on('add guy', function (guy) {
+    socket.on('join', function (guy) {
         console.log('user ' + socket.id + ' has connected');
         connected[socket.id] = guy;
+
+        console.log(connected);
 
         socket.broadcast.emit('guy joined', guy);
     });
 
     socket.on('disconnect', function() {
         console.log('user disconnected');
+        socket.broadcast.emit('guy disconnected', connected[socket.id]);
         delete connected[socket.id];
     });
 
