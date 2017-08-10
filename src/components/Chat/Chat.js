@@ -1,6 +1,7 @@
 import './Chat.css';
 import { db } from 'baqend/lib/baqend';
-import {sendMessage} from '../../actions/message'
+import {sendMessage, showMessages} from '../../actions/message'
+import Message from './Message'
 
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
@@ -14,14 +15,14 @@ class Chat extends React.Component {
     constructor(props) {
     super(props);
     this.state = {
-        name: "test static user",
         message: ""
     }
 }
 
      handleMessage = (event) => {
      event.preventDefault();
-     this.props.actions.sendMessage(this.state.name, this.state.message);
+     this.props.actions.sendMessage(this.state.message);
+     console.log(this.props.action.showMessages());
      this.setState({message: ""})
  };
 
@@ -38,7 +39,7 @@ class Chat extends React.Component {
         return (
             <div className="chat-room">
                 <div className="chat-messages" id="chat-messages">
-
+                    <Message />
                 </div>
                 <div className="chat-interface">
                     <form onChange={this.handleInputChange}>
@@ -57,7 +58,7 @@ class Chat extends React.Component {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({sendMessage}, dispatch)}
+    return {actions: bindActionCreators({sendMessage, showMessages}, dispatch)}
 }
 
 export default connect(null, mapDispatchToProps)(Chat)
