@@ -21,12 +21,21 @@ class Chat extends React.Component {
 
      handleMessage = (event) => {
      event.preventDefault();
-     this.props.actions.sendMessage(this.state.name, this.state.message)
+     this.props.actions.sendMessage(this.state.name, this.state.message);
  };
 
      handleInputChange = (event) => {
      this.setState({[event.target.name]: event.target.value})
     };
+
+    handleClick = () => {
+        this.refs.from.value="";
+    };
+
+    handleMessageSend = (event) => {
+        this.handleMessage(event);
+        this.handleClick();
+    }
 
     render() {
         return (

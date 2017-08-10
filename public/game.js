@@ -57,8 +57,8 @@ bullet.y = 50;
 function startGame() {
     var gameField = document.getElementById('game-field');
     var gameWindow = document.getElementById('game-window');
-    gameField.width = gameWindow.clientWidth;
-    gameField.height = gameWindow.clientHeight;
+    //gameField.width = gameWindow.clientWidth;
+    //gameField.height = gameWindow.clientHeight;
     gameStage = new createjs.Stage('game-field');
 
     circle = new createjs.Shape();
