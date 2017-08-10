@@ -1,5 +1,7 @@
 setTimeout(() => { startGame() });
 
+var socket = io('http://localhost:3001');
+
 var rectangle;
 var gameStage;
 var circle;
@@ -38,10 +40,12 @@ var data = {
 
 var spriteSheet = new createjs.SpriteSheet(data);
 // var guy = new Character(spriteSheet, "idle", 42);
+var guys = [];
 var guy = new createjs.Sprite(spriteSheet, "idle");
 guy.idling = true;
 guy.x = 10;
 guy.y = 10;
+guy.id = Math.floor(Math.random() * 1000000);
 
 var bullet;
 bullet = new createjs.Shape();
@@ -123,35 +127,35 @@ function tryMove(direction, speed) {
 }
 
 function keyPressed(event) {
+    var direction = DIRECTION_SOUTH;
     switch(event.keyCode) {
         case KEYCODE_LEFT:
             if(guy.idling) {
                 guy.gotoAndPlay("walk");
             }
             guy.idling = false;
-            tryMove(DIRECTION_WEST, movespeed);
+            direction = DIRECTION_WEST;
             break;
         case KEYCODE_RIGHT:
             if(guy.idling) {
                 guy.gotoAndPlay("walk");
             }
             guy.idling = false;
-            tryMove(DIRECTION_EAST, movespeed);
+            direction = DIRECTION_EAST;
             break;
         case KEYCODE_UP:
             if(guy.idling) {
                 guy.gotoAndPlay("walk");
             }
             guy.idling = false;
-            tryMove(DIRECTION_NORTH, movespeed);
-
+            direction = DIRECTION_NORTH;
             break;
         case KEYCODE_DOWN:
             if(guy.idling) {
                 guy.gotoAndPlay("walk");
             }
             guy.idling = false;
-            tryMove(DIRECTION_SOUTH, movespeed);
+            direction = DIRECTION_SOUTH;
             break;
         case KEYCODE_S:
             gameStage.addChild(bullet);
@@ -159,6 +163,7 @@ function keyPressed(event) {
             bullet.y = guy.y;
             break;
     }
+    tryMove(direction, movespeed);
     gameStage.update();
 }
 
@@ -181,6 +186,7 @@ function keyReleased(event) {
             guy.gotoAndPlay("idle");
             break;
     }
+    socket.emit('move guy', { id: guy.id, x: guy.x, y: guy.y });
     gameStage.update();
 }
 
@@ -248,3 +254,20 @@ function Character(spriteSheet, state, subject) {
     this.subject = subject;
 }
 */
+
+socket.emit('add guy', { id: guy.id, x: guy.x, y: guy.y });
+socket.on('guy joined', function (guy) {
+    console.log(guy);
+    var newGuy = new createjs.Sprite(spriteSheet, "idle");
+    guys[guy.id] = newGuy;
+    newGuy.x = guy.x;
+    newGuy.y = guy.y;
+    gameStage.addChild(newGuy);
+
+    socket.emit('update object', { id: guy.id, x: guy.x, y: guy.y });
+});
+socket.on('update guy', function (guy) {
+    guys[guy.id].x = guy.x;
+    guys[guy.id].y = guy.y;
+    gameStage.update();
+});
