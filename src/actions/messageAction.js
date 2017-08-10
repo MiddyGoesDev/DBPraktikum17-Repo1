@@ -29,7 +29,7 @@ export function getMessages() {
               .then((results) => {
                 var html =""
                 results.forEach((message) => {
-                  html += '<div class="kp">'+ message.name +": " +  message.message +'</div>'
+                  html += '<div>'+ message.name +": " +  message.message +'</div>'
                 });
                 document.getElementById("chat-message").innerHTML = html;
                 //console.log(results)

@@ -1,6 +1,6 @@
 import './Chat.css';
 import { db } from 'baqend/lib/baqend';
-import {sendMessage, getMessages} from '../../actions/message'
+import {sendMessage, getMessages} from '../../actions/messageAction'
 import Message from './Message'
 
 import React, {Component} from 'react'
@@ -46,7 +46,8 @@ class Chat extends React.Component {
                            className="form-control"
                            name="message"
                            placeholder="Send a message"
-                           value={this.state.message}/>
+                           value={this.state.message}
+                           autocorrect="off"/>
                         <button onClick={this.handleMessage}>Send</button>
                     </form>
                 </div>

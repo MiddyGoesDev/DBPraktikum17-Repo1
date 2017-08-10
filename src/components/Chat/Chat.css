@@ -13,6 +13,8 @@
     height: 95%;
 }
 
-.chat-message {
-
+#chat-message {
+  word-wrap: break-word;
+  overflow-x: scroll;
+  height: 99.75%;
 }
