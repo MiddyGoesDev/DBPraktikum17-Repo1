@@ -39,16 +39,104 @@ var guyData = {
     }*/
 };
 
+function Character(posX, posY, data, type) {
+
+    this.update = () => {
+        if (this.walkingDirection !== null) {
+            this.move();
+            if(this.sprite.currentAnimation === 'idle')
+            {
+                this.gotoAndPlay("walk");
+            }
+        }
+        else if (this.sprite.currentAnimation !== 'idle') {
+            this.gotoAndPlay("idle");
+        }
+    };
+
+    this.move = () => {
+        var axis;
+        var sign;
+        var detectedCollision;
+        var width;
+        var height;
+        var overlapThreshold = this.moveSpeed;
+
+        switch(this.walkingDirection) {
+            case DIRECTION_WEST: // LEFT
+                axis = 'x';
+                sign = -1;
+                break;
+            case DIRECTION_EAST: // RIGHT
+                axis = 'x';
+                sign = 1;
+                break;
+            case DIRECTION_NORTH: // UP
+                axis = 'y';
+                sign = -1;
+                break;
+            case DIRECTION_SOUTH: // DOWN
+                axis = 'y';
+                sign = 1;
+                break;
+        }
 
 
-var spriteSheet = new createjs.SpriteSheet(guyData);
-// var guy = new Character(spriteSheet, "idle", 42);
+
+        this[axis] += sign * this.moveSpeed;
+        this.updateSpritePosition();
+
+        detectedCollision = ndgmr.checkPixelCollision(this.sprite,rectangle,0.01,true);
+
+        if (detectedCollision !== false) {
+            width = detectedCollision.width;
+            height = detectedCollision.height;
+            if(axis === 'y') {
+                if (width >= overlapThreshold) {
+                    this[axis] -= sign * height;
+                }
+            }
+            else {
+                if (height >= overlapThreshold) {
+                    this[axis] -= sign * width;
+                }
+            }
+
+        }
+        this.updateSpritePosition();
+    };
+
+    this.gotoAndPlay = (state) => {
+        this.sprite.gotoAndPlay(state);
+    };
+
+    this.updateSpritePosition = () => {
+        this.sprite.x = this.x;
+        this.sprite.y = this.y;
+    };
+
+    this.x = posX;
+    this.y = posY;
+    this.type = type;
+    this.id = Math.floor(Math.random() * 1000000);
+    this.idling = true;
+    this.moveSpeed = 3;
+    this.sprite = new createjs.Sprite(new createjs.SpriteSheet(data), type);
+
+    this.walkingDirection = null;
+
+
+
+    this.updateSpritePosition();
+}
+
+
 var guys = [];
-var guy = new createjs.Sprite(spriteSheet, "idle");
-guy.idling = true;
-guy.x = 10;
-guy.y = 10;
-guy.id = Math.floor(Math.random() * 1000000);
+
+var guy = new Character(10, 10, guyData, "idle");
+
+
+
 
 var wallData = {
     images: ['./assets/brickwall.png'],
@@ -67,6 +155,7 @@ var bullet;
 bulletSpriteSheet = new createjs.SpriteSheet(bulletData);
 bullet = new createjs.Sprite(bulletSpriteSheet);
 
+
 // initialize stage and shapes
 function startGame() {
     var gameField = document.getElementById('game-field');
@@ -81,10 +170,11 @@ function startGame() {
     guys[guy.id] = guy;
 
     gameStage.addChild(rectangle);
-    gameStage.addChild(guy);
+    gameStage.addChild(guy.sprite);
     gameStage.update();
 
     createjs.Ticker.addEventListener("tick", handleTick);
+
 
     document.onkeydown = keyPressed;
     document.onkeyup = keyReleased;
@@ -100,75 +190,25 @@ const DIRECTION_WEST = 0;
 const DIRECTION_EAST = 1;
 const DIRECTION_NORTH = 2;
 const DIRECTION_SOUTH = 3;
-var movespeed = 3;
 
-function move(direction, speed){
-    var axis;
-    var sign;
-    var detectedCollision;
-    var width;
-    var height;
-    var overlapThreshold = movespeed;
 
-    switch(direction) {
-        case DIRECTION_WEST: // LEFT
-            axis = 'x';
-            sign = -1;
-            break;
-        case DIRECTION_EAST: // RIGHT
-            axis = 'x';
-            sign = 1;
-            break;
-        case DIRECTION_NORTH: // UP
-            axis = 'y';
-            sign = -1;
-            break;
-        case DIRECTION_SOUTH: // DOWN
-            axis = 'y';
-            sign = 1;
-            break;
-    }
 
-    if(guy.idling) {
-        guy.gotoAndPlay("walk");
-        guy.idling = false;
-    }
 
-    guy[axis] += sign * speed;
-    detectedCollision = ndgmr.checkPixelCollision(guy,rectangle,0.01,true);
-
-    if (detectedCollision !== false) {
-        width = detectedCollision.width;
-        height = detectedCollision.height;
-        if(axis === 'y') {
-            if (width >= overlapThreshold) {
-                guy[axis] -= sign * height;
-            }
-        }
-        else {
-            if (height >= overlapThreshold){
-            guy[axis] -= sign * width;
-            }
-
-        }
-
-    }
-}
 
 function keyPressed(event) {
-    console.log(event.keyCode);
+    // console.log(event.keyCode);
     switch(event.keyCode) {
         case KEYCODE_LEFT:
-            move(DIRECTION_WEST, movespeed);
+            guy.walkingDirection = DIRECTION_WEST;
             break;
         case KEYCODE_RIGHT:
-            move(DIRECTION_EAST, movespeed);
+            guy.walkingDirection = DIRECTION_EAST;
             break;
         case KEYCODE_UP:
-            move(DIRECTION_NORTH, movespeed);
+            guy.walkingDirection = DIRECTION_NORTH;
             break;
         case KEYCODE_DOWN:
-            move(DIRECTION_SOUTH, movespeed);
+            guy.walkingDirection = DIRECTION_SOUTH;
             break;
         case KEYCODE_S:
             gameStage.addChild(bullet);
@@ -179,6 +219,20 @@ function keyPressed(event) {
     gameStage.update();
 }
 
+function keyReleased(event) {
+    switch(event.keyCode) {
+        case KEYCODE_LEFT:
+        case KEYCODE_RIGHT:
+        case KEYCODE_UP:
+        case KEYCODE_DOWN:
+            guy.walkingDirection = null;
+            break;
+    }
+    socket.emit('move guy', { id: guy.id, x: guy.x, y: guy.y });
+    gameStage.update();
+}
+
+/*
 function keyReleased(event) {
     switch(event.keyCode) {
         case KEYCODE_LEFT:
@@ -201,9 +255,12 @@ function keyReleased(event) {
     socket.emit('move guy', { id: guy.id, x: guy.x, y: guy.y });
     gameStage.update();
 }
+*/
 
 function handleTick(event) {
     // Actions carried out each tick (aka frame)
+    guy.update();
+
     if (!event.paused) {
         // Actions carried out when the Ticker is not paused.
         gameStage.update();
@@ -211,13 +268,9 @@ function handleTick(event) {
     }
 }
 
-/*
-function Character(spriteSheet, state, subject) {
-    createjs.Sprite.call(spriteSheet, state);
 
-    this.subject = subject;
-}
-*/
+
+
 
 socket.emit('join', { id: guy.id, x: guy.x, y: guy.y });
 socket.on('guy joined', function (guy) {
