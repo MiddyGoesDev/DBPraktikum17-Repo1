@@ -70,8 +70,8 @@ bullet.y = 50;
 function startGame() {
     var gameField = document.getElementById('game-field');
     var gameWindow = document.getElementById('game-window');
-    //gameField.width = gameWindow.clientWidth;
-    //gameField.height = gameWindow.clientHeight;
+    gameField.width = gameWindow.clientWidth;
+    gameField.height = gameWindow.clientHeight;
     gameStage = new createjs.Stage('game-field');
 
     circle = new createjs.Shape();
@@ -83,6 +83,7 @@ function startGame() {
      rectangle.x = 64;
     //rectangle.y = 64;
 
+    guys[guy.id] = guy;
 
     gameStage.addChild(circle);
     gameStage.addChild(rectangle);
@@ -280,28 +281,36 @@ function Character(spriteSheet, state, subject) {
 */
 
 socket.emit('join', { id: guy.id, x: guy.x, y: guy.y });
-socket.on('guy joined', function (enemy) {
-    if (guys[enemy.id] == null) {
-        guys[enemy.id] = new createjs.Sprite(spriteSheet, "idle");
-        guys[enemy.id].x = enemy.x;
-        guys[enemy.id].y = enemy.y;
-        gameStage.addChild(guys[enemy.id]);
-
-
-        $('#chat-messages').append('<div class="chat-message">Player ' + enemy.id + ' has joined</div>');
-    }
-    socket.emit('add', { id: guy.id, x: guy.x, y: guy.y});
+socket.on('guy joined', function (guy) {
+    addGuy(guy);
 });
-socket.on('guy disconnected', function (enemy) {
+socket.on('guy left', function (enemy) {
     gameStage.removeChild(guys[enemy.id]);
     delete guys[enemy.id];
     $('#chat-messages').append('<div class="chat-message">Player ' + enemy.id + ' has disconnected</div>');
 });
-socket.on('add guy', function (guy) {
-    console.log('add guy');
+socket.on('initialize player', function (data) {
+    for (var id in data) {
+        if (data.hasOwnProperty(id)) {
+            addGuy(data[id]);
+        }
+    }
 });
 socket.on('update guy', function (guy) {
     guys[guy.id].x = guy.x;
     guys[guy.id].y = guy.y;
     gameStage.update();
 });
+
+function addGuy(guy) {
+    if (typeof(guys[guy.id]) === "undefined") {
+        guys[guy.id] = new createjs.Sprite(spriteSheet, "idle");
+        guys[guy.id].x = guy.x;
+        guys[guy.id].y = guy.y;
+
+        gameStage.addChild(guys[guy.id]);
+        gameStage.update();
+
+        $('#chat-messages').append('<div class="chat-message">Player ' + guy.id + ' has joined</div>');
+    }
+}
