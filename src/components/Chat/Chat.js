@@ -52,6 +52,7 @@ class Chat extends React.Component {
     };
 
     render() {
+        console.log(this.props.messages);
         return (
             <div className="chat-room">
                 <div id="chat-messages" ref="chatbox">
