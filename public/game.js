@@ -251,9 +251,16 @@ function Character(x, y) {
     this.construct();
 }
 
-function Bullet(x, y, direction) {
+function Projectile(x, y, direction) {
 
     GameObject.call(this, x, y);
+
+    this.direction = direction;
+}
+
+function Bullet(x, y, direction) {
+
+    Projectile.call(this, x, y, direction);
 
     this.update = () => {
         this.x += 6;
@@ -268,6 +275,31 @@ function Bullet(x, y, direction) {
     this.construct();
 }
 
+function Wall(x, y) {
+    
+}
+
+function GameStage() {
+
+    this.construct = () => {
+        this.stage = new createjs.Stage('game-field');
+    };
+
+    this.update = () => {
+        this.gameObjects.forEach((gameObject) => {
+            gameObject.update();
+        });
+        this.stage.update();
+    };
+
+    this.stage = null;
+    this.gameObjects = [];
+    this.activeObject = null;
+    this.networkObjects = [];
+
+    this.construct();
+}
+
 var guys = [];
 
 var guy;
@@ -279,15 +311,6 @@ var wallData = {
 
 var wallSpriteSheet = new createjs.SpriteSheet(wallData);
 rectangle = new createjs.Sprite(wallSpriteSheet);
-
-var bulletData = {
-    images: ['./assets/sprites.png'],
-    frames: [[64, 80, 16, 16]]
-};
-
-var bullet;
-bulletSpriteSheet = new createjs.SpriteSheet(bulletData);
-bullet = new createjs.Sprite(bulletSpriteSheet);
 
 
 // initialize stage and shapes
