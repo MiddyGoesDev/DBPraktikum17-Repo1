@@ -71,7 +71,11 @@ Chat.propTypes = {
     action: PropTypes.object,
     messages: PropTypes.object
 }
-
+/**
+    mapStateToProps: Connects a React component to a Redux store,the new component will subscribe to
+    Redux store updates. This means that any time the store is updated, mapStateToProps
+    will be called.
+**/
 function mapStateToProps(state) {
     return {messages: state.messages}
 }
