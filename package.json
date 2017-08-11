@@ -13,7 +13,7 @@
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "redux": "^3.6.0",
-    "redux-baqend": "^1.0.4",
+    "redux-baqend": "git+https://github.com/Baqend/redux-baqend/tree/realtime",
     "redux-logger": "^3.0.1",
     "socket.io": "^2.0.3",
     "websocket": "^1.0.24"

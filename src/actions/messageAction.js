@@ -4,7 +4,7 @@ export function sendMessage(text) {
 
   return {
     'BAQEND': {
-      type: MESSAGE,
+      type: "MESSAGE_SEND",
       payload: (db) => {
         var messageObj = new db.Message({
           'name':db.User.me.username,
@@ -18,23 +18,24 @@ export function sendMessage(text) {
 }
 
 export function getMessages() {
-
+  console.log("getMessages")
     return {
         'BAQEND': {
-            type: MESSAGE,
+            type: "MESSAGES_NEXT",
             payload: (db) => {
-              return db.Message.find()
-              .ascending("date")
-              .resultList()
-              .then((results) => {
-                var html =""
-                results.forEach((message) => {
-                  html += '<div>'+ message.name +": " +  message.message +'</div>'
-                });
-                document.getElementById("chat-message").innerHTML = html;
-                //console.log(results)
-                //return results
-              })
+              // return db.Message.find()
+              // .ascending("date")
+              // .resultList()
+              // .then((results) => {
+              //   var html =""
+              //   results.forEach((message) => {
+              //     html += '<div>'+ message.name +": " +  message.message +'</div>'
+              //   }); //html kram zu componentne
+              //   document.getElementById("chat-message").innerHTML = html;
+              //   //console.log(results)
+              //   //return results
+              // })
+              return db.Message.find().ascending("date").resultStream()
             }
             //payload: async (db) => {
             //  let messages = await db.Message.find().resultList()

@@ -12,6 +12,7 @@ import {connect} from 'react-redux'
 
 class Chat extends React.Component {
 
+
     constructor(props) {
     super(props);
     this.state = {
@@ -19,9 +20,13 @@ class Chat extends React.Component {
     }
 }
 
+    componentWillMount() {
+        this.props.actions.getMessages()
+    }
+
      handleMessage = (event) => {
      event.preventDefault();
-     this.props.actions.sendMessage(this.state.message).then(this.props.actions.getMessages());
+     this.props.actions.sendMessage(this.state.message)
      this.setState({message: ""})
  };
 
@@ -38,7 +43,12 @@ class Chat extends React.Component {
         return (
             <div className="chat-room">
                 <div className="chat-messages" id="chat-messages">
-                    <Message />
+                    test
+                    {this.props.messages.list.map(message =>
+                        <div key={message.id}>
+                            {message.name}: {message.message}
+                        </div>
+                    )}
                 </div>
                 <div className="chat-interface">
                     <form onChange={this.handleInputChange}>
@@ -47,7 +57,7 @@ class Chat extends React.Component {
                            name="message"
                            placeholder="Send a message"
                            value={this.state.message}
-                           autocorrect="off"/>
+                          />
                         <button onClick={this.handleMessage}>Send</button>
                     </form>
                 </div>
@@ -57,8 +67,17 @@ class Chat extends React.Component {
 
 }
 
+Chat.propTypes = {
+    action: PropTypes.object,
+    messages: PropTypes.object
+}
+
+function mapStateToProps(state) {
+    return {messages: state.messages}
+}
+
 function mapDispatchToProps(dispatch) {
     return {actions: bindActionCreators({sendMessage, getMessages}, dispatch)}
 }
 
-export default connect(null, mapDispatchToProps)(Chat)
+export default connect(mapStateToProps, mapDispatchToProps)(Chat)

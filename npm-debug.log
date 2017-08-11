@@ -1,141 +1,103 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/local/bin/node',
-1 verbose cli   '/usr/local/bin/npm',
-1 verbose cli   'install',
-1 verbose cli   'baqend/realtime' ]
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'install' ]
 2 info using npm@3.10.10
 3 info using node@v6.11.2
 4 silly loadCurrentTree Starting
 5 silly install loadCurrentTree
 6 silly install readLocalPackageData
-7 silly fetchPackageMetaData baqend/realtime
-8 silly fetchOtherPackageData baqend/realtime
-9 silly cache add args [ 'baqend/realtime', null ]
-10 verbose cache add spec baqend/realtime
-11 silly cache add parsed spec Result {
-11 silly cache add   raw: 'baqend/realtime',
-11 silly cache add   scope: null,
-11 silly cache add   escapedName: null,
-11 silly cache add   name: null,
-11 silly cache add   rawSpec: 'baqend/realtime',
-11 silly cache add   spec: 'github:baqend/realtime',
-11 silly cache add   type: 'hosted',
-11 silly cache add   hosted:
-11 silly cache add    { type: 'github',
-11 silly cache add      ssh: 'git@github.com:baqend/realtime.git',
-11 silly cache add      sshUrl: 'git+ssh://git@github.com/baqend/realtime.git',
-11 silly cache add      httpsUrl: 'git+https://github.com/baqend/realtime.git',
-11 silly cache add      gitUrl: 'git://github.com/baqend/realtime.git',
-11 silly cache add      shortcut: 'github:baqend/realtime',
-11 silly cache add      directUrl: 'https://raw.githubusercontent.com/baqend/realtime/master/package.json' } }
-12 verbose addRemoteGit caching baqend/realtime
-13 verbose addRemoteGit baqend/realtime is a repository hosted by github
-14 silly tryGitProto attempting to clone git://github.com/baqend/realtime.git
-15 silly tryClone cloning baqend/realtime via git://github.com/baqend/realtime.git
-16 verbose tryClone git-github-com-baqend-realtime-git-c67d1b4a not in flight; caching
-17 verbose correctMkdir /Users/finn/.npm/_git-remotes correctMkdir not in flight; initializing
-18 verbose makeDirectory /Users/finn/.npm/_git-remotes creation not in flight; initializing
-19 silly makeDirectory /Users/finn/.npm/_git-remotes uid: 501 gid: 20
-20 info git [ 'clone',
-20 info git   '--template=/Users/finn/.npm/_git-remotes/_templates',
-20 info git   '--mirror',
-20 info git   'git://github.com/baqend/realtime.git',
-20 info git   '/Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-c67d1b4a' ]
-21 verbose git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror git://github.com/baqend/realtime.git /Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-c67d1b4a: Cloning into bare repository '/Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-c67d1b4a'...
-21 verbose git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror git://github.com/baqend/realtime.git /Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-c67d1b4a: fatal: remote error:
-21 verbose git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror git://github.com/baqend/realtime.git /Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-c67d1b4a:   Repository not found.
-22 silly tryHTTPS attempting to clone git+https://github.com/baqend/realtime.git
-23 silly tryClone cloning baqend/realtime via git+https://github.com/baqend/realtime.git
-24 verbose tryClone git-https-github-com-baqend-realtime-git-076cae44 not in flight; caching
-25 verbose correctMkdir /Users/finn/.npm/_git-remotes correctMkdir not in flight; initializing
-26 info git [ 'clone',
-26 info git   '--template=/Users/finn/.npm/_git-remotes/_templates',
-26 info git   '--mirror',
-26 info git   'https://github.com/baqend/realtime.git',
-26 info git   '/Users/finn/.npm/_git-remotes/git-https-github-com-baqend-realtime-git-076cae44' ]
-27 verbose git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror https://github.com/baqend/realtime.git /Users/finn/.npm/_git-remotes/git-https-github-com-baqend-realtime-git-076cae44: Cloning into bare repository '/Users/finn/.npm/_git-remotes/git-https-github-com-baqend-realtime-git-076cae44'...
-27 verbose git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror https://github.com/baqend/realtime.git /Users/finn/.npm/_git-remotes/git-https-github-com-baqend-realtime-git-076cae44: remote: Repository not found.
-27 verbose git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror https://github.com/baqend/realtime.git /Users/finn/.npm/_git-remotes/git-https-github-com-baqend-realtime-git-076cae44: fatal: repository 'https://github.com/baqend/realtime.git/' not found
-28 silly trySSH attempting to clone git@github.com:baqend/realtime.git
-29 silly tryClone cloning baqend/realtime via git@github.com:baqend/realtime.git
-30 verbose tryClone git-github-com-baqend-realtime-git-b7f98b58 not in flight; caching
-31 verbose correctMkdir /Users/finn/.npm/_git-remotes correctMkdir not in flight; initializing
-32 info git [ 'clone',
-32 info git   '--template=/Users/finn/.npm/_git-remotes/_templates',
-32 info git   '--mirror',
-32 info git   'git@github.com:baqend/realtime.git',
-32 info git   '/Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58' ]
-33 error git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror git@github.com:baqend/realtime.git /Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58: Cloning into bare repository '/Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58'...
-33 error git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror git@github.com:baqend/realtime.git /Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58: Warning: Permanently added 'github.com,192.30.253.113' (RSA) to the list of known hosts.
-33 error git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror git@github.com:baqend/realtime.git /Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58: Permission denied (publickey).
-33 error git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror git@github.com:baqend/realtime.git /Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58: fatal: Could not read from remote repository.
-33 error git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror git@github.com:baqend/realtime.git /Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58:
-33 error git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror git@github.com:baqend/realtime.git /Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58: Please make sure you have the correct access rights
-33 error git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror git@github.com:baqend/realtime.git /Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58: and the repository exists.
-34 silly fetchPackageMetaData Error: Command failed: git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror git@github.com:baqend/realtime.git /Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58
-34 silly fetchPackageMetaData Cloning into bare repository '/Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58'...
-34 silly fetchPackageMetaData Warning: Permanently added 'github.com,192.30.253.113' (RSA) to the list of known hosts.
-34 silly fetchPackageMetaData Permission denied (publickey).
-34 silly fetchPackageMetaData fatal: Could not read from remote repository.
-34 silly fetchPackageMetaData
-34 silly fetchPackageMetaData Please make sure you have the correct access rights
-34 silly fetchPackageMetaData and the repository exists.
-34 silly fetchPackageMetaData
-34 silly fetchPackageMetaData     at ChildProcess.exithandler (child_process.js:198:12)
-34 silly fetchPackageMetaData     at emitTwo (events.js:106:13)
-34 silly fetchPackageMetaData     at ChildProcess.emit (events.js:191:7)
-34 silly fetchPackageMetaData     at maybeClose (internal/child_process.js:891:16)
-34 silly fetchPackageMetaData     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
-34 silly fetchPackageMetaData  error for baqend/realtime { Error: Command failed: git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror git@github.com:baqend/realtime.git /Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58
-34 silly fetchPackageMetaData Cloning into bare repository '/Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58'...
-34 silly fetchPackageMetaData Warning: Permanently added 'github.com,192.30.253.113' (RSA) to the list of known hosts.
-34 silly fetchPackageMetaData Permission denied (publickey).
-34 silly fetchPackageMetaData fatal: Could not read from remote repository.
-34 silly fetchPackageMetaData
-34 silly fetchPackageMetaData Please make sure you have the correct access rights
-34 silly fetchPackageMetaData and the repository exists.
-34 silly fetchPackageMetaData
-34 silly fetchPackageMetaData     at ChildProcess.exithandler (child_process.js:198:12)
-34 silly fetchPackageMetaData     at emitTwo (events.js:106:13)
-34 silly fetchPackageMetaData     at ChildProcess.emit (events.js:191:7)
-34 silly fetchPackageMetaData     at maybeClose (internal/child_process.js:891:16)
-34 silly fetchPackageMetaData     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
-34 silly fetchPackageMetaData   killed: false,
-34 silly fetchPackageMetaData   code: 128,
-34 silly fetchPackageMetaData   signal: null,
-34 silly fetchPackageMetaData   cmd: 'git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror git@github.com:baqend/realtime.git /Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58' }
-35 silly rollbackFailedOptional Starting
-36 silly rollbackFailedOptional Finishing
-37 silly runTopLevelLifecycles Finishing
-38 silly install printInstalled
-39 verbose stack Error: Command failed: git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror git@github.com:baqend/realtime.git /Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58
-39 verbose stack Cloning into bare repository '/Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58'...
-39 verbose stack Warning: Permanently added 'github.com,192.30.253.113' (RSA) to the list of known hosts.
-39 verbose stack Permission denied (publickey).
-39 verbose stack fatal: Could not read from remote repository.
-39 verbose stack
-39 verbose stack Please make sure you have the correct access rights
-39 verbose stack and the repository exists.
-39 verbose stack
-39 verbose stack     at ChildProcess.exithandler (child_process.js:198:12)
-39 verbose stack     at emitTwo (events.js:106:13)
-39 verbose stack     at ChildProcess.emit (events.js:191:7)
-39 verbose stack     at maybeClose (internal/child_process.js:891:16)
-39 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
-40 verbose cwd /Users/finn/Documents/DBPraktikum17-Repo1
-41 error Darwin 16.6.0
-42 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "baqend/realtime"
-43 error node v6.11.2
-44 error npm  v3.10.10
-45 error code 128
-46 error Command failed: git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror git@github.com:baqend/realtime.git /Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58
-46 error Cloning into bare repository '/Users/finn/.npm/_git-remotes/git-github-com-baqend-realtime-git-b7f98b58'...
-46 error Warning: Permanently added 'github.com,192.30.253.113' (RSA) to the list of known hosts.
-46 error Permission denied (publickey).
-46 error fatal: Could not read from remote repository.
-46 error
-46 error Please make sure you have the correct access rights
-46 error and the repository exists.
-47 error If you need help, you may report this error at:
-47 error     <https://github.com/npm/npm/issues>
-48 verbose exit [ 1, true ]
+7 silly install normalizeTree
+8 silly loadCurrentTree Finishing
+9 silly loadIdealTree Starting
+10 silly install loadIdealTree
+11 silly cloneCurrentTree Starting
+12 silly install cloneCurrentTreeToIdealTree
+13 silly cloneCurrentTree Finishing
+14 silly loadShrinkwrap Starting
+15 silly install loadShrinkwrap
+16 silly loadShrinkwrap Finishing
+17 silly loadAllDepsIntoIdealTree Starting
+18 silly install loadAllDepsIntoIdealTree
+19 silly fetchOtherPackageData redux-baqend@git+https://github.com/Baqend/redux-baqend/tree/realtime
+20 silly cache add args [ 'redux-baqend@git+https://github.com/Baqend/redux-baqend/tree/realtime',
+20 silly cache add   null ]
+21 verbose cache add spec redux-baqend@git+https://github.com/Baqend/redux-baqend/tree/realtime
+22 silly cache add parsed spec Result {
+22 silly cache add   raw: 'redux-baqend@git+https://github.com/Baqend/redux-baqend/tree/realtime',
+22 silly cache add   scope: null,
+22 silly cache add   escapedName: 'redux-baqend',
+22 silly cache add   name: 'redux-baqend',
+22 silly cache add   rawSpec: 'git+https://github.com/Baqend/redux-baqend/tree/realtime',
+22 silly cache add   spec: 'https://github.com/Baqend/redux-baqend/tree/realtime',
+22 silly cache add   type: 'git' }
+23 verbose addRemoteGit caching git+https://github.com/Baqend/redux-baqend/tree/realtime
+24 silly tryClone cloning git+https://github.com/Baqend/redux-baqend/tree/realtime via git+https://github.com/Baqend/redux-baqend/tree/realtime
+25 verbose tryClone git-https-github-com-Baqend-redux-baqend-tree-realtime-706b1a96 not in flight; caching
+26 verbose correctMkdir /Users/finn/.npm/_git-remotes correctMkdir not in flight; initializing
+27 info git [ 'clone',
+27 info git   '--template=/Users/finn/.npm/_git-remotes/_templates',
+27 info git   '--mirror',
+27 info git   'https://github.com/Baqend/redux-baqend/tree/realtime',
+27 info git   '/Users/finn/.npm/_git-remotes/git-https-github-com-Baqend-redux-baqend-tree-realtime-706b1a96' ]
+28 error git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror https://github.com/Baqend/redux-baqend/tree/realtime /Users/finn/.npm/_git-remotes/git-https-github-com-Baqend-redux-baqend-tree-realtime-706b1a96: Cloning into bare repository '/Users/finn/.npm/_git-remotes/git-https-github-com-Baqend-redux-baqend-tree-realtime-706b1a96'...
+28 error git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror https://github.com/Baqend/redux-baqend/tree/realtime /Users/finn/.npm/_git-remotes/git-https-github-com-Baqend-redux-baqend-tree-realtime-706b1a96: remote: Not Found
+28 error git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror https://github.com/Baqend/redux-baqend/tree/realtime /Users/finn/.npm/_git-remotes/git-https-github-com-Baqend-redux-baqend-tree-realtime-706b1a96: fatal: repository 'https://github.com/Baqend/redux-baqend/tree/realtime/' not found
+29 silly fetchPackageMetaData Error: Command failed: git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror https://github.com/Baqend/redux-baqend/tree/realtime /Users/finn/.npm/_git-remotes/git-https-github-com-Baqend-redux-baqend-tree-realtime-706b1a96
+29 silly fetchPackageMetaData Cloning into bare repository '/Users/finn/.npm/_git-remotes/git-https-github-com-Baqend-redux-baqend-tree-realtime-706b1a96'...
+29 silly fetchPackageMetaData remote: Not Found
+29 silly fetchPackageMetaData fatal: repository 'https://github.com/Baqend/redux-baqend/tree/realtime/' not found
+29 silly fetchPackageMetaData
+29 silly fetchPackageMetaData     at ChildProcess.exithandler (child_process.js:198:12)
+29 silly fetchPackageMetaData     at emitTwo (events.js:106:13)
+29 silly fetchPackageMetaData     at ChildProcess.emit (events.js:191:7)
+29 silly fetchPackageMetaData     at maybeClose (internal/child_process.js:891:16)
+29 silly fetchPackageMetaData     at Socket.<anonymous> (internal/child_process.js:342:11)
+29 silly fetchPackageMetaData     at emitOne (events.js:96:13)
+29 silly fetchPackageMetaData     at Socket.emit (events.js:188:7)
+29 silly fetchPackageMetaData     at Pipe._handle.close [as _onclose] (net.js:497:12)
+29 silly fetchPackageMetaData  error for redux-baqend@git+https://github.com/Baqend/redux-baqend/tree/realtime { Error: Command failed: git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror https://github.com/Baqend/redux-baqend/tree/realtime /Users/finn/.npm/_git-remotes/git-https-github-com-Baqend-redux-baqend-tree-realtime-706b1a96
+29 silly fetchPackageMetaData Cloning into bare repository '/Users/finn/.npm/_git-remotes/git-https-github-com-Baqend-redux-baqend-tree-realtime-706b1a96'...
+29 silly fetchPackageMetaData remote: Not Found
+29 silly fetchPackageMetaData fatal: repository 'https://github.com/Baqend/redux-baqend/tree/realtime/' not found
+29 silly fetchPackageMetaData
+29 silly fetchPackageMetaData     at ChildProcess.exithandler (child_process.js:198:12)
+29 silly fetchPackageMetaData     at emitTwo (events.js:106:13)
+29 silly fetchPackageMetaData     at ChildProcess.emit (events.js:191:7)
+29 silly fetchPackageMetaData     at maybeClose (internal/child_process.js:891:16)
+29 silly fetchPackageMetaData     at Socket.<anonymous> (internal/child_process.js:342:11)
+29 silly fetchPackageMetaData     at emitOne (events.js:96:13)
+29 silly fetchPackageMetaData     at Socket.emit (events.js:188:7)
+29 silly fetchPackageMetaData     at Pipe._handle.close [as _onclose] (net.js:497:12)
+29 silly fetchPackageMetaData   killed: false,
+29 silly fetchPackageMetaData   code: 128,
+29 silly fetchPackageMetaData   signal: null,
+29 silly fetchPackageMetaData   cmd: 'git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror https://github.com/Baqend/redux-baqend/tree/realtime /Users/finn/.npm/_git-remotes/git-https-github-com-Baqend-redux-baqend-tree-realtime-706b1a96' }
+30 silly rollbackFailedOptional Starting
+31 silly rollbackFailedOptional Finishing
+32 silly runTopLevelLifecycles Finishing
+33 silly install printInstalled
+34 verbose stack Error: Command failed: git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror https://github.com/Baqend/redux-baqend/tree/realtime /Users/finn/.npm/_git-remotes/git-https-github-com-Baqend-redux-baqend-tree-realtime-706b1a96
+34 verbose stack Cloning into bare repository '/Users/finn/.npm/_git-remotes/git-https-github-com-Baqend-redux-baqend-tree-realtime-706b1a96'...
+34 verbose stack remote: Not Found
+34 verbose stack fatal: repository 'https://github.com/Baqend/redux-baqend/tree/realtime/' not found
+34 verbose stack
+34 verbose stack     at ChildProcess.exithandler (child_process.js:198:12)
+34 verbose stack     at emitTwo (events.js:106:13)
+34 verbose stack     at ChildProcess.emit (events.js:191:7)
+34 verbose stack     at maybeClose (internal/child_process.js:891:16)
+34 verbose stack     at Socket.<anonymous> (internal/child_process.js:342:11)
+34 verbose stack     at emitOne (events.js:96:13)
+34 verbose stack     at Socket.emit (events.js:188:7)
+34 verbose stack     at Pipe._handle.close [as _onclose] (net.js:497:12)
+35 verbose cwd /Users/finn/Documents/DBPraktikum17-Repo1
+36 error Darwin 16.6.0
+37 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install"
+38 error node v6.11.2
+39 error npm  v3.10.10
+40 error code 128
+41 error Command failed: git clone --template=/Users/finn/.npm/_git-remotes/_templates --mirror https://github.com/Baqend/redux-baqend/tree/realtime /Users/finn/.npm/_git-remotes/git-https-github-com-Baqend-redux-baqend-tree-realtime-706b1a96
+41 error Cloning into bare repository '/Users/finn/.npm/_git-remotes/git-https-github-com-Baqend-redux-baqend-tree-realtime-706b1a96'...
+41 error remote: Not Found
+41 error fatal: repository 'https://github.com/Baqend/redux-baqend/tree/realtime/' not found
+42 error If you need help, you may report this error at:
+42 error     <https://github.com/npm/npm/issues>
+43 verbose exit [ 1, true ]
