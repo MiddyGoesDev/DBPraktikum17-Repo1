@@ -30,6 +30,7 @@ function GameObject(x, y) {
 
     this.construct = () => {
         this.sprite = new createjs.Sprite(new createjs.SpriteSheet(this.data), this.type);
+        gameStage.addChild(this.sprite);
         this.updateSpritePosition();
     };
 
@@ -73,56 +74,10 @@ function Character(x, y) {
     GameObject.call(this, x, y);
 
     this.update = () => {
-        if (this.sprite.currentAnimation !== 'punch') {
-            if (this.walkingDirection !== null) {
-                this.move();
-
-                if (this.sprite.currentAnimation === 'idle') {
-                    this.gotoAndPlay("walk");
-                }
-            }
-            else if (this.punching) {
-                this.gotoAndPlay('punch');
-            }
-            else if (this.sprite.currentAnimation !== 'idle') {
-                this.gotoAndPlay("idle");
-            }
-        }
-    };
-
-    this.update = () => {
         if (!this.isBusy() && this.isWalking()) {
             this.move();
         }
     };
-
-    /*
-    this.handleEvent = () => {
-        switch (activeKeys[activeKeys.length -1]) {
-            case KEYCODE_LEFT:
-                this.direction = DIRECTION_WEST;
-                this.walk();
-                break;
-            case KEYCODE_RIGHT:
-                this.direction = DIRECTION_EAST;
-                this.walk();
-                break;
-            case KEYCODE_UP:
-                this.direction = DIRECTION_NORTH;
-                this.walk();
-                break;
-            case KEYCODE_DOWN:
-                this.direction = DIRECTION_SOUTH;
-                this.walk();
-                break;
-            case KEYCODE_S:
-                this.punch();
-                break;
-            default:
-                this.idle();
-        }
-    };
-    */
 
     this.handleEvent = () => {
         var lastKey = activeKeys[activeKeys.length -1];
@@ -166,14 +121,14 @@ function Character(x, y) {
 
     this.punch = () => {
         if (!this.isPunching()) {
-            this.gotoAndPlay('punch');
+            this.sprite.gotoAndPlay('punch');
             gameObjects.push(new Bullet(this.x, this.y, this.direction));
         }
     };
 
     this.idle = () => {
         if (!this.isIdling()) {
-            this.gotoAndPlay('idle');
+            this.sprite.gotoAndPlay('idle');
         }
     };
 
@@ -195,7 +150,7 @@ function Character(x, y) {
 
     this.walk = () => {
         if (!this.isWalking()) {
-            this.gotoAndPlay('walk');
+            this.sprite.gotoAndPlay('walk');
         }
     };
 
@@ -268,10 +223,6 @@ function Character(x, y) {
     };
     */
 
-    this.gotoAndPlay = (state) => {
-        this.sprite.gotoAndPlay(state);
-    };
-
     // Felder
 
     this.frames = [];
@@ -298,7 +249,6 @@ function Character(x, y) {
     this.speed = 3;
 
     this.construct();
-    this.updateSpritePosition();
 }
 
 function Bullet(x, y, direction) {
@@ -316,13 +266,11 @@ function Bullet(x, y, direction) {
         frames: [[64, 80, 16, 16]]
     };
     this.construct();
-    gameStage.addChild(this.sprite);
 }
 
 var guys = [];
 
-var guy = new Character(10, 10);
-activeObject = guy;
+var guy;
 
 var wallData = {
     images: ['./assets/brickwall.png'],
@@ -350,6 +298,8 @@ function startGame() {
     gameField.height = gameWindow.clientHeight;
     gameStage = new createjs.Stage('game-field');
 
+    guy = new Character(10, 10);
+    activeObject = guy;
     rectangle.x = 200;
     //rectangle.y = 64;
 
@@ -359,13 +309,32 @@ function startGame() {
 
 
     gameStage.addChild(rectangle);
-    gameStage.addChild(guy.sprite);
     gameStage.update();
 
     createjs.Ticker.addEventListener("tick", handleTick);
 
     document.onkeydown = keyPressed;
     document.onkeyup = keyReleased;
+
+    socket.emit('join', {id: guy.id, x: guy.x, y: guy.y});
+    socket.on('guy joined', function (guy) {
+        addGuy(guy);
+    });
+    socket.on('guy left', function (enemy) {
+        gameStage.removeChild(guys[enemy.id]);
+        delete guys[enemy.id];
+        $('#chat-messages').append('<div class="chat-message">Player ' + enemy.id + ' has disconnected</div>');
+    });
+    socket.on('initialize player', function (data) {
+        for (var id in data) {
+            if (data.hasOwnProperty(id)) {
+                addGuy(data[id]);
+            }
+        }
+    });
+    socket.on('update guy', function (guy) {
+        guys[guy.id].setPosition(guy.x, guy.y);
+    });
 }
 
 function keyPressed(event) {
@@ -435,7 +404,7 @@ function handleTick(event) {
     //console.log(guy.sprite.currentAnimation);
     gameStage.update();
     console.log(activeKeys);
-    // socket.emit('move guy', {id: guy.id, x: guy.x, y: guy.y});
+    socket.emit('move guy', {id: guy.id, x: guy.x, y: guy.y});
 
     /*
     if (!event.paused) {
@@ -450,35 +419,10 @@ function handleTick(event) {
     */
 }
 
-
-socket.emit('join', {id: guy.id, x: guy.x, y: guy.y});
-socket.on('guy joined', function (guy) {
-    addGuy(guy);
-});
-socket.on('guy left', function (enemy) {
-    gameStage.removeChild(guys[enemy.id]);
-    delete guys[enemy.id];
-    $('#chat-messages').append('<div class="chat-message">Player ' + enemy.id + ' has disconnected</div>');
-});
-socket.on('initialize player', function (data) {
-    for (var id in data) {
-        if (data.hasOwnProperty(id)) {
-            addGuy(data[id]);
-        }
-    }
-});
-socket.on('update guy', function (guy) {
-    guys[guy.id].setPosition(guy.x, guy.y);
-    gameStage.update();
-});
-
 function addGuy(guy) {
     if (typeof(guys[guy.id]) === "undefined") {
         guys[guy.id] = new Character(10, 10);
         guys[guy.id].setPosition(guy.x, guy.y);
-
-        gameStage.addChild(guys[guy.id].sprite);
-        gameStage.update();
 
         $('#chat-messages').append('<div class="chat-message">Player ' + guy.id + ' has joined</div>');
     }
