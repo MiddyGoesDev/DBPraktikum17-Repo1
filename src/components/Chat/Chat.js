@@ -1,10 +1,9 @@
 import './Chat.css';
 import { db } from 'baqend/lib/baqend';
 import {sendMessage, getMessages} from '../../actions/messageAction'
-import Message from './Message'
-
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+//import Account from "../Account/Account"
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -22,11 +21,24 @@ class Chat extends React.Component {
 
     componentWillMount() {
         this.props.actions.getMessages()
+    };
+
+    componentDidMount(){
+        this.props.actions.sendMessage(" joined the Chat", true)
     }
+
+    componentWillUnmount(){
+        this.props.actions.sendMessage(" left the Chat", true)
+    }
+
+    componentDidUpdate () {
+        var el = this.refs.chatbox;
+        el.scrollTop = el.scrollHeight;
+    };
 
      handleMessage = (event) => {
      event.preventDefault();
-     this.props.actions.sendMessage(this.state.message)
+     this.props.actions.sendMessage(this.state.message, false)
      this.setState({message: ""})
  };
 
@@ -37,14 +49,13 @@ class Chat extends React.Component {
     handleMessageSend = (event) => {
         this.handleMessage(event);
         this.setState({message: ""})
-    }
+    };
 
     render() {
         return (
             <div className="chat-room">
-                <div className="chat-messages" id="chat-messages">
-                    test
-                    {this.props.messages.list.map(message =>
+                <div id="chat-messages" ref="chatbox">
+                    {this.props.messages.list.map(message => //mapt name : nachricht in chat
                         <div key={message.id}>
                             {message.name}: {message.message}
                         </div>

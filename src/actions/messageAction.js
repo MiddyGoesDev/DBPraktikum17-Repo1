@@ -1,6 +1,6 @@
-//import { MESSAGE } from './types'
+import { MESSAGE } from './types'
 
-export function sendMessage(text) {
+export function sendMessage(text, bool) {
 
   return {
     'BAQEND': {
@@ -9,7 +9,8 @@ export function sendMessage(text) {
         var messageObj = new db.Message({
           'name':db.User.me.username,
           'message':text,
-          'date':new Date()
+          'date':new Date(),
+          'isChatJoinInfo': bool
         });
         return messageObj.insert()
       }
@@ -17,13 +18,16 @@ export function sendMessage(text) {
   }
 }
 
+//resultStream macht das immer wenn sich die List in DB ändert wir sie Übergeben bekommen
 export function getMessages() {
     return {
         'BAQEND': {
             type: "MESSAGES_NEXT",
             payload: (db) => {
-              return db.Message.find().ascending("date").resultStream() //resultStream macht das immer wenn sich die List in DB ändert wir sie Übergeben bekommen
+              return db.Message.find().ascending("date").resultStream()
+              //return db.Message.find().ascending("date").resultStream()
             }
+
             //payload: async (db) => {
             //  let messages = await db.Message.find().resultList()
             //  return messages
