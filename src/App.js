@@ -10,6 +10,8 @@ import createStore from './store/store';
 
 import Account from './components/Account/Account';
 import GameChat from './components/GameChat';
+import Ranking from './components/Ranking';
+import Profile from './components/Profile';
 
 const store = createStore();
 
@@ -41,6 +43,20 @@ export default class App extends Component {
                                     Game
                                 </NavLink>
 
+                                <NavLink
+                                    style={{padding: '0 8px'}}
+                                    activeStyle={{textDecoration: 'underline'}}
+                                    to="/ranking">
+                                    Ranking
+                                </NavLink>
+
+                                <NavLink
+                                    style={{padding: '0 8px'}}
+                                    activeStyle={{textDecoration: 'underline'}}
+                                    to="/profile">
+                                    Profile
+                                </NavLink>
+
                             </div>
                             <div className="col-xs-2">
                             </div>
@@ -49,6 +65,8 @@ export default class App extends Component {
                         <Switch>
                             <Route exact path="/" component={GameChat}/>
                             <Route path="/account" component={Account}/>
+                            <Route path="/ranking" component={Ranking}/>
+                            <Route path="/profile" component={Profile}/>
                         </Switch>
                     </div>
                 </BrowserRouter>
