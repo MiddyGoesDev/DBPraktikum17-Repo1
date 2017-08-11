@@ -24,11 +24,11 @@ class Chat extends React.Component {
     };
 
     componentDidMount(){
-        this.props.actions.sendMessage(" joined the Chat")
+        this.props.actions.sendMessage(" joined the Chat", true)
     }
 
     componentWillUnmount(){
-        this.props.actions.sendMessage(" left the Chat")
+        this.props.actions.sendMessage(" left the Chat", true)
     }
 
     componentDidUpdate () {
@@ -38,7 +38,7 @@ class Chat extends React.Component {
 
      handleMessage = (event) => {
      event.preventDefault();
-     this.props.actions.sendMessage(": " + this.state.message)
+     this.props.actions.sendMessage(": " + this.state.message, false)
      this.setState({message: ""})
  };
 

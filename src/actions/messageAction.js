@@ -1,6 +1,6 @@
 import { MESSAGE } from './types'
 
-export function sendMessage(text) {
+export function sendMessage(text, bool) {
 
   return {
     'BAQEND': {
@@ -10,6 +10,7 @@ export function sendMessage(text) {
           'name':db.User.me.username,
           'message':text,
           'date':new Date(),
+          'isJoInfo':bool,
         });
         return messageObj.insert()
       }
