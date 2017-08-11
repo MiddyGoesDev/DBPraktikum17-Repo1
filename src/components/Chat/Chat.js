@@ -1,6 +1,6 @@
 import './Chat.css';
 import { db } from 'baqend/lib/baqend';
-import {sendMessage, getMessages} from '../../actions/messageAction'
+import {sendMessage, getMessages, clearChat} from '../../actions/messageAction' //clearChat
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 //import Account from "../Account/Account"
@@ -11,13 +11,12 @@ import {connect} from 'react-redux'
 
 class Chat extends React.Component {
 
-
     constructor(props) {
     super(props);
     this.state = {
         message: ""
-    }
-}
+        }
+    };
 
     // componentDidMount() {
     //     this.props.actions.getMessages();
@@ -30,6 +29,7 @@ class Chat extends React.Component {
 
      componentWillUnmount(){
         this.props.actions.sendMessage(" left the Chat", true)
+        this.props.actions.clearChat() //clearChat
     };
 
     componentDidUpdate () {
@@ -93,7 +93,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({sendMessage, getMessages}, dispatch)}
+    return {actions: bindActionCreators({sendMessage, getMessages, clearChat}, dispatch)} //clearChat
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat)
