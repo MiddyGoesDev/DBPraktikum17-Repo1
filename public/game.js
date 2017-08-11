@@ -282,6 +282,6 @@ function addGuy(guy) {
         gameStage.addChild(guys[guy.id].sprite);
         gameStage.update();
 
-        $('#chat-messages').append('<div class="chat-message">Player ' + guy.id + ' has joined</div>');
+        //$('#chat-messages').append('<div class="chat-message">Player ' + guy.id + ' has joined</div>');
     }
 }

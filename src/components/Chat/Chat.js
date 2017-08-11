@@ -19,15 +19,12 @@ class Chat extends React.Component {
     }
 }
 
-    componentWillMount() {
-        this.props.actions.getMessages()
-    };
+     componentWillMount() {
+         this.props.actions.getMessages().then(this.props.actions.sendMessage(" joined the Chat", true))
 
-    componentDidMount(){
-        this.props.actions.sendMessage(" joined the Chat", true)
-    }
+     };
 
-    componentWillUnmount(){
+     componentWillUnmount(){
         this.props.actions.sendMessage(" left the Chat", true)
     }
 
@@ -52,7 +49,6 @@ class Chat extends React.Component {
     };
 
     render() {
-        console.log(this.props.messages);
         return (
             <div className="chat-room">
                 <div id="chat-messages" ref="chatbox">
@@ -84,7 +80,7 @@ Chat.propTypes = {
     messages: PropTypes.object
 }
 /**
-    mapStateToProps: Connects a React component to a Redux store,the new component will subscribe to
+    mapStateToProps: Connects a React component to a Redux store, the new component will subscribe to
     Redux store updates. This means that any time the store is updated, mapStateToProps
     will be called.
 **/

@@ -24,7 +24,7 @@ export function getMessages() {
         'BAQEND': {
             type: "MESSAGES_NEXT",
             payload: (db) => {
-              return db.Message.find().gt("date", new Date().toISOString()).ascending("date").resultStream()
+              return db.Message.find().ge("date", new Date().toISOString()).ascending("date").resultStream()
               //return db.Message.find().ascending("date").resultStream()
             }
 
