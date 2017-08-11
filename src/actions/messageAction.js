@@ -1,6 +1,6 @@
 import { MESSAGE } from './types'
 
-export function sendMessage(text, bool) {
+export function sendMessage(text) {
 
   return {
     'BAQEND': {
@@ -10,13 +10,29 @@ export function sendMessage(text, bool) {
           'name':db.User.me.username,
           'message':text,
           'date':new Date(),
-          'isChatJoinInfo': bool
         });
         return messageObj.insert()
       }
     }
   }
 }
+
+// export function sendChatLog(text) {
+//
+//   return {
+//     'BAQEND': {
+//       type: "MESSAGE_SEND",‚‚
+//       payload: (db) => {
+//         var messageObj = new db.Message({
+//           'ChatLogName':db.User.me.username,
+//           'ChatLogMessage':text,
+//           'date':new Date(),
+//         });
+//         return messageObj.insert()
+//       }
+//     }
+//   }
+// }
 
 //resultStream macht das immer wenn sich die List in DB ändert wir sie Übergeben bekommen
 export function getMessages() {

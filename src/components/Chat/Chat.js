@@ -24,11 +24,11 @@ class Chat extends React.Component {
     };
 
     componentDidMount(){
-        this.props.actions.sendMessage(" joined the Chat", true)
+        this.props.actions.sendMessage(" joined the Chat")
     }
 
     componentWillUnmount(){
-        this.props.actions.sendMessage(" left the Chat", true)
+        this.props.actions.sendMessage(" left the Chat")
     }
 
     componentDidUpdate () {
@@ -38,7 +38,7 @@ class Chat extends React.Component {
 
      handleMessage = (event) => {
      event.preventDefault();
-     this.props.actions.sendMessage(this.state.message, false)
+     this.props.actions.sendMessage(": " + this.state.message)
      this.setState({message: ""})
  };
 
@@ -57,7 +57,7 @@ class Chat extends React.Component {
                 <div id="chat-messages" ref="chatbox">
                     {this.props.messages.list.map(message => //mapt name : nachricht in chat
                         <div key={message.id}>
-                            {message.name}: {message.message}
+                            {message.name}{message.message}
                         </div>
                     )}
                 </div>
