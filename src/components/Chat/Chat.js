@@ -19,21 +19,18 @@ class Chat extends React.Component {
     }
 }
 
-
-    componentDidMount() {
-        this.props.actions.getMessages();
-    }
-
+    // componentDidMount() {
+    //     this.props.actions.getMessages();
+    // };
 
      componentWillMount() {
-         this.props.actions.getMessages();
-         this.props.actions.sendMessage(" joined the Chat", true);
+         this.props.actions.getMessages().then(this.props.actions.sendMessage(" joined the Chat", true));
 
      };
 
      componentWillUnmount(){
         this.props.actions.sendMessage(" left the Chat", true)
-    }
+    };
 
     componentDidUpdate () {
         var el = this.refs.chatbox;

@@ -27,14 +27,24 @@ export function getMessages() {
         'BAQEND': {
             type: "MESSAGES_NEXT",
             payload: (db) => {
-              return db.Message.find().ascending("date").resultStream()
-
+              return db.Message.find().ge("date", new Date().toISOString()).ascending("date").resultStream()
+              console.log(db.Message.find().ascending("date").resultStream());
+              //payload: async (db) => {
+              //  let messages = await db.Message.find().resultList()
+              //  return messages
+              //  }
             }
-
-            //payload: async (db) => {
-            //  let messages = await db.Message.find().resultList()
-            //  return messages
-            //  }
         }
     }
 }
+
+// export function clearChat() {
+//   return {
+//     'BAQEND': {
+//       type: "MESSAGES_CLEAR",
+//       payload: (db) => {
+//         return []
+//       }
+//     }
+//   }
+// }
