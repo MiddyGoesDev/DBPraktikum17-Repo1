@@ -35,13 +35,13 @@ export function getMessages() {
     }
 }
 
-export function clearChat() { // clearChat
-  return {
-    'BAQEND': {
-      type: "MESSAGES_CLEAR",
-      payload: (db) => {
-        return []
-      }
-    }
-  }
-}
+// export function clearChat() { // clearChat
+//   return {
+//     'BAQEND': {
+//       type: "MESSAGES_CLEAR",
+//       payload: (db) => {
+//         return []
+//       }
+//     }
+//   }
+// }
