@@ -1,4 +1,4 @@
-import { USER_LOGIN, USER_REGISTER, USER_LOGOUT } from '../actions/types'
+//import { USER_LOGIN, USER_REGISTER, USER_LOGOUT } from '../actions/types'
 
 const initialState = {
   list: []
