@@ -13,7 +13,7 @@ class Chat extends React.Component {
 
     constructor(props) {
     super(props);
-    this.subscription = null
+//    this.subscription = null
     this.state = {
         message: ""
         }
@@ -24,17 +24,18 @@ class Chat extends React.Component {
     // };
 
      componentWillMount() {
-         this.props.actions.getMessages().then((subscription) => {
-             this.subscription = subscription
-             this.props.actions.sendMessage(" joined the Chat", true)
-         });
+         this.props.actions.getMessages()
+         //.then((subscription) => {
+             //this.subscription = subscription
+            this.props.actions.sendMessage(" joined the Chat", true)
+        // });
 
      };
 
      componentWillUnmount(){
         this.props.actions.sendMessage(" left the Chat", true)
-        this.props.actions.clearChat() //clearChat
-        this.subscription.unsubscribe()
+        //this.props.actions.clearChat() //clearChat
+        //this.subscription.unsubscribe()
     };
 
     componentDidUpdate () {

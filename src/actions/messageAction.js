@@ -27,7 +27,7 @@ export function getMessages() {
             type: "MESSAGES_NEXT",
             payload: (db) => {
               return db.Message.find().ge("date", new Date().toISOString()).ascending("date").resultStream()
-              console.log(db.Message.find().ascending("date").resultStream());
+              //console.log(db.Message.find().ascending("date").resultStream());
               //payload: async (db) => {
               //  let messages = await db.Message.find().resultList()
               //  return messages

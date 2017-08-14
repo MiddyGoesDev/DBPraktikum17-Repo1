@@ -1,3 +1,51 @@
 .profile {
+  width: 80%;
+  height: 80%;
+  border: 1px solid black;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  padding: 20px;
+}
 
+.profile-pic {
+  border: 1px solid black;
+  width: 100%;
+  height: 20%;
+}
+
+.spellbar {
+  height: 18%;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1.5%;
+  border: 1px solid black;
+}
+
+.main-profile {
+  height: 80%;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.picstats {
+  float: left;
+  height: 90%;
+  width: 30%;
+  border: 1px solid black;
+}
+
+.statistics {
+  height: 70%;
+  width: 100%;
+  border: 1px solid black;
+  margin-top: 20px;
+}
+
+.equip {
+  border: 1px solid black;
+  width: 60%;
+  height: 90%;
+  float: right;
 }
