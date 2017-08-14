@@ -1,7 +1,9 @@
-setTimeout(() => { resizeGame(); startGame(); });
+setTimeout(() => { resizeGame(); startGame(); }, 1000);
 
 // var socket = io('http://207.154.243.43');
-var socket = io('http://localhost:8080');
+// var socket = io('http://localhost:8080');
+DB.connect("black-water-73", (response) => {  });
+
 
 // Character Movement
 const KEYCODE_S = 83;
@@ -33,6 +35,7 @@ function startGame() {
     // Actions carried out each tick (aka frame)
     createjs.Ticker.addEventListener("tick", () => { gameStage.update(); });
 
+    /*
     socket.on('initialize opponents', function (data) {
         console.log('initialize opponents');
         console.log(data);
@@ -64,6 +67,7 @@ function startGame() {
             }
         }
     });
+    */
 }
 
 function GameStage() {
@@ -75,6 +79,9 @@ function GameStage() {
     this.initialize = () => {
         this.activeObject = new PlayerGuy(10, 10);
         new Wall(200, 0);
+
+        // var query = DB.Opponent.find().notEqual('id', '/db/Opponent/' + this.activeObject.id);
+        // query.resultStream(result => console.log(result), err => console.log(err), console.log('offline'));
     };
 
     this.update = () => {
@@ -105,7 +112,7 @@ function GameStage() {
 
     this.unlink = (id) => {
         gameStage.stage.removeChild(this.networkObjects[id]);
-        this.gameObjects.filter((object) => { return object.id !== id; });
+        this.gameObjects = this.gameObjects.filter((object) => { return object.id !== id; });
         delete this.networkObjects[id];
     };
 
@@ -195,12 +202,15 @@ function GameObject(x, y) {
     };
 
     this.emit = (action) => {
+
+        /*
         socket.emit(action, {
             id: this.id,
             x: this.x,
             y: this.y,
             animation: this.sprite.currentAnimation,
             direction: this.direction });
+        */
     };
 
     this.checkCollision = (object) => {
@@ -276,6 +286,12 @@ function PlayerGuy(x, y) {
             this.check();
             this.emit('change');
         }
+    };
+
+    this.emit = (action) => {
+        var player = DB.Opponent.find().equal('id', DB.User.me.id);
+        player.playing = true;
+        player.update();
     };
 
     this.handleEvent = () => {
