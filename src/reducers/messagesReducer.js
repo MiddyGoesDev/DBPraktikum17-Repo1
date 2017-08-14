@@ -5,7 +5,7 @@ const initialState = {
 };
 
 export default function messages(state = initialState, action = {}) {
-  switch (action.type) {
+  switch (action.animation) {
     case "MESSAGE_SEND":
       return { ...state };
     case "MESSAGES_NEXT": //alle nachrichten, Liste mit allen Nachrichten drin. Weil wir
