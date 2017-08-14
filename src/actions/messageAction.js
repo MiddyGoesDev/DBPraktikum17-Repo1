@@ -1,7 +1,6 @@
-//import { MESSAGE } from './types'
+import { MESSAGE } from './types'
 
-export function sendMessage(text) {
-
+export function sendMessage(text, bool) {
   return {
     'BAQEND': {
       type: "MESSAGE_SEND",
@@ -9,7 +8,8 @@ export function sendMessage(text) {
         var messageObj = new db.Message({
           'name':db.User.me.username,
           'message':text,
-          'date':new Date()
+          'date':new Date(),
+          'isJoinInfo':bool,
         });
         return messageObj.insert()
       }
@@ -17,17 +17,33 @@ export function sendMessage(text) {
   }
 }
 
+//resultStream macht das immer wenn sich die List in DB ändert wir sie Übergeben bekommen
+//.ge("date", new Date().toISOString())
+//return db.Message.find().ascending("date").resultStream()
+
 export function getMessages() {
     return {
         'BAQEND': {
             type: "MESSAGES_NEXT",
             payload: (db) => {
-              return db.Message.find().ascending("date").resultStream() //resultStream macht das immer wenn sich die List in DB ändert wir sie Übergeben bekommen
+              return db.Message.find().ge("date", new Date().toISOString()).ascending("date").resultStream()
+              console.log(db.Message.find().ascending("date").resultStream());
+              //payload: async (db) => {
+              //  let messages = await db.Message.find().resultList()
+              //  return messages
+              //  }
             }
-            //payload: async (db) => {
-            //  let messages = await db.Message.find().resultList()
-            //  return messages
-            //  }
         }
     }
+}
+
+export function clearChat() { // clearChat
+  return {
+    'BAQEND': {
+      type: "MESSAGES_CLEAR",
+      payload: (db) => {
+        return []
+      }
+    }
+  }
 }

@@ -1,10 +1,9 @@
 import './Chat.css';
 import { db } from 'baqend/lib/baqend';
-import {sendMessage, getMessages} from '../../actions/messageAction'
-import Message from './Message'
-
+import {sendMessage, getMessages, clearChat} from '../../actions/messageAction' //clearChat
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+//import Account from "../Account/Account"
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -12,21 +11,40 @@ import {connect} from 'react-redux'
 
 class Chat extends React.Component {
 
-
     constructor(props) {
     super(props);
+    this.subscription = null
     this.state = {
         message: ""
-    }
-}
+        }
+    };
 
-    componentWillMount() {
-        this.props.actions.getMessages()
-    }
+    // componentDidMount() {
+    //     this.props.actions.getMessages();
+    // };
+
+     componentWillMount() {
+         this.props.actions.getMessages().then((subscription) => {
+             this.subscription = subscription
+             this.props.actions.sendMessage(" joined the Chat", true)
+         });
+
+     };
+
+     componentWillUnmount(){
+        this.props.actions.sendMessage(" left the Chat", true)
+        this.props.actions.clearChat() //clearChat
+        this.subscription.unsubscribe()
+    };
+
+    componentDidUpdate () {
+        var el = this.refs.chatbox;
+        el.scrollTop = el.scrollHeight;
+    };
 
      handleMessage = (event) => {
      event.preventDefault();
-     this.props.actions.sendMessage(this.state.message)
+     this.props.actions.sendMessage(": " + this.state.message, false)
      this.setState({message: ""})
  };
 
@@ -37,16 +55,15 @@ class Chat extends React.Component {
     handleMessageSend = (event) => {
         this.handleMessage(event);
         this.setState({message: ""})
-    }
+    };
 
     render() {
         return (
             <div className="chat-room">
-                <div className="chat-messages" id="chat-messages">
-                    test
-                    {this.props.messages.list.map(message =>
+                <div id="chat-messages" ref="chatbox">
+                    {this.props.messages.list.map(message => //mapt name : nachricht in chat
                         <div key={message.id}>
-                            {message.name}: {message.message}
+                            {message.name}{message.message}
                         </div>
                     )}
                 </div>
@@ -72,7 +89,7 @@ Chat.propTypes = {
     messages: PropTypes.object
 }
 /**
-    mapStateToProps: Connects a React component to a Redux store,the new component will subscribe to
+    mapStateToProps: Connects a React component to a Redux store, the new component will subscribe to
     Redux store updates. This means that any time the store is updated, mapStateToProps
     will be called.
 **/
@@ -81,7 +98,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({sendMessage, getMessages}, dispatch)}
+    return {actions: bindActionCreators({sendMessage, getMessages, clearChat}, dispatch)} //clearChat
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat)
