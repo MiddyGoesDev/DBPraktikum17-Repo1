@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 //import { USER_LOGIN, USER_REGISTER, USER_LOGOUT } from '../actions/types'
 
+=======
+>>>>>>> 1160602d5004b4e6afee6b7ab494d471245a5a0f
 const initialState = {
   list: []
 };

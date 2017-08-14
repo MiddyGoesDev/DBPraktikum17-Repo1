@@ -1,5 +1,3 @@
-import { MESSAGE } from './types'
-
 export function sendMessage(text, bool) {
   return {
     'BAQEND': {
