@@ -1,7 +1,7 @@
 import { applyMiddleware, combineReducers } from 'redux';
 
 import { createStoreWithBaqend, baqendReducer } from 'redux-baqend';
-// import { createStoreWithBaqend, baqendReducer } from '../lib/redux-baqend/lib';
+//import { createStoreWithBaqend, baqendReducer } from '../lib/redux-baqend/lib';
 import middlewares from '../middleware';
 import reducers from '../reducers';
 
