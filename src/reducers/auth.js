@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export default function auth(state = initialState, action = {}) {
-  switch (action.type) {
+  switch (action.animation) {
     case BAQEND_CONNECTED:
       return { ...state, user: action.user, isLoggedIn: !!action.user };
     case USER_LOGIN:
