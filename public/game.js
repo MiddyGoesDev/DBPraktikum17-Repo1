@@ -2,7 +2,8 @@ setTimeout(() => { resizeGame(); startGame(); }, 1000);
 
 // var socket = io('http://207.154.243.43');
 // var socket = io('http://localhost:8080');
-DB.connect("black-water-73", (response) => {  });
+
+DB.connect("black-water-73", (response) => { });
 
 
 // Character Movement
@@ -99,7 +100,6 @@ function GameStage() {
     this.remove = (object) => {
         gameStage.stage.removeChild(object.sprite);
         gameStage.gameObjects = gameStage.gameObjects.filter((gameObject) => {
-            console.log(gameObject.id, object.id);
             return gameObject.id !== object.id; });
         delete gameStage.networkObjects[this.id];
         delete this;
@@ -289,9 +289,9 @@ function PlayerGuy(x, y) {
     };
 
     this.emit = (action) => {
-        var player = DB.Opponent.find().equal('id', DB.User.me.id);
-        player.playing = true;
-        player.update();
+        // var player = DB.Opponent.find().equal('id', DB.User.me.id);
+        // player.playing = true;
+        // player.update();
     };
 
     this.handleEvent = () => {

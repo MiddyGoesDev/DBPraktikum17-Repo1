@@ -1,10 +1,6 @@
 import './Profile.css';
 
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import { db } from 'baqend/lib/baqend';
-
-import {bindActionCreators} from 'redux'
+import React from 'react'
 import {connect} from 'react-redux'
 
 class Profile extends React.Component {
