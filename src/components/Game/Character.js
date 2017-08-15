@@ -7,21 +7,20 @@ export default function Character(x, y) {
 
     this.idle = () => {
         if (!this.isIdling()) {
-            this.sprite.gotoAndPlay('idle');
+            this.play('idle');
         }
     };
 
     this.punch = () => {
+        console.log(this.isPunching());
         if (!this.isPunching()) {
-            this.sprite.gotoAndPlay('punch');
+            this.play('punch');
             new Bullet(this.x + this.signX * 5, this.y + this.signY * 5, this.direction);
         }
     };
 
     this.walk = () => {
-        if (!this.isWalking()) {
-            this.sprite.gotoAndPlay('walk');
-        }
+        this.play('walk');
     };
 
     this.isBusy = () => {
@@ -29,17 +28,17 @@ export default function Character(x, y) {
     };
 
     this.isIdling = () => {
-        return this.sprite.currentAnimation === 'idle';
+        return this.animation === 'idle';
     };
 
     this.isPunching = () => {
-        return this.sprite.currentAnimation === 'punch';
+        return this.animation === 'punch';
     };
 
     this.isWalking = () => {
-        return this.sprite.currentAnimation === 'walk';
+        return this.animation === 'walk';
     };
 
     this.type = 'Character';
-    this.animation = 'idle';
+    this.animation = null;
 }
