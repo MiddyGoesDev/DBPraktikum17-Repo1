@@ -1,5 +1,5 @@
 import './Chat.css';
-import {sendMessage, getMessages, clearChat} from '../../actions/message';
+import {sendMessage, getMessages} from '../../actions/message';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -97,7 +97,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({sendMessage, getMessages, clearChat}, dispatch)} //clearChat
+    return {actions: bindActionCreators({sendMessage, getMessages}, dispatch)} //clearChat
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat)
