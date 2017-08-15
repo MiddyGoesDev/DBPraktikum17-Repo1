@@ -1,8 +1,12 @@
 import './Profile.css';
 
-import React from 'react'
-import {getStatsDeaths, getStatsExp} from '../actions/profile' //clearChat
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import { db } from 'baqend/lib/baqend';
+import {getStatsKill, getStatsDeaths, getStatsExp} from '../actions/profileAction' //clearChat
 
+
+import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
 class Profile extends React.Component {
@@ -13,6 +17,13 @@ class Profile extends React.Component {
             //user:db.User.me.username
         }
     }
+
+    componentWillMount(){
+        debugger;
+        this.props.actions.getStatsKill()
+        console.log(this.props.actions.getStatsKill());
+    }
+
 
 
     render() {
@@ -25,6 +36,7 @@ class Profile extends React.Component {
                         </div>
 
                         <div className="statistics">
+                        Stats
                         </div>
                     </div>
 
@@ -41,4 +53,22 @@ class Profile extends React.Component {
     }
 }
 
-export default connect(null, null)(Profile)
+// function mapStateToProps(state) {
+//     return {messages: state.messages};
+// }
+
+Profile.propTypes = {
+    action: PropTypes.object,
+    statistics: PropTypes.object
+};
+
+function mapStateToProps(state) {
+    return {statistics: state.statistics};
+}
+
+
+function mapDispatchToProps(dispatch) {
+    return {actions: bindActionCreators({getStatsKill}, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)
