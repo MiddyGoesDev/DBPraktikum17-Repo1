@@ -23,7 +23,7 @@ class Account extends Component {
 
     handleLogin = (event) => {
         event.preventDefault();
-        this.props.actions.login(this.state.username, this.state.password)
+        this.props.actions.login(this.state.username, this.state.password);
     };
 
     handleRegister = (event) => {
@@ -32,7 +32,7 @@ class Account extends Component {
     };
 
     handleLogout = (event) => {
-        this.props.actions.logout()
+        this.props.actions.logout();
     };
 
     render() {
@@ -67,9 +67,7 @@ class Account extends Component {
     }
 }
 
-Account.propTypes = {
-    user: PropTypes.object
-};
+Account.propTypes = { user: PropTypes.object };
 
 function mapStateToProps(state) {
     return {auth: state.auth, user: state.auth.user}

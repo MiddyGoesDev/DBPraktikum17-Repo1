@@ -11,11 +11,11 @@ import {connect} from 'react-redux'
 
 class Profile extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             //user:db.User.me.username
-                }
+        }
     }
 
     componentWillMount(){

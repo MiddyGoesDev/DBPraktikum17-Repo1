@@ -1,9 +1,7 @@
 import './Chat.css';
-import { db } from 'baqend/lib/baqend';
-import {sendMessage, getMessages, clearChat} from '../../actions/messageAction' //clearChat
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-//import Account from "../Account/Account"
+import {sendMessage, getMessages, clearChat} from '../../actions/message';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
