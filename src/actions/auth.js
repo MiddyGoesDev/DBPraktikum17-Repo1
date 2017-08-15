@@ -6,7 +6,6 @@ export function login(username, password) {
             type: USER_LOGIN,
             payload: (db) => {
                 return db.User.login(username, password).then((user) => {
-                    console.log('funktioniert mit react');
                     user.playing = false;
                     user.update();
                     return user;
@@ -20,7 +19,18 @@ export function register(username, password) {
     return {
         'BAQEND': {
             type: USER_REGISTER,
-            payload: (db) => db.User.register(username, password)
+            payload: (db) =>{
+                var user = new db.User({
+                  'username' : username,
+                  'kills' : 0,
+                  'deaths' : 0,
+                  'playingTime' : 0,
+                  'playing' : false,
+                  'xp' : 0
+                });
+                return db.User.register(user, password)
+
+            }
         }
     };
 }

@@ -3,7 +3,7 @@ import './Profile.css';
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { db } from 'baqend/lib/baqend';
-import {getStatsKill, getStatsDeaths, getStatsExp} from '../actions/profileAction' //clearChat
+import {getStatsKill, getStatsDeaths, getStatsExp} from '../actions/profile'
 
 
 import {bindActionCreators} from 'redux'
@@ -14,16 +14,27 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            //user:db.User.me.username
+            kills: null,
+            deaths: null,
+            exp: null,
+            kd: null,
+            playTime: null,
+            user: null
         }
     }
 
     componentWillMount(){
-        debugger;
-        this.props.actions.getStatsKill()
-        console.log(this.props.actions.getStatsKill());
+        this.props.actions.getStatsKill().then((result) => {
+            this.setState({
+                kills: result.kills,
+                deaths: result.deaths,
+                exp: result.xp,
+                kd: result.kills/(result.deaths +1),
+                playTime: result.playingTime,
+                user: result.username
+            })
+        })
     }
-
 
 
     render() {
@@ -32,11 +43,16 @@ class Profile extends React.Component {
                 <div className="main-profile">
                     <div className="picstats">
                         <div className="profile-pic">
-                            profile-pic
+                            <h2>{this.state.user}s Profile</h2>
                         </div>
 
                         <div className="statistics">
-                        Stats
+                        <h2>Statistics</h2>
+                        Kills: {this.state.kills}<br/>
+                        Deaths: {this.state.deaths}<br/>
+                        Total Experience gained: {this.state.exp}<br/>
+                        KD: {this.state.kd}<br/>
+                        Total Time spend: {this.state.playTime}
                         </div>
                     </div>
 
