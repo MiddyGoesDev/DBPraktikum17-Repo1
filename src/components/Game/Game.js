@@ -3,12 +3,27 @@ import './Game.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux'
+
+import {me} from '../../actions/auth';
+import {join, leave, findOpponents, getCharacter, ownCharacter} from '../../actions/connection';
+
 import getStage from './GameStage';
 
-export default class Game extends React.Component {
+class Game extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        }
+    }
 
     componentDidMount() {
         this.resizeGame();
+        this.props.actions.join();
+        this.props.actions.findOpponents();
         this.startGame();
     }
 
@@ -19,10 +34,20 @@ export default class Game extends React.Component {
         gameField.height = gameWindow.clientHeight;
     }
 
+    componentWillUnmount() {
+        this.props.actions.leave();
+    }
+
     startGame() {
         window.addEventListener('resize', this.resizeGame);
 
-        getStage().initialize();
+        let ownCharacter = this.props.actions.ownCharacter();
+        ownCharacter.then((character) => {
+            getStage().initialize(character.x, character.y);
+        });
+
+        let opponents = this.props.actions.findOpponents();
+        opponents.then(result => console.log(result));
 
         document.onkeydown = getStage().keyPressed;
         document.onkeyup = getStage().keyReleased;
@@ -38,3 +63,13 @@ export default class Game extends React.Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {}
+}
+
+function mapDispatchToProps(dispatch) {
+    return {actions: bindActionCreators({join, leave, findOpponents, getCharacter, ownCharacter, me}, dispatch)} //clearChat
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game)

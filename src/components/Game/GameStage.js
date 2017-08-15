@@ -9,8 +9,8 @@ function GameStage() {
         this.stage = new window.createjs.Stage('game-field');
     };
 
-    this.initialize = () => {
-        this.activeObject = new PlayerGuy(0, 10);
+    this.initialize = (x, y) => {
+        this.activeObject = new PlayerGuy(x, y);
         new Wall(80, 40);
 
         // var query = DB.Opponent.find().notEqual('id', '/db/Opponent/' + this.activeObject.id);
