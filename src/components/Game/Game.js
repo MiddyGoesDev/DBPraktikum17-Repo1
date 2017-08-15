@@ -3,12 +3,27 @@ import './Game.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux'
+
+import {me} from '../../actions/auth';
+import {join, leave, findOpponents, getCharacter, ownCharacter} from '../../actions/connection';
+
 import getStage from './GameStage';
 
-export default class Game extends React.Component {
+class Game extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        }
+    }
 
     componentDidMount() {
         this.resizeGame();
+        this.props.actions.join();
+        this.props.actions.findOpponents();
         this.startGame();
     }
 
@@ -19,11 +34,27 @@ export default class Game extends React.Component {
         gameField.height = gameWindow.clientHeight;
     }
 
+    componentWillUnmount() {
+        this.props.actions.leave();
+    }
+
     startGame() {
         window.addEventListener('resize', this.resizeGame);
 
-        getStage().initialize();
-
+        let ownCharacter = this.props.actions.ownCharacter();
+        console.log('own Character:');
+        ownCharacter.then((result) => {
+            console.log('abaa');
+            console.log(result)
+        });
+        console.log();
+/*
+ .then(character => {
+ console.log('get Character:');
+ console.log(character);
+ getStage().initialize(character.x, character.y)
+ })
+ */
         document.onkeydown = getStage().keyPressed;
         document.onkeyup = getStage().keyReleased;
         // Actions carried out each tick (aka frame)
@@ -38,3 +69,13 @@ export default class Game extends React.Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {}
+}
+
+function mapDispatchToProps(dispatch) {
+    return {actions: bindActionCreators({join, leave, findOpponents, getCharacter, ownCharacter, me}, dispatch)} //clearChat
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game)

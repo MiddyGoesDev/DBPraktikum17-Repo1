@@ -86,7 +86,7 @@ class Chat extends React.Component {
 Chat.propTypes = {
     action: PropTypes.object,
     messages: PropTypes.object
-}
+};
 /**
     mapStateToProps: Connects a React component to a Redux store, the new component will subscribe to
     Redux store updates. This means that any time the store is updated, mapStateToProps

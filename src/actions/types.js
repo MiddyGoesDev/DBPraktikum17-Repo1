@@ -1,5 +1,12 @@
 export const USER_LOGIN = 'USER_LOGIN';
-export const USER_REGISTER = "USER_REGISTER";
-export const USER_LOGOUT = "USER_LOGOUT";
-export const MESSAGE = "MESSAGE";
+export const USER_REGISTER = 'USER_REGISTER';
+export const USER_LOGOUT = 'USER_LOGOUT';
+export const CREATE_CHARACTER = 'CREATE_CHARACTER';
+export const ME = 'ME';
+export const MESSAGE = 'MESSAGE';
 export const STATISTIC = "STATISTIC";
+export const JOIN = 'JOIN';
+export const LEAVE = 'LEAVE';
+export const FIND_OPPONENTS = 'FIND_OPPONENTS';
+export const GET_CHARACTER = 'GET_CHARACTER';
+export const OWN_CHARACTER = 'OWN_CHARACTER';
