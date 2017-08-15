@@ -1,3 +1,5 @@
+import { MESSAGE } from './types'
+
 export function sendMessage(text, bool) {
   return {
     'BAQEND': {
@@ -34,14 +36,3 @@ export function getMessages() {
         }
     }
 }
-
-// export function clearChat() { // clearChat
-//   return {
-//     'BAQEND': {
-//       type: "MESSAGES_CLEAR",
-//       payload: (db) => {
-//         return []
-//       }
-//     }
-//   }
-// }
