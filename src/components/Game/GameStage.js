@@ -10,8 +10,8 @@ function GameStage() {
     };
 
     this.initialize = () => {
-        this.activeObject = new PlayerGuy(10, 10);
-        new Wall(200, 0);
+        this.activeObject = new PlayerGuy(0, 10);
+        new Wall(80, 40);
 
         // var query = DB.Opponent.find().notEqual('id', '/db/Opponent/' + this.activeObject.id);
         // query.resultStream(result => console.log(result), err => console.log(err), console.log('offline'));

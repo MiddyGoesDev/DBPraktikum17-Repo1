@@ -68,12 +68,50 @@ export default function PlayerGuy(x, y) {
     this.handleCollision = (object, collision) => {
         switch (object.type) {
             case 'Wall':
-                this.updatePosition(
-                    this.x - this.signX * ((collision.height >= this.speed) ? collision.width : 0),
-                    this.y - this.signY * ((collision.width >= this.speed) ? collision.height : 0));
+                let lastX = this.x;
+                let lastY = this.y;
+                let nextX = lastX;
+                let nextY = lastY;
 
-                this.signX = 0;
-                this.signY = 0;
+                this.move();
+                let nextCollision = this.checkCollision(object);
+                let nextSignX = this.signX;
+                let nextSignY = this.signY;
+
+                // kollidiert nicht nur einen Frame lang
+                if (nextCollision !== false) {
+                    // kollidiert mehr vertikal
+                    if (collision.height >= collision.width) {
+                        if (this.signX === 0) {
+                            // collisionLeft of sprite center
+                            if (this.x + 8 > nextCollision.x) {
+                                nextSignX = -1;
+                            }
+                            // collisionRight of sprite center
+                            else {
+                                nextSignX = 1;
+                            }
+                        }
+                        
+                        nextX = lastX - nextSignX * collision.width;
+                    }
+                    // kollidiert mehr horizontal
+                    if (collision.height <= collision.width) {
+                        if (this.signY === 0) {
+                            // collision below sprite center
+                            if (this.y + 8 < nextCollision.y) {
+                                nextSignY = 1;
+                            }
+                            // collision above sprite center
+                            else {
+                                nextSignY = -1;
+                            }
+                        }
+                        nextY = lastY - nextSignY * collision.height;
+                    }
+                }
+                this.updatePosition(nextX, nextY);
+
                 break;
         }
     };
@@ -96,7 +134,7 @@ export default function PlayerGuy(x, y) {
         }
     };
     this.type = 'Player';
-    this.speed = 3;
+    this.speed = 4;
     this.construct();
     this.emit('join');
 }
