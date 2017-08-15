@@ -29,22 +29,15 @@ export function findOpponents() {
         'BAQEND': {
             type: FIND_OPPONENTS,
             payload: (db) => {
-                let users = db.User.find().eq('playing', true);
-                users.resultStream(result => console.log(result.map((user) => user.id)));
 
-                // var opponents = db.Character.find().in('id', '/db/Character/515870344283', '/db/Character/307518331416');
-                //opponents.resultStream(result => console.log(result));
-                return users;
+
+                // db.Character.find().notEqual('owner', db.User.me).eq;
+
+                let users = db.User.find().eq('playing', true).notEqual('id', db.User.me.id);
+                return users.resultList(user => {
+                    return db.Character.find().in('owner', user);
+                });
             }
-        }
-    }
-}
-
-export function getCharacter(user) {
-    return {
-        'BAQEND': {
-            type: GET_CHARACTER,
-            payload: (db) => db.Character.find().equal('owner', user).resultList()
         }
     }
 }
@@ -53,9 +46,7 @@ export function ownCharacter() {
     return {
         'BAQEND': {
             type: OWN_CHARACTER,
-            payload: (db) => {
-                getCharacter(db.User.me);
-            }
+            payload: (db) => db.Character.find().equal('owner', db.User.me).singleResult()
         }
     }
 }

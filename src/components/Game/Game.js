@@ -41,25 +41,14 @@ class Game extends React.Component {
     startGame() {
         window.addEventListener('resize', this.resizeGame);
 
-        var me = this.props.actions.me()
-            .then(user => console.log(user.id));
-
-        /*
         let ownCharacter = this.props.actions.ownCharacter();
-        console.log('own Character:');
-        ownCharacter.then((result) => {
-            console.log('abaa');
-            console.log(result)
+        ownCharacter.then((character) => {
+            getStage().initialize(character.x, character.y);
         });
-        console.log();
-        /*
-/*
- .then(character => {
- console.log('get Character:');
- console.log(character);
- getStage().initialize(character.x, character.y)
- })
- */
+
+        let opponents = this.props.actions.findOpponents();
+        opponents.then(result => console.log(result));
+
         document.onkeydown = getStage().keyPressed;
         document.onkeyup = getStage().keyReleased;
         // Actions carried out each tick (aka frame)

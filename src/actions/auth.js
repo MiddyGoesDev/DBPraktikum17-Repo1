@@ -65,9 +65,7 @@ export function me() {
     return {
         'BAQEND': {
             type: ME,
-            payload: (db) => {
-                return db.User.find(db.User.me.username).singleResult()
-            }
+            payload: (db) => db.User.find(db.User.me.username).singleResult()
         }
     }
 }
