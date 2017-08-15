@@ -41,6 +41,10 @@ class Game extends React.Component {
     startGame() {
         window.addEventListener('resize', this.resizeGame);
 
+        var me = this.props.actions.me()
+            .then(user => console.log(user.id));
+
+        /*
         let ownCharacter = this.props.actions.ownCharacter();
         console.log('own Character:');
         ownCharacter.then((result) => {
@@ -48,6 +52,7 @@ class Game extends React.Component {
             console.log(result)
         });
         console.log();
+        /*
 /*
  .then(character => {
  console.log('get Character:');

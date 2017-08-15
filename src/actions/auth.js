@@ -66,10 +66,7 @@ export function me() {
         'BAQEND': {
             type: ME,
             payload: (db) => {
-                let user = db.User.me;
-                console.log('payload');
-                console.log(user);
-                return user;
+                return db.User.find(db.User.me.username).singleResult()
             }
         }
     }

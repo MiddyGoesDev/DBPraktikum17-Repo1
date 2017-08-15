@@ -33,28 +33,32 @@ export default function PlayerGuy(x, y) {
                 else if (secondToLastKey === KEYCODE_DOWN) this.changeDirection(DIRECTION_SOUTHWEST);
                 else this.changeDirection(DIRECTION_WEST);
 
-                if (this.directionChanged(direction)) this.walk();
+                if (this.directionChanged(direction) || !this.isWalking())
+                    this.walk();
                 break;
             case KEYCODE_RIGHT:
                 if (secondToLastKey === KEYCODE_UP) this.changeDirection(DIRECTION_NORTHEAST);
                 else if (secondToLastKey === KEYCODE_DOWN) this.changeDirection(DIRECTION_SOUTHEAST);
                 else this.changeDirection(DIRECTION_EAST);
 
-                if (this.directionChanged(direction)) this.walk();
+                if (this.directionChanged(direction) || !this.isWalking())
+                    this.walk();
                 break;
             case KEYCODE_UP:
                 if (secondToLastKey === KEYCODE_LEFT) this.changeDirection(DIRECTION_NORTHWEST);
                 else if (secondToLastKey === KEYCODE_RIGHT) this.changeDirection(DIRECTION_NORTHEAST);
                 else this.changeDirection(DIRECTION_NORTH);
 
-                if (this.directionChanged(direction)) this.walk();
+                if (this.directionChanged(direction) || !this.isWalking())
+                    this.walk();
                 break;
             case KEYCODE_DOWN:
                 if (secondToLastKey === KEYCODE_LEFT) this.changeDirection(DIRECTION_SOUTHWEST);
                 else if (secondToLastKey === KEYCODE_RIGHT) this.changeDirection(DIRECTION_SOUTHEAST);
                 else this.changeDirection(DIRECTION_SOUTH);
 
-                if (this.directionChanged(direction)) this.walk();
+                if (this.directionChanged(direction) || !this.isWalking())
+                    this.walk();
                 break;
             case KEYCODE_S:
                 this.punch();
