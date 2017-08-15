@@ -4,6 +4,7 @@ export default function Bullet(x, y, direction) {
 
     Projectile.call(this, x, y, direction);
 
+    this.distance = 10;
     this.speed = 6;
     this.data = {
         images: ['./assets/sprites.png'],

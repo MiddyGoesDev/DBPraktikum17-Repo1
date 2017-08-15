@@ -51,6 +51,7 @@ function GameStage() {
     };
 
     this.near = (object) => {
+        // TODO: implement near
         return this.gameObjects.filter((gameObject) => { return gameObject.id !== object.id });
     };
 
