@@ -14,18 +14,28 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            kills: null
+            kills: null,
+            deaths: null,
+            exp: null,
+            kd: null,
+            playTime: null,
+            user: null
         }
     }
 
     componentWillMount(){
         this.props.actions.getStatsKill().then((result) => {
             this.setState({
-                kills:result
+                kills: result.kills,
+                deaths: result.deaths,
+                exp: result.xp,
+                kd: result.kills/(result.deaths +1),
+                playTime: result.playingTime,
+                user: result.username
             })
-            console.log(this.state.stats);
         })
     }
+
 
     render() {
         return (
@@ -33,11 +43,16 @@ class Profile extends React.Component {
                 <div className="main-profile">
                     <div className="picstats">
                         <div className="profile-pic">
-                            profile-pic
+                            <h2>{this.state.user}s Profile</h2>
                         </div>
 
                         <div className="statistics">
-                        {this.state.kills}
+                        <h2>Statistics</h2>
+                        Kills: {this.state.kills}<br/>
+                        Deaths: {this.state.deaths}<br/>
+                        Total Experience gained: {this.state.exp}<br/>
+                        KD: {this.state.kd}<br/>
+                        Total Time spend: {this.state.playTime}
                         </div>
                     </div>
 
