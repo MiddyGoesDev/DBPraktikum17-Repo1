@@ -56,9 +56,27 @@ export default function GameObject(x, y) {
         }
     };
 
+    this.play = (animation) => {
+        this.animation = animation;
+        switch (this.direction) {
+            case DIRECTION_NORTH: this.sprite.gotoAndPlay(animation + 'North'); break;
+            case DIRECTION_NORTHEAST: this.sprite.gotoAndPlay(animation + 'NorthEast'); break;
+            case DIRECTION_EAST: this.sprite.gotoAndPlay(animation + 'East'); break;
+            case DIRECTION_SOUTHEAST: this.sprite.gotoAndPlay(animation + 'SouthEast'); break;
+            case DIRECTION_SOUTH: this.sprite.gotoAndPlay(animation + 'South'); break;
+            case DIRECTION_SOUTHWEST: this.sprite.gotoAndPlay(animation + 'SouthWest'); break;
+            case DIRECTION_WEST: this.sprite.gotoAndPlay(animation + 'West'); break;
+            case DIRECTION_NORTHWEST: this.sprite.gotoAndPlay(animation + 'NorthWest'); break;
+        }
+    };
+
     this.changeDirection = (direction) => {
         this.direction = direction;
         this.updateSign();
+    };
+
+    this.directionChanged = (direction) => {
+        return this.direction !== direction;
     };
 
     this.emit = (action) => {

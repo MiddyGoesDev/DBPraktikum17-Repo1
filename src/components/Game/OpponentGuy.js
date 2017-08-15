@@ -32,4 +32,5 @@ export default function OpponentGuy(x, y) {
     };
 
     this.construct();
+    this.idle();
 }

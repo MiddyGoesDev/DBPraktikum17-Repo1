@@ -26,34 +26,35 @@ export default function PlayerGuy(x, y) {
     this.handleEvent = () => {
         let lastKey = getStage().activeKeys[getStage().activeKeys.length -1];
         let secondToLastKey = getStage().activeKeys[getStage().activeKeys.length -2];
+        let direction = this.direction;
         switch (lastKey) {
             case KEYCODE_LEFT:
                 if (secondToLastKey === KEYCODE_UP) this.changeDirection(DIRECTION_NORTHWEST);
                 else if (secondToLastKey === KEYCODE_DOWN) this.changeDirection(DIRECTION_SOUTHWEST);
                 else this.changeDirection(DIRECTION_WEST);
 
-                this.walk();
+                if (this.directionChanged(direction)) this.walk();
                 break;
             case KEYCODE_RIGHT:
                 if (secondToLastKey === KEYCODE_UP) this.changeDirection(DIRECTION_NORTHEAST);
                 else if (secondToLastKey === KEYCODE_DOWN) this.changeDirection(DIRECTION_SOUTHEAST);
                 else this.changeDirection(DIRECTION_EAST);
 
-                this.walk();
+                if (this.directionChanged(direction)) this.walk();
                 break;
             case KEYCODE_UP:
                 if (secondToLastKey === KEYCODE_LEFT) this.changeDirection(DIRECTION_NORTHWEST);
                 else if (secondToLastKey === KEYCODE_RIGHT) this.changeDirection(DIRECTION_NORTHEAST);
                 else this.changeDirection(DIRECTION_NORTH);
 
-                this.walk();
+                if (this.directionChanged(direction)) this.walk();
                 break;
             case KEYCODE_DOWN:
                 if (secondToLastKey === KEYCODE_LEFT) this.changeDirection(DIRECTION_SOUTHWEST);
                 else if (secondToLastKey === KEYCODE_RIGHT) this.changeDirection(DIRECTION_SOUTHEAST);
                 else this.changeDirection(DIRECTION_SOUTH);
 
-                this.walk();
+                if (this.directionChanged(direction)) this.walk();
                 break;
             case KEYCODE_S:
                 this.punch();
@@ -68,35 +69,95 @@ export default function PlayerGuy(x, y) {
     this.handleCollision = (object, collision) => {
         switch (object.type) {
             case 'Wall':
-                this.updatePosition(
-                    this.x - this.signX * ((collision.height >= this.speed) ? collision.width : 0),
-                    this.y - this.signY * ((collision.width >= this.speed) ? collision.height : 0));
+                let lastX = this.x;
+                let lastY = this.y;
+                let nextX = lastX;
+                let nextY = lastY;
 
-                this.signX = 0;
-                this.signY = 0;
+                this.move();
+                let nextCollision = this.checkCollision(object);
+                let nextSignX = this.signX;
+                let nextSignY = this.signY;
+
+                // kollidiert nicht nur einen Frame lang
+                if (nextCollision !== false) {
+                    // kollidiert mehr vertikal
+                    if (collision.height >= collision.width) {
+                        if (this.signX === 0) {
+                            // collisionLeft of sprite center
+                            if (this.x + 8 > nextCollision.x) {
+                                nextSignX = -1;
+                            }
+                            // collisionRight of sprite center
+                            else {
+                                nextSignX = 1;
+                            }
+                        }
+                        
+                        nextX = lastX - nextSignX * collision.width;
+                    }
+                    // kollidiert mehr horizontal
+                    if (collision.height <= collision.width) {
+                        if (this.signY === 0) {
+                            // collision below sprite center
+                            if (this.y + 8 < nextCollision.y) {
+                                nextSignY = 1;
+                            }
+                            // collision above sprite center
+                            else {
+                                nextSignY = -1;
+                            }
+                        }
+                        nextY = lastY - nextSignY * collision.height;
+                    }
+                }
+                this.updatePosition(nextX, nextY);
+
                 break;
         }
     };
 
     let frames = [];
-    for (let j = 0; j < 18; j++) {
-        for (let i = 0; i < 12; i++) {
-            frames.push([16 + 16 * i, 16 + 16 * j, 16, 16]);
+    for (let j = 0; j < 32; j++) {
+        for (let i = 0; i < 4; i++) {
+            frames.push([16*i, 16*j, 16, 16]);
         }
     }
 
     this.data = {
-        images: ['./assets/sprites.png'],
+        images: ['./assets/guyGreen.png'],
         frames: frames,
         animations: {
-            walk: [8 * 12, 8 * 12 + 2, "walk", 0.3],
-            idle: [6 * 12, 6 * 12 + 3, "idle", 0.25],
-            punch: [15 * 12, 15 * 12 + 2, 'idle', 0.5],
-            runningKick: [15 * 12 + 7, 15 * 12 + 10, 'idle', 0.25]
+            walkEast: [8*4, 8*4+2, 'walkEast', 0.3],
+            walkWest: [9*4, 9*4+2, 'walkWest', 0.3],
+            walkNorth: [10*4, 10*4+3, 'walkNorth', 0.3],
+            walkSouth: [11*4, 11*4+3, 'walkSouth', 0.3],
+            walkNorthEast: [12*4, 12*4+3, 'walkNorthEast', 0.3],
+            walkNorthWest: [13*4, 13*4+3, 'walkNorthWest', 0.3],
+            walkSouthEast: [14*4, 14*4+2, 'walkSouthEast', 0.3],
+            walkSouthWest: [15*4, 15*4+2, 'walkSouthWest', 0.3],
+            idleEast: [0, 3, 'idleEast', 0.25],
+            idleWest: [4, 4+3, 'idleWest', 0.25],
+            idleNorth: [2*4, 2*4+3, 'idleNorth', 0.25],
+            idleSouth: [3*4, 3*4+3, 'idleSouth', 0.25],
+            idleNorthEast: [4*4, 4*4+3, 'idleNorthEast', 0.25],
+            idleNorthWest: [5*4, 5*4+3, 'idleNorthWest', 0.25],
+            idleSouthEast: [7*4, 7*4+3, 'idleSouthEast', 0.25],
+            idleSouthWest: [6*4, 6*4+3, 'idleSouthWest', 0.25],
+            punchEast: [16*4, 16*4+2, 'idleEast', 0.5],
+            punchWest: [17*4, 17*4+2, 'idleWest', 0.5],
+            punchNorth: [18*4, 18*4+2, 'idleNorth', 0.5],
+            punchSouth: [19*4, 19*4+2, 'idleSouth', 0.5],
+            punchNorthEast: [16*4, 16*4+2, 'idleNorthEast', 0.5],
+            punchNorthWest: [17*4, 17*4+2, 'idleNorthWest', 0.5],
+            punchSouthEast: [18*4, 18*4+2, 'idleSouthEast', 0.5],
+            punchSouthWest: [19*4, 19*4+2, 'idleSouthWest', 0.5],
+            runningKick: [0, 3, 'idle', 0.25]
         }
     };
     this.type = 'Player';
-    this.speed = 3;
+    this.speed = 4;
     this.construct();
     this.emit('join');
+    this.idle();
 }
