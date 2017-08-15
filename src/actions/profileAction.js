@@ -6,15 +6,10 @@ export function getStatsKill() {
     'BAQEND': {
       type: "STATISTICS_KILL",
       payload: (db) => {
-        return db.User.find(db.User.me.username).singleResult().then((user) => {
-          console.log("Stats",
-          user.kills,
-          user.deaths,
-          user.xp,
-          user.playingTime,
-        )
-        }
-
+        return db.User.find(db.User.me.username).singleResult()
+         .then((user) => {
+           return user
+         }
         )
       //     return db.User.me.username.then((proxy) => {console.log(proxy.username);
       //     return proxy;
@@ -30,16 +25,6 @@ export function getStatsKill() {
     }
   }
 }
-
-// meistens ist es am einfachsten das object mit der referenz schon mit einem depth parameter zu laden.
-// Beispiel von: https://www.baqend.com/guide/topics/crud/#read
-// DB.Todo.load('Todo1', {depth: 1}).then(function(todo) {
-//   // With 'depth: 1' all directly referenced objects will be loaded.
-// });
-
-// DB.Todo.load('Todo1', {depth: 1}).then(function(todo) {
-//   // With 'depth: 1' all directly referenced objects will be loaded.
-// });
 
 // export function getStatsDeaths(User) {
 //   return {

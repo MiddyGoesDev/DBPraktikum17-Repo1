@@ -3,7 +3,7 @@ import './Profile.css';
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { db } from 'baqend/lib/baqend';
-import {getStatsKill, getStatsDeaths, getStatsExp} from '../actions/profileAction' //clearChat
+import {getStatsKill, getStatsDeaths, getStatsExp} from '../actions/profile'
 
 
 import {bindActionCreators} from 'redux'
@@ -14,17 +14,18 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            //user:db.User.me.username
+            kills: null
         }
     }
 
     componentWillMount(){
-        debugger;
-        this.props.actions.getStatsKill()
-        console.log(this.props.actions.getStatsKill());
+        this.props.actions.getStatsKill().then((result) => {
+            this.setState({
+                kills:result
+            })
+            console.log(this.state.stats);
+        })
     }
-
-
 
     render() {
         return (
@@ -36,7 +37,7 @@ class Profile extends React.Component {
                         </div>
 
                         <div className="statistics">
-                        Stats
+                        {this.state.kills}
                         </div>
                     </div>
 
