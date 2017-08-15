@@ -1,4 +1,4 @@
 import auth from './auth'
-import messages from './messagesReducer'
+import messages from './messages'
 
 export default { auth: auth, messages: messages } //was genau passiert hier?

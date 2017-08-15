@@ -1,5 +1,5 @@
 import './Chat.css';
-import {sendMessage, getMessages, clearChat} from '../../actions/messageAction';
+import {sendMessage, getMessages, clearChat} from '../../actions/message';
 import React from 'react';
 import PropTypes from 'prop-types';
 
