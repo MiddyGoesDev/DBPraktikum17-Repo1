@@ -1,6 +1,5 @@
-import { STATISTIC } from './types'
 
-export function getStatsKill() {
+export function getStats() {
   return {
     'BAQEND': {
       type: "STATISTICS_KILL",

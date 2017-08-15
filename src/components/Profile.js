@@ -1,9 +1,8 @@
 import './Profile.css';
 
-import React, {Component} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { db } from 'baqend/lib/baqend';
-import {getStatsKill, getStatsDeaths, getStatsExp} from '../actions/profile'
+import {getStats} from '../actions/profile'
 
 
 import {bindActionCreators} from 'redux'
@@ -24,7 +23,7 @@ class Profile extends React.Component {
     }
 
     componentWillMount(){
-        this.props.actions.getStatsKill().then((result) => {
+        this.props.actions.getStats().then((result) => {
             this.setState({
                 kills: result.kills,
                 deaths: result.deaths,
@@ -62,7 +61,10 @@ class Profile extends React.Component {
                 </div>
 
                 <div className="spellbar">
-                    spellbar
+                    <div className="spell"/>
+                    <div className="spell"/>
+                    <div className="spell"/>
+                    <div className="spell"/>
                 </div>
             </div>
         );
@@ -84,7 +86,7 @@ function mapStateToProps(state) {
 
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({getStatsKill}, dispatch)};
+    return {actions: bindActionCreators({getStats}, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile)
