@@ -47,7 +47,6 @@ class Game extends React.Component {
             GameStage().networkObjects[character.id] = GameStage().activeObject;
         });
 
-        this.props.actions.linkOpponents();
         this.props.actions.updateOpponents();
 
         document.onkeydown = GameStage().keyPressed;
