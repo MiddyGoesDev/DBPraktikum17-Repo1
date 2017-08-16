@@ -40,17 +40,16 @@ export function linkOpponents() {
         'BAQEND': {
             type: FIND_OPPONENTS,
             payload: (db) => {
-                return db.Playing.find().notEqual('user', db.User.me).equal('online', true).resultStream()
-                    .subscribe(playing => playing.forEach(player => db.Character.load(player.character.id)
+                return db.Playing.find().eventStream().subscribe(player => db.Character.load(player.data.character.id)
                         .then(character => {
-                            if (player.online && GameStage().networkObjects.indexOf(character.id) === -1) {
+                            if (player.data.online && !GameStage().networkObjects.hasOwnProperty(character.id)) {
                                 let opponent = new Opponent(character.x, character.y);
                                 opponent.id = character.id;
                                 GameStage().link(opponent);
-                            } else if (!player.online) {
+                            } else if (!player.data.online && GameStage().networkObjects.hasOwnProperty(character.id)) {
                                 GameStage().unlink(character.id);
                             }
-                        })))
+                        }))
             }
         }
     }

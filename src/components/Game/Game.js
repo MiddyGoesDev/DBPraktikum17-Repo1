@@ -34,8 +34,7 @@ class Game extends React.Component {
 
     componentWillUnmount() {
         this.props.actions.leave().then(character => {
-            console.log('Opponent left');
-            GameStage().remove(character.id);
+
         });
     }
 

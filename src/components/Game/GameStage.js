@@ -44,9 +44,8 @@ function GameStage() {
     };
 
     this.unlink = (id) => {
-        this.stage.removeChild(this.networkObjects[id]);
-        this.gameObjects = this.gameObjects.filter((object) => { return object.id !== id; });
-        this.networkObjects = this.networkObjects.filter((object) => { return object.id !== id; });
+        this.stage.removeChild(this.networkObjects[id].sprite);
+        delete this.networkObjects[id];
     };
 
     this.on = (action) => {
@@ -75,7 +74,7 @@ function GameStage() {
     this.stage = null;
     this.gameObjects = [];
     this.activeObject = null;
-    this.networkObjects = [];
+    this.networkObjects = { };
     this.activeKeys = [];
 
     this.construct();
