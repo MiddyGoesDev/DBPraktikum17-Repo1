@@ -18,27 +18,25 @@ class Profile extends React.Component {
             exp: null,
             kd: null,
             playTime: null,
-            user: null
+            user: ""
         }
     }
 
     componentWillMount(){
         this.props.actions.getStats().then((result) => {
+          console.log(result);
             this.setState({
                 kills: result.kills,
                 deaths: result.deaths,
                 exp: result.xp,
-                kd: result.kills/(result.deaths +1),
+                kd: result.kills/(result.deaths),
                 playTime: result.playingTime,
-                user: result.username
             })
         })
     }
 
 
     render() {
-      console.log(this.state.user);
-
         return (
             <div className="profile">
                 <div className="main-profile">
