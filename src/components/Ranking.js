@@ -16,6 +16,7 @@ class Ranking extends React.Component {
   }
 
 componentWillMount(){
+
     this.props.actions.getRanking().then((result) => {
       this.setState({
         ranking: result
@@ -25,10 +26,12 @@ componentWillMount(){
 
     render() {
       console.log(this.state.ranking);
+      // var listItmes = this.props.ranking.map((d) => <li key={d.kills}>{d.kills}</li>);
+
         return (
         <div className="ranking">
             <div className="scoreboard">
-            Scoreboard
+
             </div>
             <div className="playerProfile">
             Player Profile
