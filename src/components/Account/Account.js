@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
-import {login, register, logout, createCharacter, initializePlaying} from '../../actions/auth'
+import {login, register, logout, createCharacter, initializePlaying, createStats} from '../../actions/auth'
 
 class Account extends Component {
 
@@ -30,8 +30,10 @@ class Account extends Component {
         event.preventDefault();
         this.props.actions.register(this.state.username, this.state.password)
             .then(user => this.props.actions.createCharacter(user)
-                .then(character => this.props.actions.initializePlaying(user, character))
-            );
+                .then(character => this.props.actions.initializePlaying(user, character)
+                      .then(stats => this.props.actions.createStats(user))
+                    )
+          );
     };
 
     handleLogout = (event) => {
@@ -43,7 +45,7 @@ class Account extends Component {
             <div className='account'>
                 {this.props.auth.isLoggedIn ? (
                     <div>
-                        Hey { this.props.user.username }
+                        Hey { this.props.user.username}
                         <p>
                             <button onClick={this.handleLogout}>Logout</button>
                         </p>
@@ -77,7 +79,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({login, register, logout, createCharacter, initializePlaying}, dispatch)}
+    return {actions: bindActionCreators({login, register, logout, createCharacter, initializePlaying, createStats}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Account)

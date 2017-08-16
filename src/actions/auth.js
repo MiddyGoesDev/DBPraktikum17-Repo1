@@ -1,4 +1,4 @@
-import {USER_LOGIN, USER_REGISTER, USER_LOGOUT, CREATE_CHARACTER, INITIALIZE_PLAYING, ME} from './types'
+import {USER_LOGIN, USER_REGISTER, USER_LOGOUT, CREATE_CHARACTER, INITIALIZE_PLAYING, ME, CREATE_STATS} from './types'
 
 export function login(username, password) {
     return {
@@ -13,17 +13,7 @@ export function register(username, password) {
     return {
         'BAQEND': {
             type: USER_REGISTER,
-            payload: (db) => {
-                let user = new db.User({
-                    'username': username,
-                    'kills': 0,
-                    'deaths': 0,
-                    'playingTime': 0,
-                    'playing': false,
-                    'xp': 0
-                });
-                return db.User.register(user, password);
-            }
+            payload: (db) =>  db.User.register(username, password)
         }
     };
 }
@@ -41,6 +31,24 @@ export function createCharacter(user) {
                     'direction': 180
                 });
                 return character.insert();
+            }
+        }
+    };
+}
+
+export function createStats(user) {
+    return {
+        'BAQEND': {
+            type: CREATE_STATS,
+            payload: (db) => {
+                let stats = new db.Statistic({
+                    'nameID': user,
+                    'kills': 0,
+                    'deaths': 0,
+                    'xp': 0,
+                    'playingTime': 0
+                });
+                return stats.insert();
             }
         }
     };
