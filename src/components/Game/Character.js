@@ -12,7 +12,6 @@ export default function Character(x, y) {
     };
 
     this.punch = () => {
-        console.log(this.isPunching());
         if (!this.isPunching()) {
             this.play('punch');
             new Bullet(this.x + this.signX * 5, this.y + this.signY * 5, this.direction);
