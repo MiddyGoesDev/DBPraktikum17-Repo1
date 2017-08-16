@@ -51,6 +51,9 @@ export function updateOpponents() {
                     } else if (!character.data.playing && GameStage().networkObjects.hasOwnProperty(character.data.id)) {
                         GameStage().unlink(character.data.id);
                     }
+                    if (character.data.playing) {
+                        GameStage().networkObjects[character.data.id].updatePosition(character.data.x, character.data.y)
+                    }
                 });
             }
         }
@@ -61,8 +64,12 @@ export function updateCharacter(data) {
     return {
         'BAQEND': {
             type: UPDATE_CHARACTER,
-            payload: (db) => db.Character.find().equal('owner', db.User.me).singleResult(character => {
-                character.online = true;
+            payload: (db) => db.Character.load(data.id).singleResult(character => {
+                console.log('update character');
+                character.x = data.x;
+                character.y = data.y;
+                character.direction = data.direction;
+                character.animation = data.animation;
                 return character.update();
             })
         }

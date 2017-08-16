@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux'
 
-import {join, leave, ownCharacter, linkOpponents, updateOpponents} from '../../actions/character';
+import {join, leave, ownCharacter, updateOpponents, updateCharacter} from '../../actions/character';
 
 import GameStage from './GameStage';
 
@@ -33,9 +33,7 @@ class Game extends React.Component {
     }
 
     componentWillUnmount() {
-        this.props.actions.leave().then(character => {
-
-        });
+        this.props.actions.leave();
     }
 
     startGame() {
@@ -52,7 +50,7 @@ class Game extends React.Component {
         document.onkeydown = GameStage().keyPressed;
         document.onkeyup = GameStage().keyReleased;
         // Actions carried out each tick (aka frame)
-        window.createjs.Ticker.addEventListener("tick", () => { GameStage().update(); });
+        window.createjs.Ticker.addEventListener('tick', () => { GameStage().update(); });
     }
 
     render() {
@@ -69,7 +67,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({join, leave, ownCharacter, linkOpponents, updateOpponents}, dispatch)}
+    return {actions: bindActionCreators({join, leave, ownCharacter, updateOpponents, updateCharacter}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game)

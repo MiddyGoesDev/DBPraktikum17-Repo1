@@ -1,6 +1,8 @@
 import PlayerGuy from './PlayerGuy';
 import Wall from './Wall';
 
+import { db } from 'baqend/realtime'; // realtime
+
 let gameStage = null;
 
 function GameStage() {
@@ -76,7 +78,7 @@ function GameStage() {
     this.activeObject = null;
     this.networkObjects = { };
     this.activeKeys = [];
-
+    this.db = db;
     this.construct();
 }
 

@@ -1,9 +1,11 @@
 import Character from './Character';
-import getStage from './GameStage';
+import GameStage from './GameStage';
 
-import { KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT, KEYCODE_S } from './KeyCodes';
-import { DIRECTION_SOUTH, DIRECTION_NORTH, DIRECTION_EAST, DIRECTION_WEST,
-    DIRECTION_NORTHEAST, DIRECTION_NORTHWEST, DIRECTION_SOUTHEAST, DIRECTION_SOUTHWEST} from './Directions';
+import {KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT, KEYCODE_S} from './KeyCodes';
+import {
+    DIRECTION_SOUTH, DIRECTION_NORTH, DIRECTION_EAST, DIRECTION_WEST,
+    DIRECTION_NORTHEAST, DIRECTION_NORTHWEST, DIRECTION_SOUTHEAST, DIRECTION_SOUTHWEST
+} from './Directions';
 
 export default function PlayerGuy(x, y) {
 
@@ -18,13 +20,34 @@ export default function PlayerGuy(x, y) {
 
     this.emit = (action) => {
         switch (action) {
-            case 'change': break;
+            case 'change':
+                console.log('emit');
+                console.log(GameStage().db.Character.load(this.id));
+                GameStage().db.Character.load(this.id).then(character => {
+                    console.log('update character');
+                    character.x = this.x;
+                    character.y = this.y;
+                    character.direction = this.direction;
+                    character.animation = this.animation;
+                    return character.update();
+                });
+                /*
+                GameStage().db.Character.load(this.id).singleResult(character => {
+                    console.log('update character');
+                    character.x = this.x;
+                    character.y = this.y;
+                    character.direction = this.direction;
+                    character.animation = this.animation;
+                    return character.update();
+                });
+                */
+                break;
         }
     };
 
     this.handleEvent = () => {
-        let lastKey = getStage().activeKeys[getStage().activeKeys.length -1];
-        let secondToLastKey = getStage().activeKeys[getStage().activeKeys.length -2];
+        let lastKey = GameStage().activeKeys[GameStage().activeKeys.length - 1];
+        let secondToLastKey = GameStage().activeKeys[GameStage().activeKeys.length - 2];
         let direction = this.direction;
         switch (lastKey) {
             case KEYCODE_LEFT:
@@ -100,7 +123,7 @@ export default function PlayerGuy(x, y) {
                                 nextSignX = 1;
                             }
                         }
-                        
+
                         nextX = lastX - nextSignX * collision.width;
                     }
                     // kollidiert mehr horizontal
@@ -128,30 +151,30 @@ export default function PlayerGuy(x, y) {
         images: ['./assets/guyGreen.png'],
         frames: this.spriteSheet(4, 32),
         animations: {
-            walkEast: [8*4, 8*4+2, 'walkEast', 0.3],
-            walkWest: [9*4, 9*4+2, 'walkWest', 0.3],
-            walkNorth: [10*4, 10*4+3, 'walkNorth', 0.3],
-            walkSouth: [11*4, 11*4+3, 'walkSouth', 0.3],
-            walkNorthEast: [12*4, 12*4+3, 'walkNorthEast', 0.3],
-            walkNorthWest: [13*4, 13*4+3, 'walkNorthWest', 0.3],
-            walkSouthEast: [14*4, 14*4+2, 'walkSouthEast', 0.3],
-            walkSouthWest: [15*4, 15*4+2, 'walkSouthWest', 0.3],
+            walkEast: [8 * 4, 8 * 4 + 2, 'walkEast', 0.3],
+            walkWest: [9 * 4, 9 * 4 + 2, 'walkWest', 0.3],
+            walkNorth: [10 * 4, 10 * 4 + 3, 'walkNorth', 0.3],
+            walkSouth: [11 * 4, 11 * 4 + 3, 'walkSouth', 0.3],
+            walkNorthEast: [12 * 4, 12 * 4 + 3, 'walkNorthEast', 0.3],
+            walkNorthWest: [13 * 4, 13 * 4 + 3, 'walkNorthWest', 0.3],
+            walkSouthEast: [14 * 4, 14 * 4 + 2, 'walkSouthEast', 0.3],
+            walkSouthWest: [15 * 4, 15 * 4 + 2, 'walkSouthWest', 0.3],
             idleEast: [0, 3, 'idleEast', 0.25],
-            idleWest: [4, 4+3, 'idleWest', 0.25],
-            idleNorth: [2*4, 2*4+3, 'idleNorth', 0.25],
-            idleSouth: [3*4, 3*4+3, 'idleSouth', 0.25],
-            idleNorthEast: [4*4, 4*4+3, 'idleNorthEast', 0.25],
-            idleNorthWest: [5*4, 5*4+3, 'idleNorthWest', 0.25],
-            idleSouthEast: [7*4, 7*4+3, 'idleSouthEast', 0.25],
-            idleSouthWest: [6*4, 6*4+3, 'idleSouthWest', 0.25],
-            punchEast: [16*4, 16*4+2, 'idleEast', 0.5],
-            punchWest: [17*4, 17*4+2, 'idleWest', 0.5],
-            punchNorth: [18*4, 18*4+2, 'idleNorth', 0.5],
-            punchSouth: [19*4, 19*4+2, 'idleSouth', 0.5],
-            punchNorthEast: [16*4, 16*4+2, 'idleNorthEast', 0.5],
-            punchNorthWest: [17*4, 17*4+2, 'idleNorthWest', 0.5],
-            punchSouthEast: [18*4, 18*4+2, 'idleSouthEast', 0.5],
-            punchSouthWest: [19*4, 19*4+2, 'idleSouthWest', 0.5],
+            idleWest: [4, 4 + 3, 'idleWest', 0.25],
+            idleNorth: [2 * 4, 2 * 4 + 3, 'idleNorth', 0.25],
+            idleSouth: [3 * 4, 3 * 4 + 3, 'idleSouth', 0.25],
+            idleNorthEast: [4 * 4, 4 * 4 + 3, 'idleNorthEast', 0.25],
+            idleNorthWest: [5 * 4, 5 * 4 + 3, 'idleNorthWest', 0.25],
+            idleSouthEast: [7 * 4, 7 * 4 + 3, 'idleSouthEast', 0.25],
+            idleSouthWest: [6 * 4, 6 * 4 + 3, 'idleSouthWest', 0.25],
+            punchEast: [16 * 4, 16 * 4 + 2, 'idleEast', 0.5],
+            punchWest: [17 * 4, 17 * 4 + 2, 'idleWest', 0.5],
+            punchNorth: [18 * 4, 18 * 4 + 2, 'idleNorth', 0.5],
+            punchSouth: [19 * 4, 19 * 4 + 2, 'idleSouth', 0.5],
+            punchNorthEast: [16 * 4, 16 * 4 + 2, 'idleNorthEast', 0.5],
+            punchNorthWest: [17 * 4, 17 * 4 + 2, 'idleNorthWest', 0.5],
+            punchSouthEast: [18 * 4, 18 * 4 + 2, 'idleSouthEast', 0.5],
+            punchSouthWest: [19 * 4, 19 * 4 + 2, 'idleSouthWest', 0.5],
             runningKick: [0, 3, 'idle', 0.25]
         }
     };
