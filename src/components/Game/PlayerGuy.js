@@ -18,6 +18,23 @@ export default function PlayerGuy(x, y) {
         }
     };
 
+    this.debounce = (func, wait, immediate) => {
+        var timeout;
+        return function() {
+            var context = this, args = arguments;
+            var later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    };
+
+    this.emit2 = (action) => this.debounce(this.emit(action), 250);
+
     this.emit = (action) => {
         switch (action) {
             case 'change':
@@ -45,7 +62,7 @@ export default function PlayerGuy(x, y) {
 
                 if (this.directionChanged(direction) || !this.isWalking()) {
                     this.walk();
-                    this.emit('change');
+                    this.emit2('change');
                 }
                 break;
             case KEYCODE_RIGHT:
@@ -55,7 +72,7 @@ export default function PlayerGuy(x, y) {
 
                 if (this.directionChanged(direction) || !this.isWalking()) {
                     this.walk();
-                    this.emit('change');
+                    this.emit2('change');
                 }
                 break;
             case KEYCODE_UP:
@@ -65,7 +82,7 @@ export default function PlayerGuy(x, y) {
 
                 if (this.directionChanged(direction) || !this.isWalking()) {
                     this.walk();
-                    this.emit('change');
+                    this.emit2('change');
                 }
                 break;
             case KEYCODE_DOWN:
@@ -75,21 +92,23 @@ export default function PlayerGuy(x, y) {
 
                 if (this.directionChanged(direction) || !this.isWalking()) {
                     this.walk();
-                    this.emit('change');
+                    this.emit2('change');
                 }
                 break;
             case KEYCODE_S:
                 this.punch();
-                this.emit('change');
+                this.emit2('change');
                 break;
             default:
                 this.idle();
+                this.emit2('change');
         }
     };
 
     this.handleCollision = (object, collision) => {
         switch (object.type) {
             case 'Wall':
+                /*
                 let lastX = this.x;
                 let lastY = this.y;
                 let nextX = lastX;
@@ -133,6 +152,7 @@ export default function PlayerGuy(x, y) {
                     }
                 }
                 this.updatePosition(nextX, nextY);
+                */
 
                 break;
         }

@@ -7,7 +7,6 @@ export function join() {
         'BAQEND': {
             type: JOIN,
             payload: (db) => db.Character.find().equal('owner', db.User.me).singleResult(character => {
-                console.log(db.User.me);
                 character.playing = true;
                 return character.update();
             })
@@ -42,8 +41,6 @@ export function updateOpponents() {
             type: UPDATE_OPPONENTS,
             payload: (db) => {
                 return db.Character.find().eventStream().subscribe(character => {
-                    console.log('character:');
-                    console.log(character);
                     if (character.data.playing && !GameStage().networkObjects.hasOwnProperty(character.data.id)) {
                         let opponent = new Opponent(character.data.x, character.data.y);
                         opponent.id = character.data.id;
@@ -51,7 +48,8 @@ export function updateOpponents() {
                     } else if (!character.data.playing && GameStage().networkObjects.hasOwnProperty(character.data.id)) {
                         GameStage().unlink(character.data.id);
                     }
-                    if (character.data.playing) {
+                    if (character.data.playing && (character.data.id!==GameStage().activeObject.id)) {
+                        console.log('haaaate');
                         GameStage().networkObjects[character.data.id].updatePosition(character.data.x, character.data.y)
                     }
                 });
