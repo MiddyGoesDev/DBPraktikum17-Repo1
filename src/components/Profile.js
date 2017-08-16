@@ -2,7 +2,8 @@ import './Profile.css';
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {getStats} from '../actions/profile'
+import {getStats, getProfileName} from '../actions/profile'
+import {me} from '../actions/auth'
 
 
 import {bindActionCreators} from 'redux'
@@ -18,25 +19,29 @@ class Profile extends React.Component {
             exp: null,
             kd: null,
             playTime: null,
-            user: ""
+            user: null
         }
     }
 
     componentWillMount(){
         this.props.actions.getStats().then((result) => {
-          console.log(result);
-            this.setState({
-                kills: result.kills,
-                deaths: result.deaths,
-                exp: result.xp,
-                kd: result.kills/(result.deaths),
-                playTime: result.playingTime,
+            this.props.actions.me().then(current => {
+              console.log(current);
+              this.setState({
+                  kills: result.kills,
+                  deaths: result.deaths,
+                  exp: result.xp,
+                  kd: result.kills/(result.deaths),
+                  playTime: result.playingTime,
+                  user: current.username
             })
         })
+      })
     }
 
 
     render() {
+
         return (
             <div className="profile">
                 <div className="main-profile">
@@ -103,7 +108,7 @@ function mapStateToProps(state) {
 
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({getStats}, dispatch)};
+    return {actions: bindActionCreators({getStats, getProfileName, me}, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile)
