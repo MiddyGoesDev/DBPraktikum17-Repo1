@@ -13,7 +13,7 @@ export function register(username, password) {
     return {
         'BAQEND': {
             type: USER_REGISTER,
-            payload: (db) =>  db.User.register(username, password)
+            payload: (db) => db.User.register(username, password)
         }
     };
 }
@@ -44,19 +44,16 @@ export function createStatistics(character) {
         'BAQEND': {
             type: CREATE_STATISTICS,
             payload: (db) => {
-              db.Character.find().equal('owner', db.User.me.id).singleResult().then((result) => {
-                var stats = new db.Statistic({
-                    'character': result,
+                let stats = new db.Statistic({
+                    'character': character,
                     'kills': 0,
                     'deaths': 0,
                     'playingTime': 0
                 });
                 return stats.insert();
-              })
-
             }
         }
-    };
+    }
 }
 
 export function logout() {
