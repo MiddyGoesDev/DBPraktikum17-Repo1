@@ -44,6 +44,8 @@ class Game extends React.Component {
 
         this.props.actions.ownCharacter().then(character => {
             GameStage().initialize(character.x, character.y);
+            GameStage().activeObject.id = character.id;
+            GameStage().networkObjects[character.id] = GameStage().activeObject;
         });
 
         this.props.actions.linkOpponents();

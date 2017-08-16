@@ -66,11 +66,6 @@ export function updateOpponents() {
                         GameStage().networkObjects[character.data.id].updatePosition(character.data.x, character.data.y);
                     }
                 });
-                return db.Playing.find().notEqual('user', db.User.me).equal('online', true).resultStream()
-                    .subscribe(playing => playing.forEach(player => db.Character.load(player.character.id)
-                        .then(character => {
-                            GameStage().networkObjects[character.id].setPosition(character.x, character.y);
-                        })))
             }
         }
     }

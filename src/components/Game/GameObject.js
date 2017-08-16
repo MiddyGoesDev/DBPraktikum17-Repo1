@@ -18,6 +18,15 @@ export default function GameObject(x, y) {
 
     this.handleEvent = () => { };
 
+    this.emit = (action) => {
+        switch (action) {
+            case 'update':
+
+        }
+    };
+
+    this.on = (action) => { };
+
     this.handleCollision = (object, collision) => { };
 
     this.check = () => {
@@ -78,10 +87,6 @@ export default function GameObject(x, y) {
     this.directionChanged = (direction) => {
         return this.direction !== direction;
     };
-
-    this.emit = (action) => { };
-
-    this.on = (action) => { };
 
     this.checkCollision = (object) => {
         return window.ndgmr.checkPixelCollision(this.sprite, object.sprite, 0.01, true);
