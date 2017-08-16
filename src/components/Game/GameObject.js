@@ -20,7 +20,8 @@ export default function GameObject(x, y) {
 
     this.emit = (action) => {
         switch (action) {
-            case 'update':
+            case 'change':
+
 
         }
     };

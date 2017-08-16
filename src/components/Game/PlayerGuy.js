@@ -13,14 +13,13 @@ export default function PlayerGuy(x, y) {
         if (!this.isBusy() && this.isWalking()) {
             this.move();
             this.check();
-            this.emit('change');
         }
     };
 
     this.emit = (action) => {
-        // var player = DB.Opponent.find().equal('id', DB.User.me.id);
-        // player.playing = true;
-        // player.update();
+        switch (action) {
+            case 'change': break;
+        }
     };
 
     this.handleEvent = () => {
@@ -35,6 +34,7 @@ export default function PlayerGuy(x, y) {
 
                 if (this.directionChanged(direction) || !this.isWalking())
                     this.walk();
+                this.emit('change');
                 break;
             case KEYCODE_RIGHT:
                 if (secondToLastKey === KEYCODE_UP) this.changeDirection(DIRECTION_NORTHEAST);
@@ -43,6 +43,7 @@ export default function PlayerGuy(x, y) {
 
                 if (this.directionChanged(direction) || !this.isWalking())
                     this.walk();
+                this.emit('change');
                 break;
             case KEYCODE_UP:
                 if (secondToLastKey === KEYCODE_LEFT) this.changeDirection(DIRECTION_NORTHWEST);
@@ -51,6 +52,7 @@ export default function PlayerGuy(x, y) {
 
                 if (this.directionChanged(direction) || !this.isWalking())
                     this.walk();
+                this.emit('change');
                 break;
             case KEYCODE_DOWN:
                 if (secondToLastKey === KEYCODE_LEFT) this.changeDirection(DIRECTION_SOUTHWEST);
@@ -59,6 +61,7 @@ export default function PlayerGuy(x, y) {
 
                 if (this.directionChanged(direction) || !this.isWalking())
                     this.walk();
+                this.emit('change');
                 break;
             case KEYCODE_S:
                 this.punch();

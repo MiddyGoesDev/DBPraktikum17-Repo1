@@ -1,4 +1,4 @@
-import {USER_LOGIN, USER_REGISTER, USER_LOGOUT, CREATE_CHARACTER, INITIALIZE_PLAYING, ME, CREATE_STATS} from './types'
+import {USER_LOGIN, USER_REGISTER, USER_LOGOUT, CREATE_CHARACTER, CREATE_STATISTICS, ME} from './types'
 
 export function login(username, password) {
     return {
@@ -28,7 +28,10 @@ export function createCharacter(user) {
                     'x': 10,
                     'y': 10,
                     'animation': 'idle',
-                    'direction': 180
+                    'direction': 180,
+                    'xp': 0,
+                    'level': 0,
+                    'playing': false
                 });
                 return character.insert();
             }
@@ -36,31 +39,18 @@ export function createCharacter(user) {
     };
 }
 
-export function createStats(user) {
+export function createStatistics(character) {
     return {
         'BAQEND': {
-            type: CREATE_STATS,
+            type: CREATE_STATISTICS,
             payload: (db) => {
                 let stats = new db.Statistic({
-                    'nameID': user,
+                    'character': character,
                     'kills': 0,
                     'deaths': 0,
-                    'xp': 0,
                     'playingTime': 0
                 });
                 return stats.insert();
-            }
-        }
-    };
-}
-
-export function initializePlaying(user, character) {
-    return {
-        'BAQEND': {
-            type: INITIALIZE_PLAYING,
-            payload: (db) => {
-                let playing = new db.Playing({ 'online': false, 'user': user, 'character': character});
-                return playing.insert();
             }
         }
     };
