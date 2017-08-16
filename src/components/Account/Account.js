@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
-import {login, register, logout, createCharacter} from '../../actions/auth'
+import {login, register, logout, createCharacter, initializePlaying} from '../../actions/auth'
 
 class Account extends Component {
 
@@ -29,7 +29,9 @@ class Account extends Component {
     handleRegister = (event) => {
         event.preventDefault();
         this.props.actions.register(this.state.username, this.state.password)
-            .then(user => this.props.actions.createCharacter(user));
+            .then(user => this.props.actions.createCharacter(user)
+                .then(character => this.props.actions.initializePlaying(user, character))
+            );
     };
 
     handleLogout = (event) => {
@@ -68,14 +70,14 @@ class Account extends Component {
     }
 }
 
-Account.propTypes = { user: PropTypes.object };
+Account.propTypes = {user: PropTypes.object};
 
 function mapStateToProps(state) {
     return {auth: state.auth, user: state.auth.user}
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({login, register, logout, createCharacter}, dispatch)}
+    return {actions: bindActionCreators({login, register, logout, createCharacter, initializePlaying}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Account)

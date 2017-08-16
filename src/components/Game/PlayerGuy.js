@@ -121,16 +121,9 @@ export default function PlayerGuy(x, y) {
         }
     };
 
-    let frames = [];
-    for (let j = 0; j < 32; j++) {
-        for (let i = 0; i < 4; i++) {
-            frames.push([16*i, 16*j, 16, 16]);
-        }
-    }
-
     this.data = {
         images: ['./assets/guyGreen.png'],
-        frames: frames,
+        frames: this.spriteSheet(4, 32),
         animations: {
             walkEast: [8*4, 8*4+2, 'walkEast', 0.3],
             walkWest: [9*4, 9*4+2, 'walkWest', 0.3],

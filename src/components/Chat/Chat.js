@@ -10,50 +10,34 @@ import {connect} from 'react-redux'
 class Chat extends React.Component {
 
     constructor(props) {
-    super(props);
-//    this.subscription = null
-    this.state = {
-        message: ""
+        super(props);
+        this.state = {
+            message: ""
         }
     };
 
-    // componentDidMount() {
-    //     this.props.actions.getMessages();
-    // };
-
-     componentWillMount() {
-         this.props.actions.getMessages()
-         //.then((subscription) => {
-             //this.subscription = subscription
-            this.props.actions.sendMessage(" joined the Chat", true)
-        // });
-
-     };
-
-     componentWillUnmount(){
-        this.props.actions.sendMessage(" left the Chat", true)
-        //this.props.actions.clearChat() //clearChat
-        //this.subscription.unsubscribe()
+    componentWillMount() {
+        this.props.actions.getMessages();
+        this.props.actions.sendMessage(" joined the Chat", true);
     };
 
-    componentDidUpdate () {
-        var el = this.refs.chatbox;
+    componentWillUnmount() {
+        this.props.actions.sendMessage(" left the Chat", true);
+    };
+
+    componentDidUpdate() {
+        let el = this.refs.chatbox;
         el.scrollTop = el.scrollHeight;
     };
 
-     handleMessage = (event) => {
-     event.preventDefault();
-     this.props.actions.sendMessage(": " + this.state.message, false)
-     this.setState({message: ""})
- };
-
-     handleInputChange = (event) => {
-     this.setState({[event.target.name]: event.target.value})
+    handleMessage = (event) => {
+        event.preventDefault();
+        this.props.actions.sendMessage(": " + this.state.message, false);
+        this.setState({message: ""});
     };
 
-    handleMessageSend = (event) => {
-        this.handleMessage(event);
-        this.setState({message: ""})
+    handleInputChange = (event) => {
+        this.setState({[event.target.name]: event.target.value});
     };
 
     render() {
@@ -69,11 +53,11 @@ class Chat extends React.Component {
                 <div className="chat-interface">
                     <form onChange={this.handleInputChange}>
                         <input
-                           className="form-control"
-                           name="message"
-                           placeholder="Send a message"
-                           value={this.state.message}
-                          />
+                            className="form-control"
+                            name="message"
+                            placeholder="Send a message"
+                            value={this.state.message}
+                        />
                         <button onClick={this.handleMessage}>Send</button>
                     </form>
                 </div>
@@ -88,10 +72,10 @@ Chat.propTypes = {
     messages: PropTypes.object
 };
 /**
-    mapStateToProps: Connects a React component to a Redux store, the new component will subscribe to
-    Redux store updates. This means that any time the store is updated, mapStateToProps
-    will be called.
-**/
+ mapStateToProps: Connects a React component to a Redux store, the new component will subscribe to
+ Redux store updates. This means that any time the store is updated, mapStateToProps
+ will be called.
+ **/
 function mapStateToProps(state) {
     return {messages: state.messages}
 }

@@ -6,10 +6,9 @@ import ReactDOM from 'react-dom';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux'
 
-import {me} from '../../actions/auth';
-import {join, leave, findOpponents, getCharacter, ownCharacter} from '../../actions/connection';
+import {join, leave, ownCharacter, linkOpponents, updateOpponents} from '../../actions/character';
 
-import getStage from './GameStage';
+import GameStage from './GameStage';
 
 class Game extends React.Component {
 
@@ -23,7 +22,6 @@ class Game extends React.Component {
     componentDidMount() {
         this.resizeGame();
         this.props.actions.join();
-        this.props.actions.findOpponents();
         this.startGame();
     }
 
@@ -35,24 +33,26 @@ class Game extends React.Component {
     }
 
     componentWillUnmount() {
-        this.props.actions.leave();
+        this.props.actions.leave().then(character => {
+            console.log('Opponent left');
+            GameStage().remove(character.id);
+        });
     }
 
     startGame() {
         window.addEventListener('resize', this.resizeGame);
 
-        let ownCharacter = this.props.actions.ownCharacter();
-        ownCharacter.then((character) => {
-            getStage().initialize(character.x, character.y);
+        this.props.actions.ownCharacter().then(character => {
+            GameStage().initialize(character.x, character.y);
         });
 
-        let opponents = this.props.actions.findOpponents();
-        opponents.then(result => console.log(result));
+        this.props.actions.linkOpponents();
+        this.props.actions.updateOpponents();
 
-        document.onkeydown = getStage().keyPressed;
-        document.onkeyup = getStage().keyReleased;
+        document.onkeydown = GameStage().keyPressed;
+        document.onkeyup = GameStage().keyReleased;
         // Actions carried out each tick (aka frame)
-        window.createjs.Ticker.addEventListener("tick", () => { getStage().update(); });
+        window.createjs.Ticker.addEventListener("tick", () => { GameStage().update(); });
     }
 
     render() {
@@ -69,7 +69,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({join, leave, findOpponents, getCharacter, ownCharacter, me}, dispatch)} //clearChat
+    return {actions: bindActionCreators({join, leave, ownCharacter, linkOpponents, updateOpponents}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game)

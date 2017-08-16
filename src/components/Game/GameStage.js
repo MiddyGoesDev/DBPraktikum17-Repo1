@@ -1,7 +1,7 @@
 import PlayerGuy from './PlayerGuy';
 import Wall from './Wall';
 
-var gameStage = null;
+let gameStage = null;
 
 function GameStage() {
 
@@ -38,16 +38,19 @@ function GameStage() {
         // delete this;
     };
 
-    this.link = (object, id) => {
+    this.link = (object) => {
         this.add(object);
-        this.networkObjects[id] = object;
+        this.networkObjects[object.id] = object;
     };
 
     this.unlink = (id) => {
         this.stage.removeChild(this.networkObjects[id]);
         this.gameObjects = this.gameObjects.filter((object) => { return object.id !== id; });
-        // TODO: think about
-        // delete this.networkObjects[id];
+        this.networkObjects = this.networkObjects.filter((object) => { return object.id !== id; });
+    };
+
+    this.on = (action) => {
+        this.networkObjects.forEach(object => object.on(action));
     };
 
     this.near = (object) => {

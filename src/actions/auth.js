@@ -1,16 +1,10 @@
-import {USER_LOGIN, USER_REGISTER, USER_LOGOUT, CREATE_CHARACTER, ME} from './types'
+import {USER_LOGIN, USER_REGISTER, USER_LOGOUT, CREATE_CHARACTER, INITIALIZE_PLAYING, ME} from './types'
 
 export function login(username, password) {
     return {
         'BAQEND': {
             type: USER_LOGIN,
-            payload: (db) => {
-                return db.User.login(username, password).then((user) => {
-                    user.playing = false;
-                    user.update();
-                    return user;
-                });
-            }
+            payload: (db) => db.User.login(username, password)
         }
     }
 }
@@ -52,6 +46,18 @@ export function createCharacter(user) {
     };
 }
 
+export function initializePlaying(user, character) {
+    return {
+        'BAQEND': {
+            type: INITIALIZE_PLAYING,
+            payload: (db) => {
+                let playing = new db.Playing({ 'online': false, 'user': user, 'character': character});
+                return playing.insert();
+            }
+        }
+    };
+}
+
 export function logout() {
     return {
         'BAQEND': {
@@ -69,14 +75,3 @@ export function me() {
         }
     }
 }
-
-/*
- new db.Opponent({
- id: db.User.me.id,
- x: this.x,
- y: this.y,
- animation: this.sprite.currentAnimation,
- direction: this.direction,
- playing: false
- }).insert();
- */

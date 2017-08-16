@@ -4,7 +4,7 @@ export function sendMessage(text, bool) {
     'BAQEND': {
       type: "MESSAGE_SEND",
       payload: (db) => {
-        var messageObj = new db.Message({
+        let messageObj = new db.Message({
           'name':db.User.me.username,
           'message':text,
           'date':new Date(),

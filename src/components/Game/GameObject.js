@@ -1,17 +1,17 @@
 import { DIRECTION_SOUTH, DIRECTION_NORTH, DIRECTION_EAST, DIRECTION_WEST,
     DIRECTION_NORTHEAST, DIRECTION_NORTHWEST, DIRECTION_SOUTHEAST, DIRECTION_SOUTHWEST} from './Directions';
-import getStage from './GameStage';
+import GameStage from './GameStage';
 
 export default function GameObject(x, y) {
 
     this.construct = () => {
         this.sprite = new window.createjs.Sprite(new window.createjs.SpriteSheet(this.data), this.animation);
-        getStage().add(this);
+        GameStage().add(this);
         this.updatePosition(this.x, this.y);
     };
 
     this.destruct = () => {
-        getStage().remove(this);
+        GameStage().remove(this);
     };
 
     this.update = () => { };
@@ -21,7 +21,7 @@ export default function GameObject(x, y) {
     this.handleCollision = (object, collision) => { };
 
     this.check = () => {
-        let near = getStage().near(this);
+        let near = GameStage().near(this);
         for (let i=0; i<near.length; i++) {
             let collision = this.checkCollision(near[i]);
             if (collision !== false) {
@@ -79,20 +79,22 @@ export default function GameObject(x, y) {
         return this.direction !== direction;
     };
 
-    this.emit = (action) => {
+    this.emit = (action) => { };
 
-        /*
-         socket.emit(action, {
-         id: this.id,
-         x: this.x,
-         y: this.y,
-         animation: this.sprite.currentAnimation,
-         direction: this.direction });
-         */
-    };
+    this.on = (action) => { };
 
     this.checkCollision = (object) => {
         return window.ndgmr.checkPixelCollision(this.sprite, object.sprite, 0.01, true);
+    };
+
+    this.spriteSheet = (x, y) => {
+        let frames = [];
+        for (let j = 0; j < y; j++) {
+            for (let i = 0; i < x; i++) {
+                frames.push([16*i, 16*j, 16, 16]);
+            }
+        }
+        return frames;
     };
 
     this.type = 'GameObject';
