@@ -1,14 +1,14 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var port = 80;
+let app = require('express')();
+let http = require('http').Server(app);
+let io = require('socket.io')(http);
+let port = 8080;
 
 http.listen(port, function(){
     console.log('listening on *:' + port);
 });
 
-var opponents = [];
-var objects = [];
+let opponents = [];
+let objects = [];
 
 io.on('connection', function(socket) {
 
