@@ -44,10 +44,6 @@ export function createStatistics(character) {
         'BAQEND': {
             type: CREATE_STATISTICS,
             payload: (db) => {
-              var characterID = db.Character.find().equal('owner', db.User.me.id).then((result) => {
-                console.log(result.id);
-                return result.id;
-              })
                 let stats = new db.Statistic({
                     'character': character,
                     'kills': 0,
