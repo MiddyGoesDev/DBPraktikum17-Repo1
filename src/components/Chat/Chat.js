@@ -10,9 +10,10 @@ import {connect} from 'react-redux'
 class Chat extends React.Component {
 
     constructor(props) {
-        super(props);
-        this.state = {
-            message: ""
+    super(props);
+    this.state = {
+        message: "",
+        chatInfo: ""
         }
     };
 

@@ -56,7 +56,24 @@ class Profile extends React.Component {
                     </div>
 
                     <div className="equip">
-                        equip
+                        <div className="head">
+                        head
+                        </div>
+                        <div className="arms">
+                        arms
+                        </div>
+                        <div className="shoulders">
+                        shoulders
+                        </div>
+                        <div className="torso">
+                        torso
+                        </div>
+                        <div className="pants">
+                        pants
+                        </div>
+                        <div className="feet">
+                        feet
+                        </div>
                     </div>
                 </div>
 
