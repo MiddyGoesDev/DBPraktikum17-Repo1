@@ -37,6 +37,8 @@ class Profile extends React.Component {
 
 
     render() {
+      console.log(this.state.user);
+
         return (
             <div className="profile">
                 <div className="main-profile">
