@@ -44,13 +44,21 @@ export function createStatistics(character) {
         'BAQEND': {
             type: CREATE_STATISTICS,
             payload: (db) => {
+<<<<<<< HEAD
+              db.Character.find().equal('owner', db.User.me.id).singleResult().then((result) => {
+                var stats = new db.Statistic({
+                    'character': result,
+=======
                 let stats = new db.Statistic({
                     'character': character,
+>>>>>>> b7bc388c7d466653dba178358df6b7bb3b20028c
                     'kills': 0,
                     'deaths': 0,
                     'playingTime': 0
                 });
                 return stats.insert();
+              })
+
             }
         }
     };
