@@ -13,8 +13,9 @@
     height: 95%;
 }
 
-#chat-message {
+#chat-messages {
   word-wrap: break-word;
-  overflow-x: scroll;
-  height: 99.75%;
+  overflow-y: scroll;
+  height: 95%;
+  color: #696969;
 }

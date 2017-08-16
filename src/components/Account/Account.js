@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
-import {login, register, logout} from '../../actions/auth'
+import {login, register, logout, createCharacter, createStatistics} from '../../actions/auth'
 
 class Account extends Component {
 
@@ -23,16 +23,18 @@ class Account extends Component {
 
     handleLogin = (event) => {
         event.preventDefault();
-        this.props.actions.login(this.state.username, this.state.password)
+        this.props.actions.login(this.state.username, this.state.password);
     };
 
     handleRegister = (event) => {
         event.preventDefault();
         this.props.actions.register(this.state.username, this.state.password)
+            .then(user => this.props.actions.createCharacter(user)
+                .then(character => this.props.actions.createStatistics(character)));
     };
 
     handleLogout = (event) => {
-        this.props.actions.logout()
+        this.props.actions.logout();
     };
 
     render() {
@@ -40,7 +42,7 @@ class Account extends Component {
             <div className='account'>
                 {this.props.auth.isLoggedIn ? (
                     <div>
-                        Hey { this.props.user.username }
+                        Hey {this.props.user.username}
                         <p>
                             <button onClick={this.handleLogout}>Logout</button>
                         </p>
@@ -67,16 +69,14 @@ class Account extends Component {
     }
 }
 
-Account.propTypes = {
-    user: PropTypes.object
-};
+Account.propTypes = {user: PropTypes.object};
 
 function mapStateToProps(state) {
     return {auth: state.auth, user: state.auth.user}
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({login, register, logout}, dispatch)}
+    return {actions: bindActionCreators({login, register, logout, createCharacter, createStatistics}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Account)
