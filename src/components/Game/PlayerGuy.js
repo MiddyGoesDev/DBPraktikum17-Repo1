@@ -45,6 +45,7 @@ export default function PlayerGuy(x, y) {
 
                 if (this.directionChanged(direction) || !this.isWalking()) {
                     this.walk();
+                    console.log('change');
                     this.emit('change');
                 }
                 break;
@@ -55,6 +56,7 @@ export default function PlayerGuy(x, y) {
 
                 if (this.directionChanged(direction) || !this.isWalking()) {
                     this.walk();
+                    console.log('change');
                     this.emit('change');
                 }
                 break;
@@ -65,6 +67,7 @@ export default function PlayerGuy(x, y) {
 
                 if (this.directionChanged(direction) || !this.isWalking()) {
                     this.walk();
+                    console.log('change');
                     this.emit('change');
                 }
                 break;
@@ -75,6 +78,7 @@ export default function PlayerGuy(x, y) {
 
                 if (this.directionChanged(direction) || !this.isWalking()) {
                     this.walk();
+                    console.log('change');
                     this.emit('change');
                 }
                 break;
@@ -84,6 +88,8 @@ export default function PlayerGuy(x, y) {
                 break;
             default:
                 this.idle();
+                this.emit('change');
+
         }
     };
 
