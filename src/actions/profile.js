@@ -4,7 +4,7 @@ export function getStats() {
     'BAQEND': {
       type: "STATISTICS_KILL",
       payload: (db) => {
-        return db.User.find().equal('id', db.User.me.id).singleResult().then((user) => {
+        return db.Statistic.find().equal('owner', db.User.me.id).singleResult().then((user) => {
           return user
         })
       }

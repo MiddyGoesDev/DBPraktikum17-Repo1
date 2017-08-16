@@ -41,26 +41,18 @@ export function createStats(user) {
         'BAQEND': {
             type: CREATE_STATS,
             payload: (db) => {
+              var characterID = db.Character.find().equal('owner', db.User.me.id).then((result) => {
+                console.log(result.id);
+                return result.id;
+              })
                 let stats = new db.Statistic({
-                    'nameID': user,
+                    'character': characterID,
                     'kills': 0,
                     'deaths': 0,
                     'xp': 0,
                     'playingTime': 0
                 });
                 return stats.insert();
-            }
-        }
-    };
-}
-
-export function initializePlaying(user, character) {
-    return {
-        'BAQEND': {
-            type: INITIALIZE_PLAYING,
-            payload: (db) => {
-                let playing = new db.Playing({ 'online': false, 'user': user, 'character': character});
-                return playing.insert();
             }
         }
     };
