@@ -1,7 +1,7 @@
 import './Ranking.css';
 import React from 'react'
 import PropTypes from 'prop-types'
-import {getRanking} from '../actions/ranking'
+import {getStatsByKD, getStatsByProfile, getStatsByXP} from '../actions/ranking'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
@@ -16,7 +16,34 @@ class Ranking extends React.Component {
   }
 
 componentWillMount(){
-    this.props.actions.getRanking().then((result) => {
+    this.props.actions.getStatsByKD().then((result) => {
+      this.setState({
+        ranking: result
+      })
+    })
+  }
+
+  handleProfile = (event) => {
+    event.preventDefault();
+    this.props.actions.getStatsByProfile().then((result) => {
+      this.setState({
+        ranking: result
+      })
+    })
+  }
+
+  handleKD = (event) => {
+    event.preventDefault();
+    this.props.actions.getStatsByKD().then((result) => {
+      this.setState({
+        ranking: result
+      })
+    })
+  }
+
+  handleXP = (event) => {
+    event.preventDefault();
+    this.props.actions.getStatsByXP().then((result) => {
       this.setState({
         ranking: result
       })
@@ -28,9 +55,9 @@ componentWillMount(){
         <div className="ranking">
             <div className="scoreboard">
               <div className="row">
-              <div className="col-xs centers"><b>Profile</b></div>
-              <div className="col-xs centers"><b>KD</b></div>
-              <div className="col-xs centers"><b>XP</b></div>
+              <div className="col-xs centers"><button onClick={this.handleProfile}><b>Profile</b></button></div>
+              <div className="col-xs centers"><button onClick={this.handleKD}><b>KD</b></button></div>
+              <div className="col-xs centers"><button onClick={this.handleXP}><b>EXP</b></button></div>
               </div>
                 {this.state.ranking.map(stats =>
                   <div key={stats.id}>
@@ -60,7 +87,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({getRanking}, dispatch)};
+    return {actions: bindActionCreators({getStatsByKD, getStatsByProfile, getStatsByXP}, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Ranking)
