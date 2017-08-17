@@ -1,7 +1,8 @@
 import PlayerGuy from './PlayerGuy';
 import Wall from './Wall';
 
-import { db } from 'baqend/realtime'; // realtime
+import { db } from 'baqend/realtime';
+import io from 'socket.io-client';
 
 let gameStage = null;
 
@@ -14,9 +15,6 @@ function GameStage() {
     this.initialize = (x, y) => {
         this.activeObject = new PlayerGuy(x, y);
         new Wall(80, 40);
-
-        // var query = DB.Opponent.find().notEqual('id', '/db/Opponent/' + this.activeObject.id);
-        // query.resultStream(result => console.log(result), err => console.log(err), console.log('offline'));
     };
 
     this.update = () => {
@@ -77,7 +75,23 @@ function GameStage() {
     this.networkObjects = { };
     this.activeKeys = [];
     this.db = db;
+    this.socket = io('http://localhost:8080');
     this.construct();
+
+    this.socket.on('connection', socket => {
+        console.log(socket.id);
+    });
+
+    let g = 0;
+    this.socket.on('update', object => {
+        console.log('update: ' + g++);
+        console.log(object, this.gameObjects);
+        /*
+        this.gameObjects[object.id].setPosition(object.x, object.y);
+        this.gameObjects[object.id].direction = object.direction;
+        this.gameObjects[object.id].animation = object.animation;
+        */
+    });
 }
 
 export default function getStage() {

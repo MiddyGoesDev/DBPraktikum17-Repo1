@@ -7,9 +7,39 @@ http.listen(port, function(){
     console.log('listening on *:' + port);
 });
 
-var opponents = [];
-var objects = [];
+var characters = {};
+var objects = {};
 
+io.on('connection', socket => {
+
+    socket.on('join', character => {
+        characters[socket.id] = character;
+        objects[character.id] = character;
+    });
+
+    socket.on('disconnect', () => {
+        delete characters[socket.id];
+    });
+
+    socket.on('add', object => {
+
+    });
+
+    socket.on('change', object => {
+        objects[object.id] = object;
+        socket.broadcast.emit('update', object);
+
+        console.log(Object.assign({}, objects));
+    });
+
+    socket.on('destroy', object => {
+
+    });
+
+    console.log(socket.id + ' is connected');
+});
+
+/*
 io.on('connection', function(socket) {
 
     socket.on('join', function (opponent) {
@@ -59,3 +89,4 @@ io.on('connection', function(socket) {
     });
 
 });
+*/

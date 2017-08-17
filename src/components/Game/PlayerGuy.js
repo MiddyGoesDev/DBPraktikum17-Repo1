@@ -18,7 +18,17 @@ export default function PlayerGuy(x, y) {
         }
     };
 
+    let j = 0;
     this.emit = (action) => {
+        console.log('emit: ' + j++);
+        GameStage().socket.emit(action, {
+            id: this.id,
+            x: this.x,
+            y: this.y,
+            direction: this.direction,
+            animation: this.animation
+        });
+        /*
         switch (action) {
             case 'change':
                 this.character.x = this.x;
@@ -31,6 +41,7 @@ export default function PlayerGuy(x, y) {
                 }
                 break;
         }
+        */
     };
 
     this.handleEvent = () => {
@@ -91,7 +102,6 @@ export default function PlayerGuy(x, y) {
     this.handleCollision = (object, collision) => {
         switch (object.type) {
             case 'Wall':
-                /*
                 let lastX = this.x;
                 let lastY = this.y;
                 let nextX = lastX;
@@ -135,8 +145,6 @@ export default function PlayerGuy(x, y) {
                     }
                 }
                 this.updatePosition(nextX, nextY);
-                */
-
                 break;
         }
     };

@@ -54,11 +54,6 @@ export default function GameObject(x, y) {
         this.sprite.y = y;
     };
 
-    this.updateDirection = (direction, animation) => {
-        this.direction = direction;
-        this.animation = animation;
-    };
-
     this.updateSign = () => {
         this.signX = 0; this.signY = 0;
 
