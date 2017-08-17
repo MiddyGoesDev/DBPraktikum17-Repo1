@@ -3,7 +3,7 @@ import './Profile.css';
 import React from 'react'
 import PropTypes from 'prop-types'
 import {getStats, getProfileName} from '../actions/profile'
-import {me} from '../actions/auth'
+
 
 
 import {bindActionCreators} from 'redux'
@@ -38,7 +38,6 @@ class Profile extends React.Component {
 
 
     render() {
-      console.log(this.state.kd);
         return (
             <div className="profile">
                 <div className="main-profile">
@@ -90,10 +89,6 @@ class Profile extends React.Component {
     }
 }
 
-// function mapStateToProps(state) {
-//     return {messages: state.messages};
-// }
-
 Profile.propTypes = {
     action: PropTypes.object,
     statistics: PropTypes.object
@@ -105,7 +100,7 @@ function mapStateToProps(state) {
 
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({getStats, getProfileName, me}, dispatch)};
+    return {actions: bindActionCreators({getStats, getProfileName}, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile)

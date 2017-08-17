@@ -1,7 +1,8 @@
 import './Ranking.css';
 import React from 'react'
 import PropTypes from 'prop-types'
-import {getStatsByKD, getStatsByProfile, getStatsByXP} from '../actions/ranking'
+import {getStatsByKD, getStatsByProfileDsc, getStatsByProfileAsc, getStatsByXP} from '../actions/ranking'
+import {getStats} from '../actions/profile'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
@@ -11,7 +12,9 @@ class Ranking extends React.Component {
   constructor(props){
     super(props)
       this.state = {
-        ranking: []
+        ranking: [],
+        profileClicks:0,
+        currentProfile: null
     }
   }
 
@@ -25,11 +28,22 @@ componentWillMount(){
 
   handleProfile = (event) => {
     event.preventDefault();
-    this.props.actions.getStatsByProfile().then((result) => {
-      this.setState({
-        ranking: result
+    if(this.state.profileClicks==1){
+      this.props.actions.getStatsByProfileDsc().then((result) => {
+        this.setState({
+          ranking: result,
+          profileClicks:0
+        })
       })
-    })
+    }
+    else {
+      this.props.actions.getStatsByProfileAsc().then((result) => {
+        this.setState({
+          ranking: result,
+          profileClicks:1
+        })
+      })
+    }
   }
 
   handleKD = (event) => {
@@ -50,6 +64,11 @@ componentWillMount(){
     })
   }
 
+  displayProfile = (event) => {
+    event.preventDefault();
+
+  }
+
     render() {
         return (
         <div className="ranking">
@@ -61,7 +80,7 @@ componentWillMount(){
               </div>
                 {this.state.ranking.map(stats =>
                   <div key={stats.id}>
-                  <div className="row">
+                  <div className="row" onClick={this.displayProfile}>
                     <div className="col-xs centers">{stats.username}</div>
                     <div className="col-xs centers">{stats.kd}</div>
                     <div className="col-xs centers">{stats.xp}</div>
@@ -70,7 +89,20 @@ componentWillMount(){
                 )}
                 </div>
                 <div className="playerProfile">
-                Player Profile
+                <div className="picstats">
+                    <div className="profile-pic">
+                        <h2>{this.state.user}s Profile</h2>
+                    </div>
+
+                    <div className="statistics">
+                    <h2>Statistics</h2>
+                    Kills: {this.state.kills}<br/>
+                    Deaths: {this.state.deaths}<br/>
+                    Total Experience gained: {this.state.exp}<br/>
+                    KD: {this.state.kd}<br/>
+                    Total Time spend: {this.state.playTime}
+                    </div>
+                </div>
                 </div>
         </div>
         );
@@ -87,7 +119,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({getStatsByKD, getStatsByProfile, getStatsByXP}, dispatch)};
+    return {actions: bindActionCreators({getStatsByKD, getStatsByProfileDsc,getStatsByProfileAsc, getStatsByXP, getStats}, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Ranking)
