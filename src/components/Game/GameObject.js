@@ -117,4 +117,6 @@ export default function GameObject(x, y) {
     this.speed = 0;
     this.armor = 0;
     this.hp = 1;
+    this.keyChanged = false;
+
 }

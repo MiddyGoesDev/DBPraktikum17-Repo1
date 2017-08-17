@@ -50,7 +50,13 @@ class Game extends React.Component {
         document.onkeydown = GameStage().keyPressed;
         document.onkeyup = GameStage().keyReleased;
         // Actions carried out each tick (aka frame)
-        window.createjs.Ticker.addEventListener('tick', () => { GameStage().update(); });
+        window.createjs.Ticker.addEventListener('tick', () => {
+            GameStage().update();
+            if(GameStage().activeObject.keyChanged) {
+                GameStage().activeObject.handleEvent();
+                GameStage().activeObject.keyChanged = false;
+            }
+        });
     }
 
     render() {

@@ -59,14 +59,14 @@ function GameStage() {
         if (this.activeKeys.lastIndexOf(event.keyCode) === -1) {
             this.activeKeys.push(event.keyCode);
         }
-        this.activeObject.handleEvent();
+        this.activeObject.keyChanged = true;
     };
 
     this.keyReleased = (event) => {
         this.activeKeys = this.activeKeys.filter((keyCode) => {
             return keyCode !== event.keyCode;
         });
-        this.activeObject.handleEvent();
+        this.activeObject.keyChanged = true;
     };
 
     this.stage = null;
