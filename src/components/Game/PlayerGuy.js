@@ -21,12 +21,15 @@ export default function PlayerGuy(x, y) {
     this.emit = (action) => {
         switch (action) {
             case 'change':
-                console.log('character');
+
                 this.character.x = this.x;
                 this.character.y = this.y;
                 this.character.direction = this.direction;
                 this.character.animation = this.animation;
-                this.character.update(result => {}, { force: true });
+                if(this.character._metadata.isReady) {
+                    this.character.update({force: true});
+                    
+                }
                 /*
                 this.character.partialUpdate()
                         .set('x', this.x)
