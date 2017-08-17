@@ -29,7 +29,7 @@ export default function OpponentGuy(x, y) {
 
     this.data = {
         images: ['./assets/guyRed.png'],
-        frames: this.spriteSheet(4, 32),
+        frames: this.spriteSheet(4, 32, 16),
         animations: {
             walkEast: [8*4, 8*4+2, 'walkEast', 0.3],
             walkWest: [9*4, 9*4+2, 'walkWest', 0.3],
