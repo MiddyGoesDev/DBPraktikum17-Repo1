@@ -24,17 +24,14 @@ class Profile extends React.Component {
     }
 
     componentWillMount(){
-        this.props.actions.getStats().then((result) => {
-            this.props.actions.me().then(current => {
-              console.log(current);
+        this.props.actions.getStats().then((stats) => {
               this.setState({
-                  kills: result.kills,
-                  deaths: result.deaths,
-                  exp: result.xp,
-                  kd: result.kills/(result.deaths),
-                  playTime: result.playingTime,
-                  user: current.username
-            })
+                  kills: stats.kills,
+                  deaths: stats.deaths,
+                  exp: stats.xp,
+                  kd: stats.kills/(stats.deaths),
+                  playTime: stats.playingTime,
+                  user: stats.username
         })
       })
     }

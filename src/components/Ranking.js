@@ -25,9 +25,7 @@ componentWillMount(){
   }
 
     render() {
-      console.log(this.state.ranking);
-      // var listItmes = this.props.ranking.map((d) => <li key={d.kills}>{d.kills}</li>);
-
+      console.log("this.state.ranking "+this.state.ranking);
         return (
         <div className="ranking">
             <div className="scoreboard">
@@ -35,7 +33,7 @@ componentWillMount(){
             </div>
             <div className="playerProfile">
             Player Profile
-            </div>
+            </div>t
         </div>
         );
     }

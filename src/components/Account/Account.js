@@ -30,7 +30,7 @@ class Account extends Component {
         event.preventDefault();
         this.props.actions.register(this.state.username, this.state.password)
             .then(user => this.props.actions.createCharacter(user)
-                .then(character => this.props.actions.createStatistics(character)));
+                .then(character => this.props.actions.createStatistics(character, this.state.username)));
     };
 
     handleLogout = (event) => {

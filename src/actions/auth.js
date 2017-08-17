@@ -39,7 +39,7 @@ export function createCharacter(user) {
     };
 }
 
-export function createStatistics(character) {
+export function createStatistics(character, user) {
     return {
         'BAQEND': {
             type: CREATE_STATISTICS,
@@ -48,7 +48,9 @@ export function createStatistics(character) {
                     'character': character,
                     'kills': 0,
                     'deaths': 0,
-                    'playingTime': 0
+                    'playingTime': 0,
+                    'xp': 0,
+                    'username': user
                 });
                 return stats.insert();
             }
