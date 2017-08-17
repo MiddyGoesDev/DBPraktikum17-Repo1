@@ -40,7 +40,10 @@ export default function GameObject(x, y) {
         }
     };
 
+    let i = 0;
     this.move = () => {
+        console.log(GameStage().gameObjects);
+        console.log(i++);
         this.updatePosition(this.x + this.signX * this.speed, this.y + this.signY * this.speed);
     };
 
@@ -49,6 +52,11 @@ export default function GameObject(x, y) {
         this.y = y;
         this.sprite.x = x;
         this.sprite.y = y;
+    };
+
+    this.updateDirection = (direction, animation) => {
+        this.direction = direction;
+        this.animation = animation;
     };
 
     this.updateSign = () => {

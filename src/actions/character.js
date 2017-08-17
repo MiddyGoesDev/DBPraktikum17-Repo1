@@ -49,8 +49,9 @@ export function updateOpponents() {
                         GameStage().unlink(character.data.id);
                     }
                     if (character.data.playing && (character.data.id!==GameStage().activeObject.id)) {
-                        console.log('haaaate');
-                        GameStage().networkObjects[character.data.id].updatePosition(character.data.x, character.data.y)
+                        GameStage().networkObjects[character.data.id].updatePosition(character.data.x, character.data.y);
+                        GameStage().networkObjects[character.data.id].nextDirection = character.data.direction;
+                        GameStage().networkObjects[character.data.id].nextAnimation = character.data.animation;
                     }
                 });
             }

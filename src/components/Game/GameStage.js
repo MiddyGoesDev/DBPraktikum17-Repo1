@@ -33,20 +33,18 @@ function GameStage() {
 
     this.remove = (object) => {
         this.stage.removeChild(object.sprite);
-        this.gameObjects = this.gameObjects.filter((gameObject) => {
-            return gameObject.id !== object.id; });
+        this.gameObjects = this.gameObjects.filter(gameObject => gameObject.id !== object.id);
         // TODO: think about
         // delete this.networkObjects[this.id];
         // delete this;
     };
 
     this.link = (object) => {
-        this.add(object);
         this.networkObjects[object.id] = object;
     };
 
     this.unlink = (id) => {
-        this.stage.removeChild(this.networkObjects[id].sprite);
+        this.remove(this.networkObjects[id]);
         delete this.networkObjects[id];
     };
 

@@ -39,5 +39,6 @@ export default function Character(x, y) {
     };
 
     this.type = 'Character';
+    this.speed = 4;
     this.animation = null;
 }

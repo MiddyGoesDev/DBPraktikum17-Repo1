@@ -5,10 +5,20 @@ export default function OpponentGuy(x, y) {
     Character.call(this, x, y);
 
     this.update = () => {
-        switch (this.animation) {
+        // console.log('anima');
+        // console.log(this.animation);
+        switch (this.nextAnimation) {
             case 'idle': this.idle(); break;
-            case 'walk': this.walk(); break;
+            case 'walk':
+                if (this.directionChanged(this.nextDirection) || !this.isWalking()) {
+                    this.changeDirection(this.nextDirection);
+                    this.walk();
+                }
+                break;
             case 'punch': this.punch(); break;
+        }
+        if (!this.isBusy() && this.isWalking()) {
+            this.move();
         }
     };
 
@@ -50,6 +60,8 @@ export default function OpponentGuy(x, y) {
         }
     };
 
+    this.nextAnimation = null;
+    this.nextDirection = null;
     this.construct();
     this.idle();
 }
