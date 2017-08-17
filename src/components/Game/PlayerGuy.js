@@ -18,6 +18,17 @@ export default function PlayerGuy(x, y) {
         }
     };
 
+    this.updateBaqend = () => {
+        this.character.x = this.x;
+        this.character.y = this.y;
+        this.character.direction = this.direction;
+        this.character.animation = this.animation;
+        if(this.character._metadata.isReady) {
+            this.character.update({force: true});
+
+        }
+    };
+
     this.emit = (action) => {
         GameStage().socket.emit(action, {
             id: this.id,
@@ -26,20 +37,6 @@ export default function PlayerGuy(x, y) {
             direction: this.direction,
             animation: this.animation
         });
-        /*
-        switch (action) {
-            case 'change':
-                this.character.x = this.x;
-                this.character.y = this.y;
-                this.character.direction = this.direction;
-                this.character.animation = this.animation;
-                if(this.character._metadata.isReady) {
-                    this.character.update({force: true});
-                    
-                }
-                break;
-        }
-        */
     };
 
     this.handleEvent = () => {
@@ -94,6 +91,7 @@ export default function PlayerGuy(x, y) {
             default:
                 this.idle();
                 this.emit('change');
+                this.updateBaqend();
         }
     };
 
