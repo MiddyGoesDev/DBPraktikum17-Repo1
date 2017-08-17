@@ -50,7 +50,8 @@ export function createStatistics(character, user) {
                     'deaths': 0,
                     'playingTime': 0,
                     'xp': 0,
-                    'username': user
+                    'username': user,
+                    'kd': 0
                 });
                 return stats.insert();
             }
