@@ -15,8 +15,8 @@ var objects = {};
 var cows = [];
 var cowZone = { x: 150, y: 150, width: 200, height: 200};
 
-for (let i=0; i<5; i++) {
-    let cow = {
+for (var i=0; i<5; i++) {
+    var cow = {
         id: Math.floor(new Date().valueOf() * Math.random()),
         type: 'Cow',
         x: Math.round(cowZone.x + cowZone.width * Math.random()),
