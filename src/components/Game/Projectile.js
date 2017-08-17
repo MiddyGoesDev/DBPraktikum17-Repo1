@@ -1,4 +1,3 @@
-import GameStage from './GameStage';
 import GameObject from './GameObject';
 
 export default function Projectile(x, y, direction) {

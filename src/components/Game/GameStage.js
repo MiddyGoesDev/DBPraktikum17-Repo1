@@ -16,7 +16,7 @@ function GameStage() {
     this.initialize = (x, y) => {
         this.activeObject = new PlayerGuy(x, y);
         new Wall(80, 40);
-        // new Cow(100, 100);
+        new Cow(100, 120);
     };
 
     this.update = () => {

@@ -116,6 +116,7 @@ export default function PlayerGuy(x, y) {
             runningKick: [0, 3, 'idle', 0.25]
         }
     };
+    
     this.construct();
     this.character = null;
     this.emit('join');

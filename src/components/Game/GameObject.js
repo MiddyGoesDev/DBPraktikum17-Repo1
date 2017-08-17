@@ -6,8 +6,8 @@ export default function GameObject(x, y) {
 
     this.construct = () => {
         this.sprite = new window.createjs.Sprite(new window.createjs.SpriteSheet(this.data), this.animation);
-        GameStage().add(this);
         this.updatePosition(this.x, this.y);
+        GameStage().add(this);
     };
 
     this.destruct = () => {
