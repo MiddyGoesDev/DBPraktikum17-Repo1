@@ -19,11 +19,15 @@ export default function GameObject(x, y) {
     this.handleEvent = () => { };
 
     this.emit = (action) => {
-        switch (action) {
-            case 'change':
-
-
-        }
+        console.log('emit ' + action);
+        GameStage().socket.emit(action, {
+            type: this.type,
+            id: this.id,
+            x: this.x,
+            y: this.y,
+            direction: this.direction,
+            animation: this.animation
+        });
     };
 
     this.on = (action) => { };

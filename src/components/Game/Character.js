@@ -1,5 +1,5 @@
 import GameObject from './GameObject';
-import Bullet from './Bullet';
+import Fist from './Fist';
 
 export default function Character(x, y) {
 
@@ -14,7 +14,8 @@ export default function Character(x, y) {
     this.punch = () => {
         if (!this.isPunching()) {
             this.play('punch');
-            new Bullet(this.x + this.signX * 5, this.y + this.signY * 5, this.direction);
+            let fist = new Fist(this.x + this.signX * 5, this.y + this.signY * 5, this.direction);
+            fist.owner = this.id;
         }
     };
 

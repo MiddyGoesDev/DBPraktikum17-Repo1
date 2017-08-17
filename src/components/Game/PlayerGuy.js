@@ -29,16 +29,6 @@ export default function PlayerGuy(x, y) {
         }
     };
 
-    this.emit = (action) => {
-        GameStage().socket.emit(action, {
-            id: this.id,
-            x: this.x,
-            y: this.y,
-            direction: this.direction,
-            animation: this.animation
-        });
-    };
-
     this.handleEvent = () => {
         let lastKey = GameStage().activeKeys[GameStage().activeKeys.length - 1];
         let secondToLastKey = GameStage().activeKeys[GameStage().activeKeys.length - 2];
@@ -95,8 +85,6 @@ export default function PlayerGuy(x, y) {
         }
     };
 
-
-
     this.data = {
         images: ['./assets/guyGreen.png'],
         frames: this.spriteSheet(4, 32),
@@ -121,14 +109,13 @@ export default function PlayerGuy(x, y) {
             punchWest: [17 * 4, 17 * 4 + 2, 'idleWest', 0.5],
             punchNorth: [18 * 4, 18 * 4 + 2, 'idleNorth', 0.5],
             punchSouth: [19 * 4, 19 * 4 + 2, 'idleSouth', 0.5],
-            punchNorthEast: [16 * 4, 16 * 4 + 2, 'idleNorthEast', 0.5],
-            punchNorthWest: [17 * 4, 17 * 4 + 2, 'idleNorthWest', 0.5],
-            punchSouthEast: [18 * 4, 18 * 4 + 2, 'idleSouthEast', 0.5],
-            punchSouthWest: [19 * 4, 19 * 4 + 2, 'idleSouthWest', 0.5],
+            punchNorthEast: [20 * 4, 20 * 4 + 2, 'idleNorthEast', 0.5],
+            punchNorthWest: [21 * 4, 21 * 4 + 2, 'idleNorthWest', 0.5],
+            punchSouthEast: [23 * 4, 23 * 4 + 2, 'idleSouthEast', 0.5],
+            punchSouthWest: [22 * 4, 22 * 4 + 2, 'idleSouthWest', 0.5],
             runningKick: [0, 3, 'idle', 0.25]
         }
     };
-    this.type = 'Player';
     this.construct();
     this.character = null;
     this.emit('join');
