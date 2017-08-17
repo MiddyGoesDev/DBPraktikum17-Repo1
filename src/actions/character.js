@@ -44,6 +44,7 @@ export function updateOpponents() {
                     if (character.data.playing && !GameStage().networkObjects.hasOwnProperty(character.data.id)) {
                         let opponent = new Opponent(character.data.x, character.data.y);
                         opponent.id = character.data.id;
+                        console.log(123);
                         GameStage().link(opponent);
                     } else if (!character.data.playing && GameStage().networkObjects.hasOwnProperty(character.data.id)) {
                         GameStage().unlink(character.data.id);
