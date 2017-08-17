@@ -16,7 +16,6 @@ function GameStage() {
     this.initialize = (x, y) => {
         this.activeObject = new PlayerGuy(x, y);
         new Wall(80, 40);
-        new Cow(100, 120);
     };
 
     this.update = () => {
@@ -77,6 +76,7 @@ function GameStage() {
     this.networkObjects = { };
     this.activeKeys = [];
     this.db = db;
+    // this.socket = io('http://localhost:8080');
     this.socket = io('207.154.243.43:8080');
     this.construct();
 
@@ -86,6 +86,24 @@ function GameStage() {
                 this.networkObjects[object.id].updatePosition(object.x, object.y);
                 this.networkObjects[object.id].nextDirection = object.direction;
                 this.networkObjects[object.id].nextAnimation = object.animation;
+                break;
+            case 'Cow':
+                this.networkObjects[object.id].updatePosition(object.x, object.y);
+                this.networkObjects[object.id].direction = object.direction;
+                this.networkObjects[object.id].play(object.animation);
+                break;
+        }
+    });
+
+    this.socket.on('spawn', mob => {
+        switch (mob.type) {
+            case 'Cow':
+                let cow = new Cow(mob.x, mob.y);
+                cow.id = mob.id;
+                cow.direction = mob.direction;
+                cow.play(mob.animation);
+                this.networkObjects[cow.id] = cow;
+                break;
         }
     });
 }

@@ -7,14 +7,34 @@ http.listen(port, function(){
     console.log('listening on *:' + port);
 });
 
+var directions = [0, 45, 90, 135, 180, 225, 270, 315];
+
 var characters = {};
 var objects = {};
+
+var cows = [];
+var cowZone = { x: 150, y: 150, width: 200, height: 200};
+
+for (let i=0; i<5; i++) {
+    let cow = {
+        id: Math.floor(new Date().valueOf() * Math.random()),
+        type: 'Cow',
+        x: Math.round(cowZone.x + cowZone.width * Math.random()),
+        y: Math.round(cowZone.y + cowZone.height * Math.random()),
+        direction: directions[Math.floor(directions.length * Math.random())],
+        animation: 'idle'
+    };
+    cows.push(cow);
+    objects[cow.id] = cow;
+}
 
 io.on('connection', socket => {
 
     socket.on('join', character => {
         characters[socket.id] = character;
         objects[character.id] = character;
+
+        cows.forEach(cow => socket.emit('spawn', cow));
     });
 
     socket.on('disconnect', () => {
@@ -33,6 +53,17 @@ io.on('connection', socket => {
     socket.on('destroy', object => {
         delete objects[object.id];
     });
+
+    cows.forEach(cow => setInterval(() => {
+        if (Math.random() > 0.5) {
+            cow.x += (Math.floor(Math.random() * 20) - 10);
+        } else {
+            cow.y += (Math.floor(Math.random() * 20) - 10);
+        }
+        cow.direction = directions[Math.floor(directions.length * Math.random())];
+
+        socket.emit('update', cow);
+    }, 5000 + Math.floor(Math.random() * 5000)));
 
     console.log(socket.id + ' is connected');
 });
