@@ -22,7 +22,7 @@ io.on('connection', socket => {
     });
 
     socket.on('add', object => {
-
+        objects[object.id] = object;
     });
 
     socket.on('change', object => {
@@ -31,7 +31,7 @@ io.on('connection', socket => {
     });
 
     socket.on('destroy', object => {
-
+        delete objects[object.id];
     });
 
     console.log(socket.id + ' is connected');

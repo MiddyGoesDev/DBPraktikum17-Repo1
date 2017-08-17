@@ -1,3 +1,4 @@
+import GameStage from './GameStage';
 import GameObject from './GameObject';
 
 export default function Projectile(x, y, direction) {
@@ -9,6 +10,7 @@ export default function Projectile(x, y, direction) {
             this.check();
             this.move();
         } else {
+            this.emit('destroy');
             this.destruct();
         }
     };
@@ -16,10 +18,11 @@ export default function Projectile(x, y, direction) {
     this.handleCollision = (object, collision) => {
         switch (object.type) {
             case 'Wall': console.log('Projectile colliding with Wall'); this.destruct(); break;
-            case 'Character': console.log('Projectile colliding with Character'); this.destruct(); break;
+            case 'Character': if (object.id !== this.owner) this.destruct(); break;
         }
     };
 
+    this.owner = null;
     this.type = 'Projectile';
     this.startx = x;
     this.starty = y;
