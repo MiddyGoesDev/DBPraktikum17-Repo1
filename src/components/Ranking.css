@@ -20,3 +20,10 @@ margin-left: 5%;
   border: 1px solid black;
   float: left;
 }
+.col1-3 {
+  float: left;
+}
+
+.centers {
+  text-align: center;
+}

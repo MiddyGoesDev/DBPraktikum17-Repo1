@@ -29,7 +29,7 @@ class Profile extends React.Component {
                   kills: stats.kills,
                   deaths: stats.deaths,
                   exp: stats.xp,
-                  kd: stats.kills/(stats.deaths),
+                  kd: stats.kd,
                   playTime: stats.playingTime,
                   user: stats.username
         })
@@ -38,7 +38,7 @@ class Profile extends React.Component {
 
 
     render() {
-
+      console.log(this.state.kd);
         return (
             <div className="profile">
                 <div className="main-profile">
