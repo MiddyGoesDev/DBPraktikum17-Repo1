@@ -100,9 +100,9 @@ componentWillMount(){
         <div className="ranking">
             <div className="scoreboard">
               <div className="row">
-              <div className="col-xs centers"><button onClick={this.handleProfile}><b>Profile</b></button></div>
-              <div className="col-xs centers"><button onClick={this.handleKD}><b>KD</b></button></div>
-              <div className="col-xs centers"><button onClick={this.handleXP}><b>EXP</b></button></div>
+              <div className="col-xs centers"><button className="Button" onClick={this.handleProfile}><b>Profile</b></button></div>
+              <div className="col-xs centers"><button className="Button" onClick={this.handleKD}><b>KD</b></button></div>
+              <div className="col-xs centers"><button className="Button" onClick={this.handleXP}><b>EXP</b></button></div>
               </div>
                 {this.state.ranking.map(stats =>
                   <div key={stats.id}>

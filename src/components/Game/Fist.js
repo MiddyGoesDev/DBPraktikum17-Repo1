@@ -8,7 +8,7 @@ export default function Fist(x, y, direction) {
     this.speed = 6;
     this.data = {
         images: ['./assets/fist.png'],
-        frames: this.spriteSheet(4, 4),
+        frames: this.spriteSheet(4, 4, 16),
         animations: {
             flyEast: [0, 0, 'flyEast', 2],
             flyWest: [1, 1, 'flyWest', 2],

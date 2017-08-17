@@ -1,5 +1,6 @@
 import PlayerGuy from './PlayerGuy';
 import Wall from './Wall';
+import Cow from './Cow';
 
 import { db } from 'baqend/realtime';
 import io from 'socket.io-client';
@@ -15,6 +16,7 @@ function GameStage() {
     this.initialize = (x, y) => {
         this.activeObject = new PlayerGuy(x, y);
         new Wall(80, 40);
+        // new Cow(100, 100);
     };
 
     this.update = () => {

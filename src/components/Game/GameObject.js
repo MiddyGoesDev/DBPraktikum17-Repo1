@@ -46,6 +46,11 @@ export default function GameObject(x, y) {
 
     this.move = () => {
         this.updatePosition(this.x + this.signX * this.speed, this.y + this.signY * this.speed);
+        if (this.hpBar !== null && this.hpBar !== undefined)
+        {
+            this.hpBar.graphics.command.x = this.x + 2;
+            this.hpBar.graphics.command.y = this.y - 2;
+        }
     };
 
     this.updatePosition = (x, y) => {
@@ -97,11 +102,11 @@ export default function GameObject(x, y) {
         return window.ndgmr.checkPixelCollision(this.sprite, object.sprite, 0.01, true);
     };
 
-    this.spriteSheet = (x, y) => {
+    this.spriteSheet = (x, y, size) => {
         let frames = [];
         for (let j = 0; j < y; j++) {
             for (let i = 0; i < x; i++) {
-                frames.push([16*i, 16*j, 16, 16]);
+                frames.push([size * i, size * j, size, size]);
             }
         }
         return frames;
