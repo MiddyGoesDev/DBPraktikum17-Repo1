@@ -82,15 +82,12 @@ function GameStage() {
         console.log(socket.id);
     });
 
-    let g = 0;
+
     this.socket.on('update', object => {
-        console.log('update: ' + g++);
-        console.log(object, this.gameObjects);
-        /*
-        this.gameObjects[object.id].setPosition(object.x, object.y);
-        this.gameObjects[object.id].direction = object.direction;
-        this.gameObjects[object.id].animation = object.animation;
-        */
+        this.networkObjects[object.id].updatePosition(object.x, object.y);
+        this.networkObjects[object.id].nextDirection = object.direction;
+        this.networkObjects[object.id].nextAnimation = object.animation;
+
     });
 }
 

@@ -28,8 +28,6 @@ io.on('connection', socket => {
     socket.on('change', object => {
         objects[object.id] = object;
         socket.broadcast.emit('update', object);
-
-        console.log(Object.assign({}, objects));
     });
 
     socket.on('destroy', object => {

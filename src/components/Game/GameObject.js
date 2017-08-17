@@ -40,10 +40,7 @@ export default function GameObject(x, y) {
         }
     };
 
-    let i = 0;
     this.move = () => {
-        console.log(GameStage().gameObjects);
-        console.log(i++);
         this.updatePosition(this.x + this.signX * this.speed, this.y + this.signY * this.speed);
     };
 

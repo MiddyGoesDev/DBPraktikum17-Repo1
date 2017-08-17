@@ -38,6 +38,56 @@ export default function Character(x, y) {
         return this.animation === 'walk';
     };
 
+    this.handleCollision = (object, collision) => {
+        switch (object.type) {
+            case 'Wall':
+                let lastX = this.x;
+                let lastY = this.y;
+                let nextX = lastX;
+                let nextY = lastY;
+
+                this.move();
+                let nextCollision = this.checkCollision(object);
+                let nextSignX = this.signX;
+                let nextSignY = this.signY;
+
+                // kollidiert nicht nur einen Frame lang
+                if (nextCollision !== false) {
+                    // kollidiert mehr vertikal
+                    if (collision.height >= collision.width) {
+                        if (this.signX === 0) {
+                            // collisionLeft of sprite center
+                            if (this.x + 8 > nextCollision.x) {
+                                nextSignX = -1;
+                            }
+                            // collisionRight of sprite center
+                            else {
+                                nextSignX = 1;
+                            }
+                        }
+
+                        nextX = lastX - nextSignX * collision.width;
+                    }
+                    // kollidiert mehr horizontal
+                    if (collision.height <= collision.width) {
+                        if (this.signY === 0) {
+                            // collision below sprite center
+                            if (this.y + 8 < nextCollision.y) {
+                                nextSignY = 1;
+                            }
+                            // collision above sprite center
+                            else {
+                                nextSignY = -1;
+                            }
+                        }
+                        nextY = lastY - nextSignY * collision.height;
+                    }
+                }
+                this.updatePosition(nextX, nextY);
+                break;
+        }
+    };
+
     this.type = 'Character';
     this.speed = 4;
     this.animation = null;

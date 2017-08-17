@@ -5,8 +5,6 @@ export default function OpponentGuy(x, y) {
     Character.call(this, x, y);
 
     this.update = () => {
-        // console.log('anima');
-        // console.log(this.animation);
         switch (this.nextAnimation) {
             case 'idle': this.idle(); break;
             case 'walk':
@@ -19,6 +17,7 @@ export default function OpponentGuy(x, y) {
         }
         if (!this.isBusy() && this.isWalking()) {
             this.move();
+            this.check();
         }
     };
 
