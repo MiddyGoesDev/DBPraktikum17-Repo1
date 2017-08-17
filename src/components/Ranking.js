@@ -16,7 +16,6 @@ class Ranking extends React.Component {
   }
 
 componentWillMount(){
-
     this.props.actions.getRanking().then((result) => {
       this.setState({
         ranking: result
@@ -28,16 +27,19 @@ componentWillMount(){
       console.log("this.state.ranking "+this.state.ranking);
         return (
         <div className="ranking">
-            <div className="scoreboard">
+                {this.state.ranking.map(stats =>
+                  <div key={stats.id}>
+                    {stats.username} {stats.kills}
+                  </div>
+                )}
 
-            </div>
-            <div className="playerProfile">
-            Player Profile
-            </div>t
         </div>
         );
     }
 }
+// <div className="playerProfile">
+// Player Profile
+// </div>
 
 Ranking.propTypes = {
     action: PropTypes.object,
@@ -47,7 +49,6 @@ Ranking.propTypes = {
 function mapStateToProps(state) {
     return {rankings: state.rankings};
 }
-
 
 function mapDispatchToProps(dispatch) {
     return {actions: bindActionCreators({getRanking}, dispatch)};
