@@ -21,7 +21,6 @@ export default function PlayerGuy(x, y) {
     this.emit = (action) => {
         switch (action) {
             case 'change':
-
                 this.character.x = this.x;
                 this.character.y = this.y;
                 this.character.direction = this.direction;
@@ -30,14 +29,6 @@ export default function PlayerGuy(x, y) {
                     this.character.update({force: true});
                     
                 }
-                /*
-                this.character.partialUpdate()
-                        .set('x', this.x)
-                        .set('y', this.y)
-                        .set('direction', this.direction)
-                        .set('animation', this.animation)
-                        .execute();
-                        */
                 break;
         }
     };
@@ -182,7 +173,6 @@ export default function PlayerGuy(x, y) {
         }
     };
     this.type = 'Player';
-    this.speed = 4;
     this.construct();
     this.character = null;
     this.emit('join');
