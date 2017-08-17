@@ -21,15 +21,20 @@ export default function PlayerGuy(x, y) {
     this.emit = (action) => {
         switch (action) {
             case 'change':
-                GameStage().db.Character.load(this.id).then(character => {
-                    console.log('update character');
-                    return character.partialUpdate()
+                console.log('character');
+                this.character.x = this.x;
+                this.character.y = this.y;
+                this.character.direction = this.direction;
+                this.character.animation = this.animation;
+                this.character.update(result => {}, { force: true });
+                /*
+                this.character.partialUpdate()
                         .set('x', this.x)
                         .set('y', this.y)
                         .set('direction', this.direction)
                         .set('animation', this.animation)
                         .execute();
-                });
+                        */
                 break;
         }
     };
@@ -176,6 +181,7 @@ export default function PlayerGuy(x, y) {
     this.type = 'Player';
     this.speed = 4;
     this.construct();
+    this.character = null;
     this.emit('join');
     this.idle();
 }
