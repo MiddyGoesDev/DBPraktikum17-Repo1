@@ -27,3 +27,8 @@ margin-left: 5%;
 .centers {
   text-align: center;
 }
+
+button {
+  border: none;
+  font-size: 20px;
+}
