@@ -1,4 +1,5 @@
-import {USER_LOGIN, USER_REGISTER, USER_LOGOUT, CREATE_CHARACTER, CREATE_STATISTICS, ME} from './types'
+import {USER_LOGIN, USER_REGISTER, USER_LOGOUT, CREATE_CHARACTER, CREATE_STATISTICS, ME} from './types';
+import {DIRECTION_SOUTH} from '../components/Game/Directions';
 
 export function login(username, password) {
     return {
@@ -28,7 +29,7 @@ export function createCharacter(user) {
                     'x': 10,
                     'y': 10,
                     'animation': 'idle',
-                    'direction': 180,
+                    'direction': DIRECTION_SOUTH,
                     'xp': 0,
                     'level': 0,
                     'playing': false

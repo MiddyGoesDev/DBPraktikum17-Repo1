@@ -20,7 +20,6 @@ export default function GameObject(x, y) {
     this.handleEvent = () => { };
 
     this.emit = (action) => {
-        //console.log('emit ' + action);
         GameStage().socket.emit(action, {
             type: this.type,
             id: this.id,
@@ -56,7 +55,6 @@ export default function GameObject(x, y) {
         this.sprite.y = y;
         this.hpBar.graphics.command.x = this.x + 2;
         this.hpBar.graphics.command.y = this.y - 4;
-        console.log('update x: ' +  x + ' y: ' + y);
     };
 
     this.play = (animation) => {
@@ -71,7 +69,7 @@ export default function GameObject(x, y) {
     };
 
     this.directionChanged = (direction) => {
-        return this.direction !== direction;
+        return this.direction.name !== direction.name;
     };
 
     this.checkCollision = (object) => {
@@ -109,5 +107,4 @@ export default function GameObject(x, y) {
     this.hp = 100;
     this.hpBar = new HpBar(this);
     this.keyChanged = false;
-
 }

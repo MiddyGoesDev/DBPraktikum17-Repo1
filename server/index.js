@@ -13,7 +13,7 @@ var objects = {};
 var cows = [];
 var cowZone = { x: 150, y: 150, width: 200, height: 200};
 
-for (var i=0; i<1; i++) {
+for (var i=0; i<5; i++) {
     var cow = {
         id: Math.floor(new Date().valueOf() * Math.random()),
         type: 'Cow',
@@ -54,10 +54,20 @@ io.on('connection', socket => {
     });
 
     cows.forEach(cow => setInterval(() => {
+        var distance = (Math.floor(Math.random() * 20) - 10);
+
         if (Math.random() > 0.5) {
-            cow.x += (Math.floor(Math.random() * 20) - 10);
+            if (cow.x + distance < cowZone.x || cow.x + distance > cowZone.x + width) {
+                cow.x -= distance;
+            } else {
+                cow.x += distance;
+            }
         } else {
-            cow.y += (Math.floor(Math.random() * 20) - 10);
+            if (cow.y + distance < cowZone.y || cow.y + distance > cowZone.y + height) {
+                cow.y -= distance;
+            } else {
+                cow.y += distance;
+            }
         }
 
         socket.emit('update', cow);
