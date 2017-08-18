@@ -24,6 +24,7 @@ for (var i=0; i<5; i++) {
     };
     cows.push(cow);
     objects[cow.id] = cow;
+    console.log('create cow ' + cow.id);
 }
 
 io.on('connection', socket => {
@@ -56,13 +57,13 @@ io.on('connection', socket => {
         var distance = (Math.floor(Math.random() * 20) - 10);
 
         if (Math.random() > 0.5) {
-            if (cow.x + distance < cowZone.x || cow.x + distance > cowZone.x + width) {
+            if (cow.x + distance < cowZone.x || cow.x + distance > cowZone.x + cowZone.width) {
                 cow.x -= distance;
             } else {
                 cow.x += distance;
             }
         } else {
-            if (cow.y + distance < cowZone.y || cow.y + distance > cowZone.y + height) {
+            if (cow.y + distance < cowZone.y || cow.y + distance > cowZone.y + cowZone.height) {
                 cow.y -= distance;
             } else {
                 cow.y += distance;
