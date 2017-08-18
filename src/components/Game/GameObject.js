@@ -104,7 +104,7 @@ export default function GameObject(x, y) {
     this.data = null;
     this.sprite = null;
     this.animation = null;
-    this.direction = DIRECTION_SOUTH;
+    this.direction = Object.assign({}, DIRECTION_SOUTH);
     this.speed = 0;
     this.armor = 0;
     this.hp = 100;
