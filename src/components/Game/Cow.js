@@ -1,5 +1,6 @@
+import GameStage from './GameStage';
 import Character from './Character';
-
+import ShurikenItem from "./Items/Shuriken";
 
 export default function Cow(x, y) {
 
@@ -19,6 +20,11 @@ export default function Cow(x, y) {
             this.idle();
             this.direction = this.destDirection;
         }
+    };
+
+    this.destruct = () => {
+        new ShurikenItem(this.x + this.width / 2, this.y + this.height / 2);
+        GameStage().remove(this);
     };
 
     this.height = 32;

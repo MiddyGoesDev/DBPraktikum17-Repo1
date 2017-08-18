@@ -46,6 +46,7 @@ export default function GameObject(x, y) {
     };
 
     this.move = () => {
+        console.log('direction: x: ' + this.direction.x + ', y: ' + this.direction.y + ', name: ' + this.direction.name);
         this.updatePosition(this.x + this.direction.x * this.speed, this.y + this.direction.y * this.speed);
     };
 

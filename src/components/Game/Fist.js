@@ -25,6 +25,7 @@ export default function Fist(x, y, direction) {
 
     this.hp = 1;
     this.armor = 10;
+    this.damage = 10;
     this.construct();
     this.play('fly');
 }

@@ -1,7 +1,7 @@
 import Character from './Character';
 import GameStage from './GameStage';
 
-import {KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT, KEYCODE_S} from './KeyCodes';
+import {KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT, KEYCODE_S, KEYCODE_1} from './KeyCodes';
 import {
     DIRECTION_SOUTH, DIRECTION_NORTH, DIRECTION_EAST, DIRECTION_WEST,
     DIRECTION_NORTHEAST, DIRECTION_NORTHWEST, DIRECTION_SOUTHEAST, DIRECTION_SOUTHWEST
@@ -70,6 +70,8 @@ export default function PlayerGuy(x, y) {
                 else if (secondToLastKey === KEYCODE_RIGHT) this.direction = DIRECTION_SOUTHEAST;
                 else this.direction = DIRECTION_SOUTH;
 
+
+
                 if (this.directionChanged(direction) || !this.isWalking()) {
                     this.walk();
                     this.emit('change');
@@ -79,12 +81,21 @@ export default function PlayerGuy(x, y) {
                 this.punch();
                 this.emit('change');
                 break;
+            case KEYCODE_1:
+                // TODO type
+                if (this.items.filter(item => item.type === 'Item').length !== 0){
+                   this.use();
+                }
+                this.emit('change');
+                break;
             default:
                 this.idle();
                 this.emit('change');
                 this.updateBaqend();
         }
     };
+
+    // direction.name
 
     this.height = 16;
     this.width = 16;

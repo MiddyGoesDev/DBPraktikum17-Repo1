@@ -28,6 +28,7 @@ export default function Projectile(x, y, direction) {
                 break;
             case 'Cow':
                 this.destruct();
+                object.takeDamage(this.damage);
                 break;
         }
     };

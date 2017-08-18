@@ -1,5 +1,6 @@
 import GameObject from './GameObject';
 import Fist from './Fist';
+import Shuriken from './Shuriken';
 
 export default function Character(x, y) {
 
@@ -19,12 +20,20 @@ export default function Character(x, y) {
         }
     };
 
+    this.use = (item) => {
+        if(!this.isUsing()) {
+            this.play('punch');
+            let shuriken = new Shuriken(this.x + this.direction.x * 5, this.y + this.direction.y * 5, this.direction);
+            shuriken.owner = this.id;
+        }
+    };
+
     this.walk = () => {
         this.play('walk');
     };
 
     this.isBusy = () => {
-        return this.isPunching();
+        return this.isPunching() || this.isUsing();
     };
 
     this.isIdling = () => {
@@ -32,6 +41,11 @@ export default function Character(x, y) {
     };
 
     this.isPunching = () => {
+        return this.animation === 'punch';
+    };
+
+    // TODO parameter, switch
+    this.isUsing = () => {
         return this.animation === 'punch';
     };
 
@@ -90,6 +104,7 @@ export default function Character(x, y) {
     };
 
     this.type = 'Character';
+    this.items = [];
     this.speed = 4;
     this.animation = null;
 }

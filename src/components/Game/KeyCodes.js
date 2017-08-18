@@ -1,3 +1,4 @@
+export const KEYCODE_1 = 49;
 export const KEYCODE_S = 83;
 export const KEYCODE_LEFT = 37;
 export const KEYCODE_RIGHT = 39;
