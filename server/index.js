@@ -7,25 +7,24 @@ http.listen(port, function(){
     console.log('listening on *:' + port);
 });
 
-var directions = [0, 45, 90, 135, 180, 225, 270, 315];
-
 var characters = {};
 var objects = {};
 
 var cows = [];
 var cowZone = { x: 150, y: 150, width: 200, height: 200};
 
-for (var i=0; i<5; i++) {
+for (var i=0; i<1; i++) {
     var cow = {
         id: Math.floor(new Date().valueOf() * Math.random()),
         type: 'Cow',
         x: Math.round(cowZone.x + cowZone.width * Math.random()),
         y: Math.round(cowZone.y + cowZone.height * Math.random()),
-        direction: directions[Math.floor(directions.length * Math.random())],
-        animation: 'idle'
+        animation: 'idle',
+        direction: { x: 0, y: 1, name: 'South' }
     };
     cows.push(cow);
     objects[cow.id] = cow;
+    io.emit('spawn', cow);
 }
 
 io.on('connection', socket => {
@@ -60,7 +59,6 @@ io.on('connection', socket => {
         } else {
             cow.y += (Math.floor(Math.random() * 20) - 10);
         }
-        cow.direction = directions[Math.floor(directions.length * Math.random())];
 
         socket.emit('update', cow);
     }, 5000 + Math.floor(Math.random() * 5000)));

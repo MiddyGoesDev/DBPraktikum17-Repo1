@@ -16,8 +16,15 @@ export default function Projectile(x, y, direction) {
 
     this.handleCollision = (object, collision) => {
         switch (object.type) {
-            case 'Wall': console.log('Projectile colliding with Wall'); this.destruct(); break;
-            case 'Character': if (object.id !== this.owner) this.destruct(); break;
+            case 'Wall': console.log('Projectile colliding with Wall');
+                this.destruct();
+                object.takeDamage(this.damage);
+                break;
+            case 'Character': if (object.id !== this.owner) {
+                this.destruct();
+                object.takeDamage(this.damage);
+            }
+            break;
             case 'Cow': console.log('Projectile colliding with Cow'); this.destruct(); break;
         }
     };
@@ -27,5 +34,6 @@ export default function Projectile(x, y, direction) {
     this.startx = x;
     this.starty = y;
     this.distance = 100;
-    this.changeDirection(direction);
+    this.damage = 5;
+    this.direction = direction;
 }

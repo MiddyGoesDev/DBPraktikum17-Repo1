@@ -33,9 +33,6 @@ function GameStage() {
     this.remove = (object) => {
         this.stage.removeChild(object.sprite);
         this.gameObjects = this.gameObjects.filter(gameObject => gameObject.id !== object.id);
-        // TODO: think about
-        // delete this.networkObjects[this.id];
-        // delete this;
     };
 
     this.link = (object) => {
@@ -83,14 +80,13 @@ function GameStage() {
     this.socket.on('update', object => {
         switch (object.type) {
             case 'Character':
+                this.networkObjects[object.id].updateDirection(object.x, object.y);
                 this.networkObjects[object.id].updatePosition(object.x, object.y);
-                this.networkObjects[object.id].nextDirection = object.direction;
                 this.networkObjects[object.id].nextAnimation = object.animation;
                 break;
             case 'Cow':
-                this.networkObjects[object.id].updatePosition(object.x, object.y);
-                this.networkObjects[object.id].direction = object.direction;
-                this.networkObjects[object.id].play(object.animation);
+                this.networkObjects[object.id].destX = object.x;
+                this.networkObjects[object.id].destY = object.y;
                 break;
         }
     });

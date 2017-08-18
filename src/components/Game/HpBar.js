@@ -1,28 +1,23 @@
+import GameStage from './GameStage'
 
-export default function HpBar() {
+export function HpBar(object) {
 
-
-
-    this.spriteSheet = (x, y, size) => {
-        let frames = [];
-        for (let j = 0; j < y; j++) {
-            for (let i = 0; i < x; i++) {
-                frames.push([size * i, size * j, size, size]);
-            }
-        }
-        return frames;
-    };
-
-    this.data = {
-        images: ['./assets/hpBar.png'],
-        frames: this.spriteSheet(10, 10, 16),
-        animations: {
-            '100': [0, 0, '100', 1]
-
-        }
-    };
-
-    this.animation =
-        this.hpBar = new window.createjs.Sprite(new window.createjs.SpriteSheet(this.data), this.animation);
-
+    let x = object.x;
+    let y = object.y;
+    let currentHP = object.hp;
+    this.bar = new window.createjs.Shape();
+    this.bar.graphics.beginFill("red").drawRect(x + 2, y - 10, 10, 2);
+    this.bar.graphics.command.w = Math.ceil(currentHP / 10);
+    return this.bar;
 }
+
+export function updateBar(object) {
+    let size = Math.ceil(object.hp / 10);
+    let bar = object.hpBar;
+    bar.graphics.command.w = size;
+    GameStage().stage.addChild(bar);
+}
+
+
+
+

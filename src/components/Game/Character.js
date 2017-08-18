@@ -14,7 +14,7 @@ export default function Character(x, y) {
     this.punch = () => {
         if (!this.isPunching()) {
             this.play('punch');
-            let fist = new Fist(this.x + this.signX * 5, this.y + this.signY * 5, this.direction);
+            let fist = new Fist(this.x + this.direction.x * 5, this.y + this.direction.y * 5, this.direction);
             fist.owner = this.id;
         }
     };
@@ -49,8 +49,8 @@ export default function Character(x, y) {
 
                 this.move();
                 let nextCollision = this.checkCollision(object);
-                let nextSignX = this.signX;
-                let nextSignY = this.signY;
+                let nextSignX = this.direction.x;
+                let nextSignY = this.direction.y;
 
                 // kollidiert nicht nur einen Frame lang
                 if (nextCollision !== false) {

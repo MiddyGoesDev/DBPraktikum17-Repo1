@@ -9,7 +9,7 @@ export default function OpponentGuy(x, y) {
             case 'idle': this.idle(); break;
             case 'walk':
                 if (this.directionChanged(this.nextDirection) || !this.isWalking()) {
-                    this.changeDirection(this.nextDirection);
+                    this.direction = this.nextDirection;
                     this.walk();
                 }
                 break;

@@ -6,6 +6,7 @@ import {
     DIRECTION_SOUTH, DIRECTION_NORTH, DIRECTION_EAST, DIRECTION_WEST,
     DIRECTION_NORTHEAST, DIRECTION_NORTHWEST, DIRECTION_SOUTHEAST, DIRECTION_SOUTHWEST
 } from './Directions';
+import {updateBar} from "./HpBar";
 
 export default function PlayerGuy(x, y) {
 
@@ -29,15 +30,16 @@ export default function PlayerGuy(x, y) {
         }
     };
 
+    // TODO: refactor this! use math
     this.handleEvent = () => {
         let lastKey = GameStage().activeKeys[GameStage().activeKeys.length - 1];
         let secondToLastKey = GameStage().activeKeys[GameStage().activeKeys.length - 2];
         let direction = this.direction;
         switch (lastKey) {
             case KEYCODE_LEFT:
-                if (secondToLastKey === KEYCODE_UP) this.changeDirection(DIRECTION_NORTHWEST);
-                else if (secondToLastKey === KEYCODE_DOWN) this.changeDirection(DIRECTION_SOUTHWEST);
-                else this.changeDirection(DIRECTION_WEST);
+                if (secondToLastKey === KEYCODE_UP) this.direction = DIRECTION_NORTHWEST;
+                else if (secondToLastKey === KEYCODE_DOWN) this.direction = DIRECTION_SOUTHWEST;
+                else this.direction = DIRECTION_WEST;
 
                 if (this.directionChanged(direction) || !this.isWalking()) {
                     this.walk();
@@ -45,9 +47,9 @@ export default function PlayerGuy(x, y) {
                 }
                 break;
             case KEYCODE_RIGHT:
-                if (secondToLastKey === KEYCODE_UP) this.changeDirection(DIRECTION_NORTHEAST);
-                else if (secondToLastKey === KEYCODE_DOWN) this.changeDirection(DIRECTION_SOUTHEAST);
-                else this.changeDirection(DIRECTION_EAST);
+                if (secondToLastKey === KEYCODE_UP) this.direction = DIRECTION_NORTHEAST;
+                else if (secondToLastKey === KEYCODE_DOWN) this.direction = DIRECTION_SOUTHEAST;
+                else this.direction = DIRECTION_EAST;
 
                 if (this.directionChanged(direction) || !this.isWalking()) {
                     this.walk();
@@ -55,9 +57,9 @@ export default function PlayerGuy(x, y) {
                 }
                 break;
             case KEYCODE_UP:
-                if (secondToLastKey === KEYCODE_LEFT) this.changeDirection(DIRECTION_NORTHWEST);
-                else if (secondToLastKey === KEYCODE_RIGHT) this.changeDirection(DIRECTION_NORTHEAST);
-                else this.changeDirection(DIRECTION_NORTH);
+                if (secondToLastKey === KEYCODE_LEFT) this.direction = DIRECTION_NORTHWEST;
+                else if (secondToLastKey === KEYCODE_RIGHT) this.direction = DIRECTION_NORTHEAST;
+                else this.direction = DIRECTION_NORTH;
 
                 if (this.directionChanged(direction) || !this.isWalking()) {
                     this.walk();
@@ -65,9 +67,9 @@ export default function PlayerGuy(x, y) {
                 }
                 break;
             case KEYCODE_DOWN:
-                if (secondToLastKey === KEYCODE_LEFT) this.changeDirection(DIRECTION_SOUTHWEST);
-                else if (secondToLastKey === KEYCODE_RIGHT) this.changeDirection(DIRECTION_SOUTHEAST);
-                else this.changeDirection(DIRECTION_SOUTH);
+                if (secondToLastKey === KEYCODE_LEFT) this.direction = DIRECTION_SOUTHWEST;
+                else if (secondToLastKey === KEYCODE_RIGHT) this.direction = DIRECTION_SOUTHEAST;
+                else this.direction = DIRECTION_SOUTH;
 
                 if (this.directionChanged(direction) || !this.isWalking()) {
                     this.walk();
@@ -116,14 +118,10 @@ export default function PlayerGuy(x, y) {
             runningKick: [0, 3, 'idle', 0.25]
         }
     };
-    
+
     this.construct();
     this.character = null;
     this.emit('join');
     this.idle();
-
-    this.hpBar = new window.createjs.Shape();
-    this.hpBar.graphics.beginFill("red").drawRect(this.x + 2, this.y - 2, 10, 2);
-    this.hpBar.graphics.command.w = 10;
-    GameStage().stage.addChild(this.hpBar);
+    updateBar(this);
 }
