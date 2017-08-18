@@ -13,7 +13,7 @@ var objects = {};
 var cows = [];
 var cowZone = { x: 150, y: 150, width: 200, height: 200};
 
-for (var i=0; i<5; i++) {
+for (var i=0; i<1; i++) {
     var cow = {
         id: Math.floor(new Date().valueOf() * Math.random()),
         type: 'Cow',
@@ -55,26 +55,45 @@ io.on('connection', socket => {
 
     cows.forEach(cow => setInterval(() => {
         var distance = (Math.floor(Math.random() * 20) - 10);
+        var destX = cow.x;
+        var destY = cow.y;
 
         if (Math.random() > 0.5) {
             if (cow.x + distance < cowZone.x || cow.x + distance > cowZone.x + cowZone.width) {
-                cow.x -= distance;
+                destX -= distance;
             } else {
-                cow.x += distance;
+                destX += distance;
             }
         } else {
             if (cow.y + distance < cowZone.y || cow.y + distance > cowZone.y + cowZone.height) {
-                cow.y -= distance;
+                destY -= distance;
             } else {
-                cow.y += distance;
+                destY += distance;
             }
         }
 
+        cow.direction = getDirection(cow.x, cow.y, destX, destY);
+        cow.x = destX;
+        cow.y = destY;
         socket.emit('update', cow);
     }, 5000 + Math.floor(Math.random() * 5000)));
 
     console.log(socket.id + ' is connected');
 });
+
+function directionName(x, y) {
+    return (y < 0 ? 'North' : y > 0 ? 'South' : '') + (x < 0 ? 'West' : x > 0 ? 'East' : '');
+}
+
+function getDirection(x, y, destX, destY) {
+    var signX = (destX - x) / Math.max(Math.abs(destX - this.x), 1);
+    var signY = (destY - y) / Math.max(Math.abs(destY - this.y), 1);
+    return {
+        x: signX,
+        y: signY,
+        name: directionName(signX, signY)
+    };
+}
 
 /*
 io.on('connection', function(socket) {

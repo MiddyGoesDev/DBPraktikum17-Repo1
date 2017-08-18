@@ -17,6 +17,7 @@ export default function Cow(x, y) {
             }
         } else {
             this.idle();
+            this.direction = this.destDirection;
         }
     };
 
@@ -45,9 +46,9 @@ export default function Cow(x, y) {
 
     this.type = 'Cow';
     this.speed = 3;
-    this.direction = 0;
     this.construct();
     this.destX = this.x;
     this.destY = this.y;
+    this.destDirection = this.direction;
     this.play('idle');
 }

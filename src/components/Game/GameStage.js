@@ -90,6 +90,7 @@ function GameStage() {
             case 'Cow':
                 this.networkObjects[object.id].destX = object.x;
                 this.networkObjects[object.id].destY = object.y;
+                this.networkObjects[object.id].destDirection = object.direction;
                 break;
         }
     });
