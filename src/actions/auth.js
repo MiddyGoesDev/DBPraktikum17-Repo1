@@ -13,7 +13,11 @@ export function register(username, password) {
     return {
         'BAQEND': {
             type: USER_REGISTER,
-            payload: (db) => db.User.register(username, password)
+            payload: (db) => db.User.register(username, password).then((abort) => {
+            },
+            (error) => {
+            confirm(error.message);
+            })
         }
     }
 }
