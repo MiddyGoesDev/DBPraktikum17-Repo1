@@ -24,6 +24,7 @@ for (var i=0; i<1; i++) {
     };
     cows.push(cow);
     objects[cow.id] = cow;
+    console.log('create cow ' + cow.id);
     io.emit('spawn', cow);
 }
 
@@ -53,18 +54,48 @@ io.on('connection', socket => {
         delete objects[object.id];
     });
 
-    cows.forEach(cow => setInterval(() => {
-        if (Math.random() > 0.5) {
-            cow.x += (Math.floor(Math.random() * 20) - 10);
-        } else {
-            cow.y += (Math.floor(Math.random() * 20) - 10);
-        }
-
-        socket.emit('update', cow);
-    }, 5000 + Math.floor(Math.random() * 5000)));
-
     console.log(socket.id + ' is connected');
 });
+
+cows.forEach(cow => setInterval(() => {
+    var distance = (Math.floor(Math.random() * 20) - 10);
+    var destX = cow.x;
+    var destY = cow.y;
+
+    if (Math.random() > 0.5) {
+        if (cow.x + distance < cowZone.x || cow.x + distance > cowZone.x + cowZone.width) {
+            destX -= distance;
+        } else {
+            destX += distance;
+        }
+    } else {
+        if (cow.y + distance < cowZone.y || cow.y + distance > cowZone.y + cowZone.height) {
+            destY -= distance;
+        } else {
+            destY += distance;
+        }
+    }
+
+    cow.direction = getDirection(cow.x, cow.y, destX, destY);
+    cow.x = destX;
+    cow.y = destY;
+    io.emit('update', cow);
+    console.log('emit cow ' + cow.id + ' x: ' + cow.x + ' y: ' + cow.y);
+}, 5000 + Math.floor(Math.random() * 5000)));
+
+function directionName(x, y) {
+    return (y < 0 ? 'North' : y > 0 ? 'South' : '') + (x < 0 ? 'West' : x > 0 ? 'East' : '');
+}
+
+function getDirection(x, y, destX, destY) {
+    var signX = (destX - x) / Math.max(Math.abs(destX - x), 1);
+    var signY = (destY - y) / Math.max(Math.abs(destY - y), 1);
+    return {
+        x: signX,
+        y: signY,
+        name: directionName(signX, signY)
+    };
+}
 
 /*
 io.on('connection', function(socket) {

@@ -16,6 +16,9 @@ function GameStage() {
     this.initialize = (x, y) => {
         this.activeObject = new PlayerGuy(x, y);
         new Wall(80, 40);
+        var cowZone = new window.createjs.Shape();
+        cowZone.graphics.s("gray").f("transparent").drawRect(150, 150, 200, 200);
+        this.stage.addChild(cowZone);
     };
 
     this.update = () => {
@@ -80,13 +83,14 @@ function GameStage() {
     this.socket.on('update', object => {
         switch (object.type) {
             case 'Character':
-                this.networkObjects[object.id].updateDirection(object.x, object.y);
                 this.networkObjects[object.id].updatePosition(object.x, object.y);
+                this.networkObjects[object.id].nextDirection = object.direction;
                 this.networkObjects[object.id].nextAnimation = object.animation;
                 break;
             case 'Cow':
                 this.networkObjects[object.id].destX = object.x;
                 this.networkObjects[object.id].destY = object.y;
+                this.networkObjects[object.id].destDirection = object.direction;
                 break;
         }
     });
@@ -97,6 +101,8 @@ function GameStage() {
                 let cow = new Cow(mob.x, mob.y);
                 cow.id = mob.id;
                 cow.direction = mob.direction;
+                console.log('cow direction');
+                console.log(cow.direction);
                 cow.play(mob.animation);
                 this.networkObjects[cow.id] = cow;
                 break;

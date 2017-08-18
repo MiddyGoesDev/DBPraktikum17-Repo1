@@ -6,7 +6,6 @@ import {
     DIRECTION_SOUTH, DIRECTION_NORTH, DIRECTION_EAST, DIRECTION_WEST,
     DIRECTION_NORTHEAST, DIRECTION_NORTHWEST, DIRECTION_SOUTHEAST, DIRECTION_SOUTHWEST
 } from './Directions';
-import {updateBar} from "./HpBar";
 
 export default function PlayerGuy(x, y) {
 
@@ -87,9 +86,12 @@ export default function PlayerGuy(x, y) {
         }
     };
 
+    this.height = 16;
+    this.width = 16;
+
     this.data = {
         images: ['./assets/guyGreen.png'],
-        frames: this.spriteSheet(4, 32, 16),
+        frames: this.spriteSheet(4, 32),
         animations: {
             walkEast: [8 * 4, 8 * 4 + 2, 'walkEast', 0.3],
             walkWest: [9 * 4, 9 * 4 + 2, 'walkWest', 0.3],
@@ -119,9 +121,10 @@ export default function PlayerGuy(x, y) {
         }
     };
 
-    this.construct();
     this.character = null;
+
+    this.construct();
     this.emit('join');
     this.idle();
-    updateBar(this);
+    this.takeDamage(0); //activate HP bar
 }
