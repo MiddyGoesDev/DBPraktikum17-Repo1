@@ -1,5 +1,7 @@
 import { DIRECTION_SOUTH, directionName} from './Directions';
 import GameStage from './GameStage';
+import { HpBar, updateBar } from './HpBar'
+
 
 export default function GameObject(x, y) {
 
@@ -45,11 +47,6 @@ export default function GameObject(x, y) {
 
     this.move = () => {
         this.updatePosition(this.x + this.direction.x * this.speed, this.y + this.direction.y * this.speed);
-        if (this.hpBar !== null && this.hpBar !== undefined)
-        {
-            this.hpBar.graphics.command.x = this.x + 2;
-            this.hpBar.graphics.command.y = this.y - 2;
-        }
     };
 
     this.updatePosition = (x, y) => {
@@ -57,6 +54,9 @@ export default function GameObject(x, y) {
         this.y = y;
         this.sprite.x = x;
         this.sprite.y = y;
+        this.hpBar.graphics.command.x = this.x + 2;
+        this.hpBar.graphics.command.y = this.y - 4;
+        console.log('update x: ' +  x + ' y: ' + y);
     };
 
     this.play = (animation) => {
@@ -88,6 +88,14 @@ export default function GameObject(x, y) {
         return frames;
     };
 
+    this.takeDamage = (damage) => {
+      this.hp -= Math.max(0 , damage - this.armor);
+      updateBar(this);
+      if (this.hp <= 0) {
+          this.destruct();
+      }
+    };
+
     this.type = 'GameObject';
     this.id = Math.floor(new Date().valueOf() * Math.random());
     this.x = x;
@@ -98,7 +106,8 @@ export default function GameObject(x, y) {
     this.direction = DIRECTION_SOUTH;
     this.speed = 0;
     this.armor = 0;
-    this.hp = 1;
+    this.hp = 100;
+    this.hpBar = new HpBar(this);
     this.keyChanged = false;
 
 }

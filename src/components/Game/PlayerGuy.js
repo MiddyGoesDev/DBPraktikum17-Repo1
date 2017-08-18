@@ -2,8 +2,11 @@ import Character from './Character';
 import GameStage from './GameStage';
 
 import {KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT, KEYCODE_S} from './KeyCodes';
-import { DIRECTION_SOUTH, DIRECTION_NORTH, DIRECTION_EAST, DIRECTION_WEST, DIRECTION_NORTHEAST,
-    DIRECTION_NORTHWEST, DIRECTION_SOUTHEAST, DIRECTION_SOUTHWEST } from './Directions';
+import {
+    DIRECTION_SOUTH, DIRECTION_NORTH, DIRECTION_EAST, DIRECTION_WEST,
+    DIRECTION_NORTHEAST, DIRECTION_NORTHWEST, DIRECTION_SOUTHEAST, DIRECTION_SOUTHWEST
+} from './Directions';
+import {updateBar} from "./HpBar";
 
 export default function PlayerGuy(x, y) {
 
@@ -120,9 +123,5 @@ export default function PlayerGuy(x, y) {
     this.character = null;
     this.emit('join');
     this.idle();
-
-    this.hpBar = new window.createjs.Shape();
-    this.hpBar.graphics.beginFill("red").drawRect(this.x + 2, this.y - 2, 10, 2);
-    this.hpBar.graphics.command.w = 10;
-    GameStage().stage.addChild(this.hpBar);
+    updateBar(this);
 }
