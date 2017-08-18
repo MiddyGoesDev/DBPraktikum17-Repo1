@@ -76,8 +76,8 @@ function GameStage() {
     this.networkObjects = { };
     this.activeKeys = [];
     this.db = db;
-    // this.socket = io('http://localhost:8080');
-    this.socket = io('207.154.243.43:8080');
+    this.socket = io('http://localhost:8080');
+    // this.socket = io('207.154.243.43:8080');
     this.construct();
 
     this.socket.on('update', object => {
@@ -101,6 +101,8 @@ function GameStage() {
                 let cow = new Cow(mob.x, mob.y);
                 cow.id = mob.id;
                 cow.direction = mob.direction;
+                console.log('cow direction');
+                console.log(cow.direction);
                 cow.play(mob.animation);
                 this.networkObjects[cow.id] = cow;
                 break;

@@ -6,7 +6,7 @@ export default function Cow(x, y) {
     Character.call(this, x, y);
 
     this.update = () => {
-        if (this.destX !== this.x || this.destY !== this.y) {
+        if (this.destX !== Math.round(this.x) || this.destY !== Math.round(this.y)) {
             let direction = this.direction;
             this.updateDirection(this.destX, this.destY);
             let distance = Math.sqrt(Math.pow(Math.abs(this.destX - this.x), 2) + Math.pow(Math.abs(this.destY - this.y), 2));
@@ -50,5 +50,4 @@ export default function Cow(x, y) {
     this.destX = this.x;
     this.destY = this.y;
     this.destDirection = this.direction;
-    this.play('idle');
 }
