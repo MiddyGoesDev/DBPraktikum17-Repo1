@@ -40,7 +40,6 @@ export default function GameObject(x, y) {
         for (let i=0 ; i < near.length; i++) {
             let collision = this.checkCollision(near[i]);
             if (collision !== false) {
-                console.log(near);
                 this.handleCollision(near[i], collision);
             }
         }

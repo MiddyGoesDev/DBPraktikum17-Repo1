@@ -101,8 +101,6 @@ function GameStage() {
                 let cow = new Cow(mob.x, mob.y);
                 cow.id = mob.id;
                 cow.direction = mob.direction;
-                console.log('cow direction');
-                console.log(cow.direction);
                 cow.play(mob.animation);
                 this.networkObjects[cow.id] = cow;
                 break;

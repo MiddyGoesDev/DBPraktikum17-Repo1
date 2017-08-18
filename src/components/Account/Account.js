@@ -29,12 +29,9 @@ class Account extends Component {
     handleRegister = (event) => {
         event.preventDefault();
         if(this.props.actions.checkForExsistence(this.state.username)){
-          console.log("sind drin");
         this.props.actions.register(this.state.username, this.state.password)
             .then(user => this.props.actions.createCharacter(user)
                 .then(character => this.props.actions.createStatistics(character, this.state.username)));
-              } else {
-                console.log("NOPE");
               }
     };
 

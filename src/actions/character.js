@@ -65,7 +65,6 @@ export function updateCharacter(data) {
         'BAQEND': {
             type: UPDATE_CHARACTER,
             payload: (db) => db.Character.load(data.id).singleResult(character => {
-                console.log('update character');
                 character.x = data.x;
                 character.y = data.y;
                 character.direction = data.direction;

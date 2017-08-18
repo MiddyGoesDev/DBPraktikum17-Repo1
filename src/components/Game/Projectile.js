@@ -5,7 +5,7 @@ export default function Projectile(x, y, direction) {
     GameObject.call(this, x, y);
 
     this.update = () => {
-        if (Math.sqrt(Math.pow(this.x-this.startx, 2) + Math.pow(this.y-this.starty, 2)) <= this.distance) {
+        if (Math.sqrt(Math.pow(this.x - this.startx, 2) + Math.pow(this.y - this.starty, 2)) <= this.distance) {
             this.check();
             this.move();
         } else {
@@ -16,16 +16,19 @@ export default function Projectile(x, y, direction) {
 
     this.handleCollision = (object, collision) => {
         switch (object.type) {
-            case 'Wall': console.log('Projectile colliding with Wall');
+            case 'Wall':
                 this.destruct();
                 object.takeDamage(this.damage);
                 break;
-            case 'Character': if (object.id !== this.owner) {
+            case 'Character':
+                if (object.id !== this.owner) {
+                    this.destruct();
+                    object.takeDamage(this.damage);
+                }
+                break;
+            case 'Cow':
                 this.destruct();
-                object.takeDamage(this.damage);
-            }
-            break;
-            case 'Cow': console.log('Projectile colliding with Cow'); this.destruct(); break;
+                break;
         }
     };
 

@@ -21,12 +21,6 @@ export default function OpponentGuy(x, y) {
         }
     };
 
-    this.on = (action) => {
-        switch (action) {
-            case 'update opponent': console.log('update Opponent!');
-        }
-    };
-
     this.height = 16;
     this.width = 16;
 
