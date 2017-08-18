@@ -11,7 +11,7 @@
 .profile-pic {
   /*border: 1px solid black;*/
   width: 100%;
-  height: 20%;
+  height: 10%;
 }
 
 .spellbar {
@@ -37,7 +37,6 @@
 }
 
 .statistics {
-  text-align: center;
   height: 80%;
   width: 100%;
   /*border: 1px solid black;*/
