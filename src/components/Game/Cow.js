@@ -1,9 +1,24 @@
-import GameObject from './GameObject';
+import Character from './Character';
 
 
 export default function Cow(x, y) {
 
-    GameObject.call(this, x, y);
+    Character.call(this, x, y);
+
+    this.update = () => {
+        if (this.destX !== this.x || this.destY !== this.y) {
+            let direction = this.direction;
+            this.updateDirection(this.destX, this.destY);
+            let distance = Math.sqrt(Math.pow(Math.abs(this.destX - this.x), 2) + Math.pow(Math.abs(this.destY - this.y), 2));
+            this.speed =  distance < this.speed ? distance : 3;
+            this.move();
+            if (this.directionChanged(direction) || !this.isWalking()) {
+                this.walk();
+            }
+        } else {
+            this.idle();
+        }
+    };
 
     this.data = {
         images: ['./assets/cow.png'],
@@ -32,5 +47,7 @@ export default function Cow(x, y) {
     this.speed = 3;
     this.direction = 0;
     this.construct();
+    this.destX = this.x;
+    this.destY = this.y;
     this.play('idle');
 }

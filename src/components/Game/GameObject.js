@@ -1,5 +1,4 @@
-import { DIRECTION_SOUTH, DIRECTION_NORTH, DIRECTION_EAST, DIRECTION_WEST,
-    DIRECTION_NORTHEAST, DIRECTION_NORTHWEST, DIRECTION_SOUTHEAST, DIRECTION_SOUTHWEST} from './Directions';
+import { DIRECTION_SOUTH, directionName} from './Directions';
 import GameStage from './GameStage';
 
 export default function GameObject(x, y) {
@@ -45,7 +44,7 @@ export default function GameObject(x, y) {
     };
 
     this.move = () => {
-        this.updatePosition(this.x + this.signX * this.speed, this.y + this.signY * this.speed);
+        this.updatePosition(this.x + this.direction.x * this.speed, this.y + this.direction.y * this.speed);
         if (this.hpBar !== null && this.hpBar !== undefined)
         {
             this.hpBar.graphics.command.x = this.x + 2;
@@ -60,38 +59,15 @@ export default function GameObject(x, y) {
         this.sprite.y = y;
     };
 
-    this.updateSign = () => {
-        this.signX = 0; this.signY = 0;
-
-        switch (this.direction) {
-            case DIRECTION_NORTH:     this.signY = -1; break;
-            case DIRECTION_NORTHEAST: this.signY = -1;
-            case DIRECTION_EAST:      this.signX = 1; break;
-            case DIRECTION_SOUTHEAST: this.signX = 1;
-            case DIRECTION_SOUTH:     this.signY = 1; break;
-            case DIRECTION_SOUTHWEST: this.signY = 1;
-            case DIRECTION_WEST:      this.signX = -1; break;
-            case DIRECTION_NORTHWEST: this.signX = -1; this.signY = -1;
-        }
-    };
-
     this.play = (animation) => {
         this.animation = animation;
-        switch (this.direction) {
-            case DIRECTION_NORTH: this.sprite.gotoAndPlay(animation + 'North'); break;
-            case DIRECTION_NORTHEAST: this.sprite.gotoAndPlay(animation + 'NorthEast'); break;
-            case DIRECTION_EAST: this.sprite.gotoAndPlay(animation + 'East'); break;
-            case DIRECTION_SOUTHEAST: this.sprite.gotoAndPlay(animation + 'SouthEast'); break;
-            case DIRECTION_SOUTH: this.sprite.gotoAndPlay(animation + 'South'); break;
-            case DIRECTION_SOUTHWEST: this.sprite.gotoAndPlay(animation + 'SouthWest'); break;
-            case DIRECTION_WEST: this.sprite.gotoAndPlay(animation + 'West'); break;
-            case DIRECTION_NORTHWEST: this.sprite.gotoAndPlay(animation + 'NorthWest'); break;
-        }
+        this.sprite.gotoAndPlay(this.animation + this.direction.name);
     };
 
-    this.changeDirection = (direction) => {
-        this.direction = direction;
-        this.updateSign();
+    this.updateDirection = (destX, destY) => {
+        this.direction.x = (destX - this.x) / Math.max(Math.abs(destX - this.x), 1);
+        this.direction.y = (destY - this.y) / Math.max(Math.abs(destY - this.y), 1);
+        this.direction.name = directionName(this.direction.x, this.direction.y);
     };
 
     this.directionChanged = (direction) => {
@@ -119,10 +95,7 @@ export default function GameObject(x, y) {
     this.data = null;
     this.sprite = null;
     this.animation = null;
-    this.signX = 0;
-    this.signY = 0;
-    this.direction = null;
-    this.changeDirection(DIRECTION_SOUTH);
+    this.direction = DIRECTION_SOUTH;
     this.speed = 0;
     this.armor = 0;
     this.hp = 1;
