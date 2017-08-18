@@ -21,9 +21,12 @@ export default function Cow(x, y) {
         }
     };
 
+    this.height = 32;
+    this.width = 32;
+
     this.data = {
         images: ['./assets/cow.png'],
-        frames: this.spriteSheet(4, 8, 32),
+        frames: this.spriteSheet(4, 8),
         animations: {
             walkEast: [8, 11, 'walkEast', 0.3],
             walkNorthEast: [8, 11, 'walkNorthEast', 0.3],
@@ -34,8 +37,8 @@ export default function Cow(x, y) {
             walkNorth: [0, 3, 'walkNorth', 0.3],
             walkSouth: [12, 15, 'walkSouth', 0.3],
             idleEast: [28, 31, 'idleEast', 0.1],
-            idleNorthEast: [28, 31, 'idleSouthEast', 0.1],
-            idleSouthEast: [28, 31, 'idleNorthEast', 0.1],
+            idleNorthEast: [28, 31, 'idleNorthEast', 0.1],
+            idleSouthEast: [28, 31, 'idleSouthEast', 0.1],
             idleWest: [20, 23, 'idleWest', 0.1],
             idleNorthWest: [20, 23, 'idleNorthWest', 0.1],
             idleSouthWest: [20, 23, 'idleSouthWest', 0.1],

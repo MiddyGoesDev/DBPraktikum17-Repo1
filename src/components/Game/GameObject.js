@@ -1,12 +1,13 @@
 import { DIRECTION_SOUTH, directionName} from './Directions';
 import GameStage from './GameStage';
-import { HpBar, updateBar } from './HpBar'
+import { HpBar, updateBarPosition, updateBarHealth } from './HpBar'
 
 
 export default function GameObject(x, y) {
 
     this.construct = () => {
         this.sprite = new window.createjs.Sprite(new window.createjs.SpriteSheet(this.data), this.animation);
+        this.hpBar = new HpBar();
         this.updatePosition(this.x, this.y);
         GameStage().add(this);
     };
@@ -36,9 +37,10 @@ export default function GameObject(x, y) {
 
     this.check = () => {
         let near = GameStage().near(this);
-        for (let i=0; i<near.length; i++) {
+        for (let i=0 ; i < near.length; i++) {
             let collision = this.checkCollision(near[i]);
             if (collision !== false) {
+                console.log(near);
                 this.handleCollision(near[i], collision);
             }
         }
@@ -53,8 +55,7 @@ export default function GameObject(x, y) {
         this.y = y;
         this.sprite.x = x;
         this.sprite.y = y;
-        this.hpBar.graphics.command.x = this.x + 2;
-        this.hpBar.graphics.command.y = this.y - 4;
+        updateBarPosition(this);
     };
 
     this.play = (animation) => {
@@ -76,11 +77,11 @@ export default function GameObject(x, y) {
         return window.ndgmr.checkPixelCollision(this.sprite, object.sprite, 0.01, true);
     };
 
-    this.spriteSheet = (x, y, size) => {
+    this.spriteSheet = (x, y) => {
         let frames = [];
         for (let j = 0; j < y; j++) {
             for (let i = 0; i < x; i++) {
-                frames.push([size * i, size * j, size, size]);
+                frames.push([this.width * i, this.height * j, this.width, this.height]);
             }
         }
         return frames;
@@ -88,7 +89,7 @@ export default function GameObject(x, y) {
 
     this.takeDamage = (damage) => {
       this.hp -= Math.max(0 , damage - this.armor);
-      updateBar(this);
+      updateBarHealth(this);
       if (this.hp <= 0) {
           this.destruct();
       }
@@ -98,6 +99,8 @@ export default function GameObject(x, y) {
     this.id = Math.floor(new Date().valueOf() * Math.random());
     this.x = x;
     this.y = y;
+    this.height = 0;
+    this.width = 0;
     this.data = null;
     this.sprite = null;
     this.animation = null;
@@ -105,6 +108,6 @@ export default function GameObject(x, y) {
     this.speed = 0;
     this.armor = 0;
     this.hp = 100;
-    this.hpBar = new HpBar(this);
+    this.hpBar = null;
     this.keyChanged = false;
 }

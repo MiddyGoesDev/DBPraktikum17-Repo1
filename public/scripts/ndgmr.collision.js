@@ -61,7 +61,7 @@ this.ndgmr = this.ndgmr || {};
     getRect = getRect || false;
 
     var areObjectsCloseEnough,
-        intersetion,
+        intersection,
         imageData1, imageData2,
         pixelIntersection;
 
