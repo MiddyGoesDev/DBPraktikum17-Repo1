@@ -25,6 +25,7 @@ for (var i=0; i<1; i++) {
     cows.push(cow);
     objects[cow.id] = cow;
     console.log('create cow ' + cow.id);
+    socket.emit('spawn', cow);
 }
 
 io.on('connection', socket => {
