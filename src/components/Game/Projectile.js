@@ -18,6 +18,7 @@ export default function Projectile(x, y, direction) {
         switch (object.type) {
             case 'Wall': console.log('Projectile colliding with Wall'); this.destruct(); break;
             case 'Character': if (object.id !== this.owner) this.destruct(); break;
+            case 'Cow': console.log('Projectile colliding with Cow'); this.destruct(); break;
         }
     };
 
