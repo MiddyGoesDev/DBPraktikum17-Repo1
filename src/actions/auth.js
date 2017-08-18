@@ -13,11 +13,7 @@ export function register(username, password) {
     return {
         'BAQEND': {
             type: USER_REGISTER,
-            payload: (db) => db.User.register(username, password).then((abort) => {
-            },
-            (error) => {
-            confirm(error.message);
-            })
+            payload: (db) => db.User.register(username, password)
         }
     }
 }
@@ -76,7 +72,23 @@ export function me() {
     return {
         'BAQEND': {
             type: ME,
-            payload: (db) => db.User.find(db.User.me.username).singleResult()
+            payload: (db) => db.User.find(db.User.me.id).singleResult()
         }
     }
 }
+
+export function checkForExsistence(userInput) {
+  return {
+    'BAQEND': {
+      type: "CHECK_FOR_EXSISTENCE",
+      payload: (db) => db.modules.get(checkForExsistence ,{userInput}).then((result) => {
+        console.log(result);
+        if(result===null) {
+          return false;
+        } else {
+          return false;
+        }
+    })
+        }
+      }
+    }
