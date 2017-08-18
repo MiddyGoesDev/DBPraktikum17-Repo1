@@ -2,7 +2,6 @@ import './Ranking.css';
 import React from 'react'
 import PropTypes from 'prop-types'
 import {getStatsByKD, getStatsByProfileDsc, getStatsByProfileAsc, getStatsByXP, getStatsForProfile} from '../actions/ranking'
-import {getStats} from '../actions/profile'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
@@ -33,7 +32,7 @@ componentWillMount(){
 
   handleProfile = (event) => {
     event.preventDefault();
-    if(this.state.profileClicks==1){
+    if(this.state.profileClicks===1){
       this.props.actions.getStatsByProfileDsc().then((result) => {
         this.setState({
           ranking: result,
@@ -105,13 +104,13 @@ componentWillMount(){
               <div className="col-xs centers"><button className="Button" onClick={this.handleXP}><b>EXP</b></button></div>
               </div>
                 {this.state.ranking.map(stats =>
-                  <div key={stats.id}>
+                  <table key={stats.id}>
                   <tr onClick={this.displayProfile}>
-                    <td id="username">{stats.username}</td>
-                    <td>{stats.kd}</td>
-                    <td>{stats.xp}</td>
+                  <td>{stats.username}</td>
+                  <td>{stats.kd}</td>
+                  <td>{stats.xp}</td>
                     </tr>
-                  </div>
+                  </table>
                 )}
                 </div>
                 <div className="playerProfile">

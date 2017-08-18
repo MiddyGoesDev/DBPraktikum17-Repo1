@@ -19,7 +19,7 @@ export default function GameObject(x, y) {
     this.handleEvent = () => { };
 
     this.emit = (action) => {
-        console.log('emit ' + action);
+        //console.log('emit ' + action);
         GameStage().socket.emit(action, {
             type: this.type,
             id: this.id,

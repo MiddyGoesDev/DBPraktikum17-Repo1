@@ -10,7 +10,12 @@ export function sendMessage(text, bool) {
           'date':new Date(),
           'isJoinInfo':bool,
         });
-        return messageObj.insert()
+        return messageObj.insert().then((abort) => {
+          console.log("msg inserted into db");
+        },
+        (error) => {
+          console.log(error.message);
+        });
       }
     }
   }

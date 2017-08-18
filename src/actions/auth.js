@@ -15,7 +15,7 @@ export function register(username, password) {
             type: USER_REGISTER,
             payload: (db) => db.User.register(username, password)
         }
-    };
+    }
 }
 
 export function createCharacter(user) {
