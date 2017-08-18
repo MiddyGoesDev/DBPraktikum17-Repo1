@@ -82,10 +82,10 @@ export function checkForExsistence(userInput) {
   return {
     'BAQEND': {
       type: "CHECK_FOR_EXSISTENCE",
-      payload: (db) => db.modules.get(checkForExsistence ,{userInput}).then((result) => {
-        console.log(result);
+       payload: (db) => db.modules.get("checkForExsistence" ,{userInput: userInput}).then((result) => {
+        console.log("ergebnis ist" + result===null);
         if(result===null) {
-          return false;
+          return true;
         } else {
           return false;
         }
