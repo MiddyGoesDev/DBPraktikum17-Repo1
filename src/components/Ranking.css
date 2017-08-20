@@ -31,23 +31,31 @@ margin-left: 5%;
 .Button {
   border: none;
   font-size: 20px;
+  background-color: #fff;
+  color: #555;
+  margin-bottom: 1%;
+}
+
+.Button:hover {
+  color: #3498db;
 }
 
 tr {
-  background-color: grey;
   width: 100%;
 }
 
 tr:hover{
-  background-color: white;
+  background-color: #3498db;
+  color: #fff;
 }
 
 td {
   text-align: center;
-  float: left;
   width: 33%;
 }
 
 table {
   width: 100%;
+  border-collapse: collapse;
+  color: #555;
 }

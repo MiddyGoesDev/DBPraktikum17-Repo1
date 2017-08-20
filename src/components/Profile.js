@@ -47,7 +47,7 @@ class Profile extends React.Component {
                         </div>
 
                         <div className="statistics">
-                        <h2>Statistics</h2>
+                        <h3>Statistics</h3>
                         Kills: {this.state.kills}<br/>
                         Deaths: {this.state.deaths}<br/>
                         Total Experience gained: {this.state.exp}<br/>

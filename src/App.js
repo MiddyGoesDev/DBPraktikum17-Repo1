@@ -29,30 +29,22 @@ export default class App extends Component {
 
                             <div className="col-xs-2" id="navbar">
                                 <NavLink
-                                    style={{padding: '0 8px'}}
-                                    activeStyle={{textDecoration: 'underline'}}
                                     to="/account">
                                     Account
                                 </NavLink>
 
                                 <NavLink
-                                    style={{padding: '0 8px'}}
-                                    activeStyle={{textDecoration: 'underline'}}
                                     exact={true}
                                     to="/">
                                     Game
                                 </NavLink>
 
                                 <NavLink
-                                    style={{padding: '0 8px'}}
-                                    activeStyle={{textDecoration: 'underline'}}
                                     to="/ranking">
                                     Ranking
                                 </NavLink>
 
                                 <NavLink
-                                    style={{padding: '0 8px'}}
-                                    activeStyle={{textDecoration: 'underline'}}
                                     to="/profile">
                                     Profile
                                 </NavLink>

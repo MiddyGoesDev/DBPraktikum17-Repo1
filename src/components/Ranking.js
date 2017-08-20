@@ -105,11 +105,13 @@ componentWillMount(){
               </div>
                 {this.state.ranking.map(stats =>
                   <table key={stats.id}>
-                  <tr onClick={this.displayProfile}>
-                  <td>{stats.username}</td>
-                  <td>{stats.kd}</td>
-                  <td>{stats.xp}</td>
-                    </tr>
+                    <tbody>
+                      <tr onClick={this.displayProfile}>
+                        <td className="col-xs">{stats.username}</td>
+                        <td className="col-xs">{stats.kd}</td>
+                        <td className="col-xs">{stats.xp}</td>
+                      </tr>
+                    </tbody>
                   </table>
                 )}
                 </div>

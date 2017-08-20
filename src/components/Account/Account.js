@@ -28,11 +28,10 @@ class Account extends Component {
 
     handleRegister = (event) => {
         event.preventDefault();
-        if(this.props.actions.checkForExsistence(this.state.username)){
         this.props.actions.register(this.state.username, this.state.password)
             .then(user => this.props.actions.createCharacter(user)
                 .then(character => this.props.actions.createStatistics(character, this.state.username)));
-              }
+
     };
 
     handleLogout = (event) => {
@@ -46,7 +45,7 @@ class Account extends Component {
                     <div>
                         Hey {this.props.user.username}
                         <p>
-                            <button onClick={this.handleLogout}>Logout</button>
+                            <button className="btn" onClick={this.handleLogout}>Logout</button>
                         </p>
                     </div>
                 ) : (
@@ -61,8 +60,8 @@ class Account extends Component {
                         </div>
                         <br />
                         <div>
-                            <button onClick={this.handleLogin}>Login</button>
-                            <button onClick={this.handleRegister}>Register</button>
+                            <button className="btn" onClick={this.handleLogin}>Login</button>
+                            <button className="btn" onClick={this.handleRegister}>Register</button>
                         </div>
                     </form>
                 )}

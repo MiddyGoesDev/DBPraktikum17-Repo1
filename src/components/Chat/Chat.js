@@ -59,7 +59,7 @@ class Chat extends React.Component {
                             placeholder="Send a message"
                             value={this.state.message}
                         />
-                        <button onClick={this.handleMessage}>Send</button>
+                        <button className="btnSent" onClick={this.handleMessage}>Send</button>
                     </form>
                 </div>
             </div>
