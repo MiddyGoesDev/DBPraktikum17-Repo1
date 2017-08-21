@@ -14,7 +14,7 @@ class Chat extends React.Component {
         super(props);
         this.state = {
             message: "",
-            chatInfo: "",
+            chatInfo: ""
         }
     };
 
@@ -65,7 +65,6 @@ class Chat extends React.Component {
                 <div className="chat-interface">
                     <form onChange={this.handleInputChange}>
                         <Input
-                            className="form-control"
                             name="message"
                             placeholder="Send a message"
                             value={this.state.message}
