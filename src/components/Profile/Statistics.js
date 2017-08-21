@@ -28,15 +28,14 @@ class Statistics extends React.Component {
     }
 
     setTimePlayed(){
-      var milisec = this.state.playTime;
-      console.log("milisec sind " + milisec);
-      var sec = milisec%1000;
-      console.log("sec sind " + sec);
-      var min = Math.abs(sec % 60);
-      console.log("minuten sind " + min);
-      var h = min % 60;
-      console.log("stunden sind " + h);
-      return h + " Stunden und " + min + " Minuten"
+      var min = this.state.playTime/60000;
+      if (min >= 60){
+        var h = (min - min % 60)/60;
+        return h + " Stunden und " + min % 60 + " Minuten"
+      }
+      else{
+        return "0 Stunden und " + min + " Minuten"
+      }
     }
 
     render() {
