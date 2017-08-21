@@ -46,6 +46,7 @@ class Chat extends React.Component {
         event.preventDefault();
         this.props.actions.sendMessage(": " + this.state.message, false);
         this.setState({message: ""});
+        document.getElementById("chat-input").focus();
     };
 
     handleInputChange = (event) => {
@@ -62,10 +63,11 @@ class Chat extends React.Component {
                         </div>
                     )}
                 </div>
-                <div className="chat-interface">
-                    <form onChange={this.handleInputChange}>
+                <div id="chat-interface" className="chat-interface">
+                    <form onChange={this.handleInputChange} >
                         <Input
                             name="message"
+                            id="chat-input"
                             placeholder="Send a message"
                             value={this.state.message}
                             className="input-field"
