@@ -15,7 +15,7 @@
     height: 95%;
     text-align: left;
 }
-
+/*sollte funktionieren */
 #chat-messages {
   word-wrap: break-word;
   overflow-y: scroll;
