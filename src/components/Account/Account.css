@@ -2,3 +2,23 @@
   padding: 16px;
   text-align: center;
 }
+
+.btn {
+  color: #3498db;
+  background-color: #fff;
+  display: inline-block;
+  padding: 10px 30px;
+  font-weight: 300;
+  text-decoration: none;
+  border: 1px solid #3498db;
+  border-radius: 50px;
+  transition: background-color 0.2s, border 0.2s, color 0.2s;
+  margin-left: 10px;
+}
+
+.btn:hover,
+.btn:active {
+  color: #fff;
+  background-color: #3498db;
+  border: 1px solid #fff;
+}
