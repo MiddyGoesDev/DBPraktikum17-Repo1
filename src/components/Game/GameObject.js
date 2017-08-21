@@ -7,7 +7,8 @@ export default function GameObject(x, y) {
 
     this.construct = () => {
         this.sprite = new window.createjs.Sprite(new window.createjs.SpriteSheet(this.data), this.animation);
-        this.hpBar = new HpBar();
+        this.currentHP = this.baseHP;
+        this.hpBar = new HpBar(this);
         this.updatePosition(this.x, this.y);
         GameStage().add(this);
     };
@@ -27,7 +28,8 @@ export default function GameObject(x, y) {
             x: this.x,
             y: this.y,
             direction: this.direction,
-            animation: this.animation
+            animation: this.animation,
+            currentHP: this.currentHP
         });
     };
 
@@ -85,9 +87,9 @@ export default function GameObject(x, y) {
     };
 
     this.takeDamage = (damage) => {
-        this.hp -= Math.max(0, damage - this.armor);
-        this.hpBar.updateHealth(this);
-        if (this.hp <= 0) {
+        this.currentHP -= Math.max(0, damage - this.armor);
+        this.hpBar.updateHealth();
+        if (this.currentHP <= 0) {
             this.destruct();
         }
     };
@@ -104,7 +106,8 @@ export default function GameObject(x, y) {
     this.direction = Object.assign({}, DIRECTION_SOUTH);
     this.speed = 0;
     this.armor = 0;
-    this.hp = 100;
+    this.baseHP = 100;
+    this.maxHP = () => this.baseHP;
     this.hpBar = null;
     this.keyChanged = false;
 }

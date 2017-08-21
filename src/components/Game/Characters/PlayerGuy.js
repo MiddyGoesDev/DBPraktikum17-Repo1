@@ -23,10 +23,21 @@ export default function PlayerGuy(x, y) {
         this.character.y = this.y;
         this.character.direction = this.direction;
         this.character.animation = this.animation;
+        this.character.current_hp = this.currentHP;
 
         if(this.character._metadata.isReady) {
             this.character.update({force: true});
         }
+    };
+
+    this.takeDamage = (damage) => {
+        console.log('player took damage');
+        this.currentHP -= Math.max(0, damage - this.armor);
+        this.hpBar.updateHealth();
+        if (this.currentHP <= 0) {
+            this.destruct();
+        }
+        this.updateBaqend();
     };
 
     // TODO: refactor this! use math
@@ -79,7 +90,7 @@ export default function PlayerGuy(x, y) {
                 break;
             case KEYCODE_S:
                 this.punch();
-                this.emit('change');
+                this.emit('punch');
                 break;
             case KEYCODE_1:
                 // TODO type
@@ -135,5 +146,5 @@ export default function PlayerGuy(x, y) {
     this.construct();
     this.emit('join');
     this.idle();
-    this.takeDamage(0); //activate HP bar
+    this.hpBar.displayHealth();
 }

@@ -45,6 +45,9 @@ export function updateOpponents() {
                         let opponent = new Opponent(character.data.x, character.data.y);
                         opponent.id = character.data.id;
                         opponent.direction = character.data.direction;
+                        opponent.baseHP = character.data.base_hp;
+                        opponent.currentHP = character.data.current_hp;
+                        opponent.animation = 'idle';
                         GameStage().link(opponent);
                     } else if (!character.data.playing && GameStage().networkObjects.hasOwnProperty(character.data.id)) {
                         GameStage().unlink(character.data.id);
@@ -53,6 +56,7 @@ export function updateOpponents() {
                         GameStage().networkObjects[character.data.id].updatePosition(character.data.x, character.data.y);
                         GameStage().networkObjects[character.data.id].nextDirection = character.data.direction;
                         GameStage().networkObjects[character.data.id].nextAnimation = character.data.animation;
+                        GameStage().networkObjects[character.data.id].currentHP = character.data.current_hp;
                     }
                 });
             }
