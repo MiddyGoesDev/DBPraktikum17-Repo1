@@ -49,6 +49,15 @@ class Game extends React.Component {
 
         document.onkeydown = GameStage().keyPressed;
         document.onkeyup = GameStage().keyReleased;
+
+        // TODO prevent scrolling
+        window.addEventListener("keydown", function(e) {
+            // space and arrow keys
+            if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+            }
+        }, false);
+
         // Actions carried out each tick (aka frame)
         window.createjs.Ticker.addEventListener('tick', () => {
             GameStage().update();
