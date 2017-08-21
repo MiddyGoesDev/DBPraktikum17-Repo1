@@ -61,6 +61,7 @@ class Ranking extends React.Component {
         }
     };
 
+
     handleKD = (event) => {
         event.preventDefault();
         this.props.actions.getStatsByKD().then((result) => {

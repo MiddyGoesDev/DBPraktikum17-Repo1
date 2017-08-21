@@ -10,6 +10,7 @@
 
 .chat-messages {
     height: 95%;
+    text-align: left;
 }
 
 #chat-messages {
@@ -17,6 +18,7 @@
   overflow-y: scroll;
   height: 95%;
   color: #696969;
+  text-align: left;
 }
 
 .btnSent {
