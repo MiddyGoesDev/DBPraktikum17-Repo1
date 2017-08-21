@@ -94,7 +94,7 @@ export default function PlayerGuy(x, y) {
                 break;
             case KEYCODE_1:
                 // TODO type
-                if (this.items.filter(item => item.type === 'Item').length !== 0){
+                if (this.weapon !== null) {
                    this.use();
                 }
                 this.emit('change');

@@ -1,4 +1,5 @@
 import Item from './Item';
+import Projectile from "../Projectiles/KoboriRyuHorenGata";
 
 export default function KoboriRyuHorenGata(x, y) {
 
@@ -14,8 +15,12 @@ export default function KoboriRyuHorenGata(x, y) {
         }
     };
 
+    this.use = (x, y, direction) => new Projectile(x, y, direction);
+
     this.hp = 1;
     this.armor = 10;
+    this.type = 'MainHand';
+    this.name = 'Kobori Ryu Horen Gata';
     this.construct();
     this.play('idle');
 

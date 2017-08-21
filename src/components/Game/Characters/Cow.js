@@ -1,6 +1,5 @@
 import GameStage from '../GameStage';
 import Character from './Character';
-import ShurikenItem from "../Items/GurandoMasutaa";
 
 export default function Cow(x, y) {
 
@@ -23,7 +22,7 @@ export default function Cow(x, y) {
     };
 
     this.destruct = () => {
-        new ShurikenItem(this.x + this.width / 2, this.y + this.height / 2);
+        this.emit('cow died');
         GameStage().remove(this);
     };
 

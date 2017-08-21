@@ -10,10 +10,6 @@ export default function Item(x, y) {
 
     this.handleCollision = (object, collision) => {
         switch (object.type) {
-            case 'Character':
-                object.items.push(this);
-                this.destruct();
-                break;
             case 'Cow':
                 this.destruct();
                 break;

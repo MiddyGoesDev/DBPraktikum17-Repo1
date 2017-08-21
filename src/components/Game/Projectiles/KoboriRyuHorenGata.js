@@ -13,7 +13,7 @@ export default function KoboriRyuHorenGata(x, y, direction) {
         frames: this.spriteSheet(3, 7),
         animations: {
             flyEast: [9, 10, 'flyEast', 1],
-            flyWest: [0, 10, 'flyWest', 1],
+            flyWest: [9, 10, 'flyWest', 1],
             flyNorth: [9, 10, 'flyNorth', 1],
             flySouth: [9, 10, 'flySouth', 1],
             flyNorthEast: [10, 10, 'flyNorth', 1],
