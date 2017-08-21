@@ -107,8 +107,7 @@ function GameStage() {
             case 'Cow':
                 this.networkObjects[object.id].destX = object.x;
                 this.networkObjects[object.id].destY = object.y;
-                this.networkObjects[object.id].destDirection = object.direction;
-                this.networkObjects[object.id].hp = object.hp;
+                this.networkObjects[object.id].currentHP = object.currentHP;
                 break;
         }
     });
@@ -127,8 +126,6 @@ function GameStage() {
     });
 
     this.socket.on('spawn fist', player => {
-        console.log('spawn fist');
-        console.log(this.networkObjects[player.id]);
         this.networkObjects[player.id].punch();
     });
 }

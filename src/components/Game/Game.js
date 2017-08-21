@@ -25,7 +25,15 @@ class Game extends React.Component {
         this.resizeGame();
         this.props.actions.join();
         this.startGame();
+<<<<<<< HEAD
+=======
+        console.log('did mount');
+>>>>>>> edb50b70574f6d255dd938e79402f557b9545b19
 
+    }
+    
+    componentWillMount() {
+        console.log('will mount');
     }
 
     resizeGame() {
@@ -38,7 +46,8 @@ class Game extends React.Component {
     componentWillUnmount() {
         this.props.actions.leave();
         this.props.actions.setTimer(this.state.joinDate);
-        console.log(Math.abs(new Date() - this.state.joinDate));
+        this.endGame();
+        console.log('will unmount');
     }
 
     startGame() {
