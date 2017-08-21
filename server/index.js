@@ -33,7 +33,7 @@ for (var i=0; i<1; i++) {
         y: Math.round(cowZone.y + cowZone.height * Math.random()),
         animation: 'idle',
         direction: { x: 0, y: 1, name: 'South' },
-        hp: 100
+        currentHP: 100
     };
     cows.push(cow);
     objects[cow.id] = cow;

@@ -107,6 +107,7 @@ export default function GameObject(x, y) {
     this.speed = 0;
     this.armor = 0;
     this.baseHP = 100;
+    this.currentHP = 100;
     this.maxHP = () => this.baseHP;
     this.hpBar = null;
     this.keyChanged = false;
