@@ -14,9 +14,24 @@ class Chat extends React.Component {
         super(props);
         this.state = {
             message: "",
-            chatInfo: ""
+            chatInfo: "",
         }
     };
+
+    // componentWillMount() {
+    //         console.log("firstJoin?" + this.state.firstJoin);
+    //         this.props.actions.sendMessage(" has joined the Chat", false).then((result) => {
+    //             this.setState({
+    //             firstJoin: false
+    //         })
+    //         console.log("should be false "+this.state.firstJoin);
+    //
+    //     })
+    // }
+
+    // componentDidMount() {
+    //     this.props.actions.sendMessage(" has joinded the Chat", false)
+    // }
 
     componentWillUpdate() {
         this.props.actions.getMessages();
@@ -54,6 +69,7 @@ class Chat extends React.Component {
                             name="message"
                             placeholder="Send a message"
                             value={this.state.message}
+                            className="input-field"
                         />
                         <Button primary onClick={this.handleMessage}>Send</Button>
                     </form>

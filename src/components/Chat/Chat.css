@@ -6,6 +6,8 @@
 
 .chat-interface {
     height: 5%;
+    position: absolute;
+    bottom: 25px
 }
 
 .chat-messages {
@@ -21,6 +23,12 @@
   text-align: left;
 }
 
-.btnSent {
-  color: #3498db;
+.submit-btn {
+  float: right
+
+}
+
+.input-field {
+  width: 60%;
+  float: left;
 }
