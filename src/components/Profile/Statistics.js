@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Card, Header, Dimmer, Image} from "semantic-ui-react";
 import {bindActionCreators} from "redux";
-import {getStats, getProfileName} from "../../actions/profile";
+import {getStats} from "../../actions/profile";
 import {connect} from "react-redux";
 import PropTypes from 'prop-types'
 
@@ -12,6 +12,19 @@ class Statistics extends React.Component {
         this.state = {
 
         }
+    }
+
+    componentWillMount() {
+        this.props.actions.getStats().then((stats) => {
+            this.setState({
+                kills: stats.kills,
+                deaths: stats.deaths,
+                exp: stats.xp,
+                kd: stats.kd,
+                playTime: stats.playingTime,
+                user: stats.username
+            })
+        })
     }
 
     render() {
@@ -42,30 +55,14 @@ class Statistics extends React.Component {
                             Statistics
                         </Header>
                         <div className="ui horizontal statistics mini">
-                            <div className="statistic">
-                                <div className="value">
-                                    120
-                                </div>
-                                <div className="label">
-                                    Vitality
-                                </div>
-                            </div>
-                            <div className="statistic">
-                                <div className="value">
-                                    10
-                                </div>
-                                <div className="label">
-                                    Damage
-                                </div>
-                            </div>
-                            <div className="statistic">
-                                <div className="value">
-                                    4
-                                </div>
-                                <div className="label">
-                                    Movement Speed
-                                </div>
-                            </div>
+                        <div className="statistics">
+                          <h2>Statistics</h2>
+                          Kills: {this.state.kills}<br/>
+                          Deaths: {this.state.deaths}<br/>
+                          Total Experience: {this.state.exp}<br/>
+                          KD: {this.state.kd}<br/>
+                          Total Time spend: {this.state.playTime}
+                         </div>
                         </div>
                     </Card.Description>
                 </Card.Content>
@@ -84,7 +81,7 @@ function mapStateToProps(state) {
 
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({getStats, getProfileName}, dispatch)};
+    return {actions: bindActionCreators({getStats}, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Statistics);

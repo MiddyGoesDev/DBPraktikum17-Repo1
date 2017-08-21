@@ -124,13 +124,22 @@ class Ranking extends React.Component {
                                     #
                                 </Table.Cell>
                                 <Table.Cell>
-                                    <button class="ui button" onClick={this.handleProfile}>Username</button>
+                                    <button className="ui button"
+                                    style={{backgroundColor: '#f5f5f5'}}
+                                    onClick={this.handleProfile}>
+                                    <h3>Username</h3></button>
                                 </Table.Cell>
                                 <Table.Cell>
-                                    <button class="ui button" onClick={this.handleKD}>K/D</button>
+                                    <button className="ui button"
+                                    style={{backgroundColor: '#f5f5f5'}}
+                                    onClick={this.handleKD}>
+                                    <h3>K/D</h3></button>
                                 </Table.Cell>
                                 <Table.Cell>
-                                    <button class="ui button" onClick={this.handleXP}>Experience</button>
+                                    <button className="ui borderlessButton button"
+                                    style={{backgroundColor: '#f5f5f5'}}
+                                    onClick={this.handleXP}>
+                                    <h3>Experience</h3></button>
                                 </Table.Cell>
                             </Table.Row>
                         </Table.Header>

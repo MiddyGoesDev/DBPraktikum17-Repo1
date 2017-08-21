@@ -15,11 +15,6 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            kills: null,
-            deaths: null,
-            exp: null,
-            kd: null,
-            playTime: null,
             user: null
         }
     }
@@ -27,11 +22,6 @@ class Profile extends React.Component {
     componentWillMount() {
         this.props.actions.getStats().then((stats) => {
             this.setState({
-                kills: stats.kills,
-                deaths: stats.deaths,
-                exp: stats.xp,
-                kd: stats.kd,
-                playTime: stats.playingTime,
                 user: stats.username
             })
         })
