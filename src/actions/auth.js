@@ -30,8 +30,14 @@ export function createCharacter(user) {
                     'y': 10,
                     'animation': 'idle',
                     'direction': DIRECTION_SOUTH,
+                    'base_hp': 100,
+                    'current_hp': 100,
+                    'vitality': Math.floor(Math.random() * 5),
+                    'strength': Math.ceil(Math.random() * 5),
+                    'dexterity': Math.floor(Math.random() * 5),
+                    'intelligence': Math.floor(Math.random() * 5),
                     'xp': 0,
-                    'level': 0,
+                    'level': 1,
                     'playing': false
                 });
                 return character.insert();

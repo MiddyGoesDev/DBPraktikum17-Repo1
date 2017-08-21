@@ -105,6 +105,11 @@ export default function Character(x, y) {
 
     this.type = 'Character';
     this.items = [];
+    this.vitality = 0;
+    this.strength = 0;
+    this.dexterity = 0;
+    this.intelligence = 0;
+    this.maxHP = () => this.baseHP + this.vitality;
     this.speed = 4;
     this.animation = null;
 }

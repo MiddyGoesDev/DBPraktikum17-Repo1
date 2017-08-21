@@ -1,9 +1,21 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var fs = require('fs');
+var db = require('baqend');
+var app = require('http').createServer((request, result) => fs.readFile(__dirname + '/index.html', (err, data) => {
+    if (err) {
+        result.writeHead(500);
+        return result.end('Error loading index.html');
+    }
+    result.writeHead(200);
+    result.end(data);
+}));
+var io = require('socket.io')(app);
 var port = 8080;
 
-http.listen(port, function(){
+db.connect('black-water-73').then(() => console.log('Connected to Baqend'));
+
+setTimeout(() => { db.ItemMask.find().resultList((result) => console.log(result)); }, 1000);
+
+app.listen(port, function(){
     console.log('listening on *:' + port);
 });
 
@@ -11,7 +23,7 @@ var characters = {};
 var objects = {};
 
 var cows = [];
-var cowZone = { x: 150, y: 150, width: 200, height: 200};
+var cowZone = { x: 150, y: 150, width: 200, height: 200 };
 
 for (var i=0; i<1; i++) {
     var cow = {
@@ -20,7 +32,8 @@ for (var i=0; i<1; i++) {
         x: Math.round(cowZone.x + cowZone.width * Math.random()),
         y: Math.round(cowZone.y + cowZone.height * Math.random()),
         animation: 'idle',
-        direction: { x: 0, y: 1, name: 'South' }
+        direction: { x: 0, y: 1, name: 'South' },
+        hp: 100
     };
     cows.push(cow);
     objects[cow.id] = cow;
@@ -43,6 +56,12 @@ io.on('connection', socket => {
 
     socket.on('add', object => {
         objects[object.id] = object;
+    });
+
+    socket.on('punch', object => {
+        console.log('punch');
+        console.log(object);
+        socket.broadcast.emit('spawn fist', object);
     });
 
     socket.on('change', object => {
@@ -96,55 +115,3 @@ function getDirection(x, y, destX, destY) {
         name: directionName(signX, signY)
     };
 }
-
-/*
-io.on('connection', function(socket) {
-
-    socket.on('join', function (opponent) {
-        console.log('user ' + socket.id + ' has connected');
-
-        opponents[socket.id] = opponent;
-        objects[opponent.id] = opponent;
-
-        console.log(Object.assign({}, opponents));
-
-        socket.broadcast.emit('joined', opponent);
-
-        socket.emit('initialize opponents', Object.assign({}, opponents));
-    });
-
-    socket.on('disconnect', function() {
-        console.log('user disconnected');
-
-        socket.broadcast.emit('left', opponents[socket.id]);
-
-        try {
-            delete objects[opponents[socket.id].id];
-            delete opponents[socket.id];
-        } catch (err) {
-            console.log('user not found');
-        }
-    });
-
-    socket.on('change', function (object) {
-        console.log('Object has changed');
-
-        objects[object.id] = object;
-
-        socket.broadcast.emit('update', object);
-        console.log(Object.assign({}, opponents), Object.assign({}, objects));
-    });
-
-    socket.on('add', function (object) {
-        console.log(object.id + ' fired projectile');
-        objects[object.id] = object;
-        socket.broadcast.emit('update', object);
-    });
-
-    socket.on('destroy', function (object) {
-        console.log('projectile' + object.id + 'destroyed');
-        socket.broadcast.emit('destroyed', object.id);
-    });
-
-});
-*/

@@ -27,6 +27,17 @@ class Statistics extends React.Component {
         })
     }
 
+    setTimePlayed(){
+      var min = this.state.playTime/60000;
+      if (min >= 60){
+        var h = (min - min % 60)/60;
+        return h + " Stunden und " + min % 60 + " Minuten"
+      }
+      else{
+        return "0 Stunden und " + min + " Minuten"
+      }
+    }
+
     render() {
         const { active } = this.state;
         const dimmedContent = (
@@ -61,7 +72,7 @@ class Statistics extends React.Component {
                           Deaths: {this.state.deaths}<br/>
                           Total Experience: {this.state.exp}<br/>
                           KD: {this.state.kd}<br/>
-                          Total Time spend: {this.state.playTime}
+                          Total Time spend: {this.setTimePlayed()}
                          </div>
                         </div>
                     </Card.Description>

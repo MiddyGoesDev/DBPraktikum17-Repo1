@@ -13,7 +13,6 @@ export default function OpponentGuy(x, y) {
                     this.walk();
                 }
                 break;
-            case 'punch': this.punch(); break;
         }
         if (!this.isBusy() && this.isWalking()) {
             this.move();
