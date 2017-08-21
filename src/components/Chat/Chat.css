@@ -6,8 +6,9 @@
 
 .chat-interface {
     height: 5%;
+    margin-bottom: 5%;
     position: absolute;
-    bottom: 25px
+    bottom: 0px;
 }
 
 .chat-messages {
