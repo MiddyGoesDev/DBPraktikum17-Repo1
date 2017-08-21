@@ -14,7 +14,8 @@ class Account extends Component {
         super(props);
         this.state = {
             username: null,
-            password: null
+            password: null,
+            info: ""
         }
     }
 
@@ -24,17 +25,37 @@ class Account extends Component {
 
     handleLogin = (event) => {
         event.preventDefault();
-        this.props.actions.login(this.state.username, this.state.password);
+        if(this.state.username === null || this.state.password === null) {
+            this.setState({
+                info: "Please enter a valid username and password"
+            });
+        }
+        else {
+            this.props.actions.login(this.state.username, this.state.password);
+            this.setState({
+                username: null,
+                password: null,
+                info: ""
+            });
+        }
     };
 
     handleRegister = (event) => {
         event.preventDefault();
-        if(this.props.actions.checkForExsistence(this.state.username)){
-        this.props.actions.register(this.state.username, this.state.password)
-            .then(user => this.props.actions.createCharacter(user)
-                .then(character => this.props.actions.createStatistics(character, this.state.username)));
-              }
-    };
+        this.props.actions.checkForExsistence(this.state.username).then(notUsed => { //wenn nicht gefunden true
+            console.log("username is not used: "+notUsed);
+            if(!notUsed){
+                this.props.actions.register(this.state.username, this.state.password)
+                    .then(user => this.props.actions.createCharacter(user)
+                        .then(character => this.props.actions.createStatistics(character, this.state.username)));
+                    }
+                    else {
+                        this.setState({
+                            info: "Username is already registered"
+                              })
+                        }
+                    })
+                };
 
     handleLogout = (event) => {
         this.props.actions.logout();
@@ -60,9 +81,9 @@ class Account extends Component {
                             <div>
                                 <Form size='large' onChange={this.handleInputChange}>
                                     <Segment stacked>
-                                        <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' name="username"/>
-                                        <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' name="password" type='password'/>
-
+                                        <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' name="username" id="username"/>
+                                        <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' name="password" type='password' id="password"/>
+                                        <p id="err">{this.state.info}</p>
                                         <Button color='primary' fluid size='large' onClick={this.handleLogin}>
                                             Login
                                         </Button>

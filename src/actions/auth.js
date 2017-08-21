@@ -78,18 +78,14 @@ export function me() {
     }
 }
 
-export function checkForExsistence(userInput) {
+export function checkForExsistence(input) {
   return {
     'BAQEND': {
       type: "CHECK_FOR_EXSISTENCE",
-       payload: (db) => db.modules.get("checkForExsistence" ,{userInput: userInput}).then((result) => {
-        console.log("ergebnis ist" + result===null);
-        if(result===null) {
-          return true;
-        } else {
-          return false;
-        }
-    })
+       payload: (db) => db.modules.get("checkForExsistence" ,{userInput: input}).then((result) => {
+         console.log(result.exists);
+         return result.exists;
+        })
         }
       }
     }
