@@ -8,6 +8,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import Statistics from './Profile/Statistics';
 import Equipment from './Profile/Equipment';
+import {Grid} from "semantic-ui-react";
 
 class Profile extends React.Component {
 
@@ -38,6 +39,12 @@ class Profile extends React.Component {
 
 
     render() {
+        return (
+            <Grid centered style={{height: '90%'}}>
+                <div className="two wide column"><Statistics user={{name: this.state.user}}/></div>
+                <div className="six wide column"><Equipment/></div>
+            </Grid>
+        );
         return (
             <div className="ui grid cards centered" style={{height: '90%'}}>
                 <div className="two wide column"><Statistics user={{name: this.state.user}}/></div>
