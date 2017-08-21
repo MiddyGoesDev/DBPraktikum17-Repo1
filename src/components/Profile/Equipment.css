@@ -1,0 +1,48 @@
+.item-title {
+    text-align: center;
+}
+
+.head {
+    width: 200px;
+    height: 150px;
+}
+
+.shoulders {
+    width: 200px;
+    height: 250px;
+}
+
+.amulet {
+    width: 100px;
+    height: 100px;
+}
+
+.torso {
+    width: 200px;
+    height: 200px;
+}
+
+.belt {
+    width: 200px;
+    height: 100px;
+}
+
+.ring {
+    width: 100px;
+    height: 100px;
+}
+
+.weapon {
+    width: 200px;
+    height: 300px;
+}
+
+.pants {
+    width: 200px;
+    height: 200px;
+}
+
+.boots {
+    width: 200px;
+    height: 150px;
+}

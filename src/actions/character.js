@@ -1,6 +1,6 @@
 import {JOIN, LEAVE, OWN_CHARACTER, UPDATE_OPPONENTS, UPDATE_CHARACTER} from './types'
 import GameStage from '../components/Game/GameStage';
-import Opponent from '../components/Game/OpponentGuy';
+import Opponent from '../components/Game/Characters/OpponentGuy';
 
 export function join() {
     return {

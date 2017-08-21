@@ -1,6 +1,6 @@
-import GameObject from './GameObject';
-import Fist from './Fist';
-import Shuriken from './Shuriken';
+import GameObject from '../GameObject';
+import Fist from '../Projectiles/Fist';
+import Shuriken from '../Projectiles/Shuriken';
 
 export default function Character(x, y) {
 

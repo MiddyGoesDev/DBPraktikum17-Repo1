@@ -1,27 +1,28 @@
 import GameStage from './GameStage'
 
-export function HpBar() {
-    this.bar = new window.createjs.Shape();
-    this.bar.graphics.beginFill("red").drawRect(0, 0, 10, 2);
-    return this.bar;
+export default function HpBar() {
+
+    this.construct = () => {
+        this.bar = new window.createjs.Shape();
+        this.bar.graphics.beginFill("red").drawRect(0, 0, 10, 2);
+    };
+
+    this.size = (object) => {
+        return Math.ceil(object.hp / 10);
+    };
+
+    this.updatePosition = (object) => {
+        this.bar.graphics.command.x = object.x + object.width / 2  - this.size(object) / 2;
+        this.bar.graphics.command.y = object.y - 4;
+    };
+
+    this.updateHealth = (object) => {
+        this.bar.graphics.command.w = this.size(object);
+        this.updatePosition(object);
+        GameStage().stage.addChild(this.bar);
+    };
+
+    this.type = 'HpBar';
+    this.bar = null;
+    this.construct();
 }
-
-export function updateBarPosition(object) {
-    let bar = object.hpBar;
-    let size =  Math.ceil(object.hp / 10);
-    bar.graphics.command.x = object.x + object.width / 2  - size / 2;
-    bar.graphics.command.y = object.y - 4;
-}
-
-export function updateBarHealth (object) {
-    let bar = object.hpBar;
-    let size = Math.ceil(object.hp / 10);
-    bar.graphics.command.w = size;
-    updateBarPosition(object);
-    GameStage().stage.addChild(bar);
-
-}
-
-
-
-

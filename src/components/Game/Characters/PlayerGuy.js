@@ -1,11 +1,11 @@
 import Character from './Character';
-import GameStage from './GameStage';
+import GameStage from '../GameStage';
 
-import {KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT, KEYCODE_S, KEYCODE_1} from './KeyCodes';
+import {KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT, KEYCODE_S, KEYCODE_1} from '../Constants/KeyCodes';
 import {
     DIRECTION_SOUTH, DIRECTION_NORTH, DIRECTION_EAST, DIRECTION_WEST,
     DIRECTION_NORTHEAST, DIRECTION_NORTHWEST, DIRECTION_SOUTHEAST, DIRECTION_SOUTHWEST
-} from './Directions';
+} from '../Constants/Directions';
 
 export default function PlayerGuy(x, y) {
 
@@ -94,8 +94,6 @@ export default function PlayerGuy(x, y) {
                 this.updateBaqend();
         }
     };
-
-    // direction.name
 
     this.height = 16;
     this.width = 16;

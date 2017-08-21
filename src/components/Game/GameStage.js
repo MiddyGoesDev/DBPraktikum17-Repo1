@@ -1,9 +1,10 @@
-import PlayerGuy from './PlayerGuy';
+import PlayerGuy from './Characters/PlayerGuy';
 import Wall from './Wall';
-import Cow from './Cow';
+import Cow from './Characters/Cow';
 
 import { db } from 'baqend/realtime';
 import io from 'socket.io-client';
+import Cottage from "./Cottage";
 
 let gameStage = null;
 
@@ -18,6 +19,7 @@ function GameStage() {
         new Wall(80, 40);
         var cowZone = new window.createjs.Shape();
         cowZone.graphics.s("gray").f("transparent").drawRect(150, 150, 200, 200);
+        new Cottage(400, 220);
         this.stage.addChild(cowZone);
     };
 
@@ -53,20 +55,18 @@ function GameStage() {
 
     this.near = (object) => {
         // TODO: implement near
-        return this.gameObjects.filter((gameObject) => { return gameObject.id !== object.id });
+        return this.gameObjects.filter(gameObject => gameObject.id !== object.id );
     };
 
     this.keyPressed = (event) => {
-        if (this.activeKeys.lastIndexOf(event.keyCode) === -1) {
+        if (this.activeKeys.indexOf(event.keyCode) === -1) {
             this.activeKeys.push(event.keyCode);
         }
         this.activeObject.keyChanged = true;
     };
 
     this.keyReleased = (event) => {
-        this.activeKeys = this.activeKeys.filter((keyCode) => {
-            return keyCode !== event.keyCode;
-        });
+        this.activeKeys = this.activeKeys.filter(keyCode => keyCode !== event.keyCode);
         this.activeObject.keyChanged = true;
     };
 

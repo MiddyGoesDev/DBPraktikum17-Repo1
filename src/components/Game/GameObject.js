@@ -1,6 +1,6 @@
-import { DIRECTION_SOUTH, directionName} from './Directions';
+import {DIRECTION_SOUTH, directionName} from './Constants/Directions';
 import GameStage from './GameStage';
-import { HpBar, updateBarPosition, updateBarHealth } from './HpBar'
+import HpBar from './HpBar';
 
 
 export default function GameObject(x, y) {
@@ -31,13 +31,11 @@ export default function GameObject(x, y) {
         });
     };
 
-    this.on = (action) => { };
-
     this.handleCollision = (object, collision) => { };
 
     this.check = () => {
         let near = GameStage().near(this);
-        for (let i=0 ; i < near.length; i++) {
+        for (let i = 0; i < near.length; i++) {
             let collision = this.checkCollision(near[i]);
             if (collision !== false) {
                 this.handleCollision(near[i], collision);
@@ -45,8 +43,16 @@ export default function GameObject(x, y) {
         }
     };
 
+    this.checkCollision = (object) => {
+        return window.ndgmr.checkPixelCollision(this.sprite, object.sprite, 0.01, true);
+    };
+
+    this.play = (animation) => {
+        this.animation = animation;
+        this.sprite.gotoAndPlay(this.animation + this.direction.name);
+    };
+
     this.move = () => {
-        console.log('direction: x: ' + this.direction.x + ', y: ' + this.direction.y + ', name: ' + this.direction.name);
         this.updatePosition(this.x + this.direction.x * this.speed, this.y + this.direction.y * this.speed);
     };
 
@@ -55,12 +61,7 @@ export default function GameObject(x, y) {
         this.y = y;
         this.sprite.x = x;
         this.sprite.y = y;
-        updateBarPosition(this);
-    };
-
-    this.play = (animation) => {
-        this.animation = animation;
-        this.sprite.gotoAndPlay(this.animation + this.direction.name);
+        this.hpBar.updatePosition(this);
     };
 
     this.updateDirection = (destX, destY) => {
@@ -71,10 +72,6 @@ export default function GameObject(x, y) {
 
     this.directionChanged = (direction) => {
         return this.direction.name !== direction.name;
-    };
-
-    this.checkCollision = (object) => {
-        return window.ndgmr.checkPixelCollision(this.sprite, object.sprite, 0.01, true);
     };
 
     this.spriteSheet = (x, y) => {
@@ -88,11 +85,11 @@ export default function GameObject(x, y) {
     };
 
     this.takeDamage = (damage) => {
-      this.hp -= Math.max(0 , damage - this.armor);
-      updateBarHealth(this);
-      if (this.hp <= 0) {
-          this.destruct();
-      }
+        this.hp -= Math.max(0, damage - this.armor);
+        this.hpBar.updateHealth(this);
+        if (this.hp <= 0) {
+            this.destruct();
+        }
     };
 
     this.type = 'GameObject';

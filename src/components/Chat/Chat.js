@@ -2,6 +2,7 @@ import './Chat.css';
 import {sendMessage, getMessages} from '../../actions/message';
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Input, Button} from 'semantic-ui-react';
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -10,10 +11,10 @@ import {connect} from 'react-redux'
 class Chat extends React.Component {
 
     constructor(props) {
-    super(props);
-    this.state = {
-        message: "",
-        chatInfo: ""
+        super(props);
+        this.state = {
+            message: "",
+            chatInfo: ""
         }
     };
 
@@ -53,13 +54,13 @@ class Chat extends React.Component {
                 </div>
                 <div className="chat-interface">
                     <form onChange={this.handleInputChange}>
-                        <input
+                        <Input
                             className="form-control"
                             name="message"
                             placeholder="Send a message"
                             value={this.state.message}
                         />
-                        <button onClick={this.handleMessage}>Send</button>
+                        <Button primary onClick={this.handleMessage}>Send</Button>
                     </form>
                 </div>
             </div>

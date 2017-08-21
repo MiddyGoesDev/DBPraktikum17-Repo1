@@ -1,5 +1,5 @@
 import {USER_LOGIN, USER_REGISTER, USER_LOGOUT, CREATE_CHARACTER, CREATE_STATISTICS, ME} from './types';
-import {DIRECTION_SOUTH} from '../components/Game/Directions';
+import {DIRECTION_SOUTH} from '../components/Game/Constants/Directions';
 
 export function login(username, password) {
     return {

@@ -1,4 +1,4 @@
-import GameObject from './GameObject';
+import GameObject from '../GameObject';
 
 export default function Projectile(x, y, direction) {
 
