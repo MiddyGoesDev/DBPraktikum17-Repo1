@@ -29,13 +29,8 @@ class Statistics extends React.Component {
 
     setTimePlayed(){
       var min = this.state.playTime/60000;
-      if (min >= 60){
-        var h = (min - min % 60)/60;
+        var h = Math.floor(min/60);
         return h + " Stunden und " + min % 60 + " Minuten"
-      }
-      else{
-        return "0 Stunden und " + min + " Minuten"
-      }
     }
 
     render() {

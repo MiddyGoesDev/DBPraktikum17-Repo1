@@ -17,7 +17,7 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          joinDate: new Date,
+          joinDate: new Date(),
         }
     }
 
@@ -25,7 +25,6 @@ class Game extends React.Component {
         this.resizeGame();
         this.props.actions.join();
         this.startGame();
-        console.log(this.state.joinDate);
 
     }
 
