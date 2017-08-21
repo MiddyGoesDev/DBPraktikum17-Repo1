@@ -1,6 +1,6 @@
 import GameObject from '../GameObject';
 import Fist from '../Projectiles/Fist';
-import Shuriken from '../Projectiles/Shuriken';
+import Shuriken from '../Projectiles/GurandoMasutaa';
 
 export default function Character(x, y) {
 

@@ -1,6 +1,6 @@
 import Item from './Item';
 
-export default function Shuriken(x, y) {
+export default function Manji(x, y) {
 
     Item.call(this, x, y);
 
@@ -8,7 +8,7 @@ export default function Shuriken(x, y) {
     this.width = 16;
     this.data = {
         images: ['./assets/shuriken.png'],
-        frames: this.spriteSheet(3, 1),
+        frames: this.spriteSheet(3, 7),
         animations: {
             idleSouth: [2, 2, 'idleSouth', 0]
         }

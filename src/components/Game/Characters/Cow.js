@@ -1,6 +1,6 @@
 import GameStage from '../GameStage';
 import Character from './Character';
-import ShurikenItem from "../Items/Shuriken";
+import ShurikenItem from "../Items/GurandoMasutaa";
 
 export default function Cow(x, y) {
 

@@ -1,6 +1,6 @@
 import Projectile from './Projectile';
 
-export default function Shuriken(x, y, direction) {
+export default function Manji(x, y, direction) {
 
     Projectile.call(this, x, y, direction);
 
@@ -10,7 +10,7 @@ export default function Shuriken(x, y, direction) {
     this.width = 16;
     this.data = {
         images: ['./assets/shuriken.png'],
-        frames: this.spriteSheet(2, 2),
+        frames: this.spriteSheet(3, 7),
         animations: {
             flyEast: [0, 1, 'flyEast', 1],
             flyWest: [0, 1, 'flyWest', 1],
