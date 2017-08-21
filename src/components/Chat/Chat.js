@@ -18,13 +18,8 @@ class Chat extends React.Component {
         }
     };
 
-    componentWillMount() {
+    componentWillUpdate() {
         this.props.actions.getMessages();
-        this.props.actions.sendMessage(" joined the Chat", true);
-    };
-
-    componentWillUnmount() {
-        this.props.actions.sendMessage(" left the Chat", true);
     };
 
     componentDidUpdate() {
