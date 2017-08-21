@@ -25,6 +25,7 @@ export default function Shuriken(x, y, direction) {
 
     this.hp = 1;
     this.armor = 10;
+    this.damage = 50;
     this.construct();
     this.play('fly');
 }
