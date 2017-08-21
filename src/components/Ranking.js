@@ -124,13 +124,13 @@ class Ranking extends React.Component {
                                     #
                                 </Table.Cell>
                                 <Table.Cell>
-                                    Username
+                                    <button class="ui button" onClick={this.handleProfile}>Username</button>
                                 </Table.Cell>
                                 <Table.Cell>
-                                    K/D
+                                    <button class="ui button" onClick={this.handleKD}>K/D</button>
                                 </Table.Cell>
                                 <Table.Cell>
-                                    EXP
+                                    <button class="ui button" onClick={this.handleXP}>Experience</button>
                                 </Table.Cell>
                             </Table.Row>
                         </Table.Header>
