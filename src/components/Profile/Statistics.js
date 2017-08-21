@@ -27,6 +27,18 @@ class Statistics extends React.Component {
         })
     }
 
+    setTimePlayed(){
+      var milisec = this.state.playTime;
+      console.log("milisec sind " + milisec);
+      var sec = milisec%1000;
+      console.log("sec sind " + sec);
+      var min = Math.abs(sec % 60);
+      console.log("minuten sind " + min);
+      var h = min % 60;
+      console.log("stunden sind " + h);
+      return h + " Stunden und " + min + " Minuten"
+    }
+
     render() {
         const { active } = this.state;
         const dimmedContent = (
@@ -61,7 +73,7 @@ class Statistics extends React.Component {
                           Deaths: {this.state.deaths}<br/>
                           Total Experience: {this.state.exp}<br/>
                           KD: {this.state.kd}<br/>
-                          Total Time spend: {this.state.playTime}
+                          Total Time spend: {this.setTimePlayed()}
                          </div>
                         </div>
                     </Card.Description>

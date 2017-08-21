@@ -75,7 +75,7 @@ export function updateCharacter(data) {
     }
 }
 
-export function setTimer(playedTime) {
+export function setTimer(joinTime) {
   return {
     'BAQEND': {
       type: "SET_TIMER",
@@ -83,7 +83,7 @@ export function setTimer(playedTime) {
           return db.Character.find().equal('owner', db.User.me.id).singleResult().then((result) => {
             return db.Statistic.find().equal('character', result).singleResult().then((stats) => {
               console.log(stats);
-              stats.playingTime = playedTime;
+              stats.playingTime = Math.abs(new Date() - joinTime);
               return stats.update();
             })
           })

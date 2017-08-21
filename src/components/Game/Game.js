@@ -17,9 +17,7 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          joinDate: null,
-          leaveDate: null,
-          playedTime: null
+          joinDate: new Date,
         }
     }
 
@@ -27,9 +25,8 @@ class Game extends React.Component {
         this.resizeGame();
         this.props.actions.join();
         this.startGame();
-        this.setState({
-          joinDate: new Date()
-        })
+        console.log(this.state.joinDate);
+
     }
 
     resizeGame() {
@@ -41,12 +38,8 @@ class Game extends React.Component {
 
     componentWillUnmount() {
         this.props.actions.leave();
-        this.setState({
-          leaveDate: new Date(),
-          playedTime: this.state.leaveDate - this.state.joinDate
-        }).then((result) =>{
-          this.actions.setTimer(this.state.playedTime)
-        })
+        this.props.actions.setTimer(this.state.joinDate);
+        console.log(Math.abs(new Date() - this.state.joinDate));
     }
 
     startGame() {
