@@ -56,6 +56,7 @@ class Game extends React.Component {
             GameStage().initialize(character.x, character.y);
             GameStage().activeObject.id = character.id;
             GameStage().activeObject.character = character;
+            GameStage().activeObject.animation = 'idle';
             GameStage().networkObjects[character.id] = GameStage().activeObject;
         });
 

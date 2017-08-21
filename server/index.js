@@ -58,6 +58,12 @@ io.on('connection', socket => {
         objects[object.id] = object;
     });
 
+    socket.on('punch', object => {
+        console.log('punch');
+        console.log(object);
+        socket.broadcast.emit('spawn fist', object);
+    });
+
     socket.on('change', object => {
         objects[object.id] = object;
         socket.broadcast.emit('update', object);
@@ -109,55 +115,3 @@ function getDirection(x, y, destX, destY) {
         name: directionName(signX, signY)
     };
 }
-
-/*
-io.on('connection', function(socket) {
-
-    socket.on('join', function (opponent) {
-        console.log('user ' + socket.id + ' has connected');
-
-        opponents[socket.id] = opponent;
-        objects[opponent.id] = opponent;
-
-        console.log(Object.assign({}, opponents));
-
-        socket.broadcast.emit('joined', opponent);
-
-        socket.emit('initialize opponents', Object.assign({}, opponents));
-    });
-
-    socket.on('disconnect', function() {
-        console.log('user disconnected');
-
-        socket.broadcast.emit('left', opponents[socket.id]);
-
-        try {
-            delete objects[opponents[socket.id].id];
-            delete opponents[socket.id];
-        } catch (err) {
-            console.log('user not found');
-        }
-    });
-
-    socket.on('change', function (object) {
-        console.log('Object has changed');
-
-        objects[object.id] = object;
-
-        socket.broadcast.emit('update', object);
-        console.log(Object.assign({}, opponents), Object.assign({}, objects));
-    });
-
-    socket.on('add', function (object) {
-        console.log(object.id + ' fired projectile');
-        objects[object.id] = object;
-        socket.broadcast.emit('update', object);
-    });
-
-    socket.on('destroy', function (object) {
-        console.log('projectile' + object.id + 'destroyed');
-        socket.broadcast.emit('destroyed', object.id);
-    });
-
-});
-*/

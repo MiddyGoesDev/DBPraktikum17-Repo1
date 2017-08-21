@@ -5,6 +5,7 @@ import Cow from './Characters/Cow';
 import { db } from 'baqend/realtime';
 import io from 'socket.io-client';
 import Cottage from "./Cottage";
+import Fist from "./Projectiles/Fist";
 
 let gameStage = null;
 
@@ -92,8 +93,8 @@ function GameStage() {
     this.networkObjects = { };
     this.activeKeys = [];
     this.db = db;
-    // this.socket = io('http://localhost:8080');
-    this.socket = io('207.154.243.43:8080');
+    this.socket = io('http://localhost:8080');
+    // this.socket = io('207.154.243.43:8080');
     this.construct();
 
     this.socket.on('update', object => {
@@ -123,6 +124,12 @@ function GameStage() {
                 this.networkObjects[cow.id] = cow;
                 break;
         }
+    });
+
+    this.socket.on('spawn fist', player => {
+        console.log('spawn fist');
+        console.log(this.networkObjects[player.id]);
+        this.networkObjects[player.id].punch();
     });
 }
 
