@@ -1,4 +1,4 @@
-import {JOIN, LEAVE, OWN_CHARACTER, UPDATE_OPPONENTS, UPDATE_CHARACTER} from './types'
+import {JOIN, LEAVE, OWN_CHARACTER, UPDATE_OPPONENTS, UPDATE_CHARACTER, SET_TIMER} from './types'
 import GameStage from '../components/Game/GameStage';
 import Opponent from '../components/Game/Characters/OpponentGuy';
 
@@ -74,3 +74,21 @@ export function updateCharacter(data) {
         }
     }
 }
+
+export function setTimer(playedTime) {
+  return {
+    'BAQEND': {
+      type: "SET_TIMER",
+      payload: (db) => {
+          return db.Character.find().equal('owner', db.User.me.id).singleResult().then((result) => {
+            return db.Statistic.find().equal('character', result).singleResult().then((stats) => {
+              console.log(stats);
+              stats.playingTime = playedTime;
+              return stats.update();
+            })
+          })
+
+        }
+      }
+    }
+  }

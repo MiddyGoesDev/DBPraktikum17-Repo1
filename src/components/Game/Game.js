@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux'
 
-import {join, leave, ownCharacter, updateOpponents, updateCharacter} from '../../actions/character';
+import {join, leave, ownCharacter, updateOpponents, updateCharacter, setTimer} from '../../actions/character';
 
 import GameStage from './GameStage';
 
@@ -15,6 +15,9 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+          joinDate: null,
+          leaveDate: null,
+          playedTime: null
         }
     }
 
@@ -22,6 +25,9 @@ class Game extends React.Component {
         this.resizeGame();
         this.props.actions.join();
         this.startGame();
+        this.setState({
+          joinDate: new Date()
+        })
     }
 
     resizeGame() {
@@ -33,6 +39,12 @@ class Game extends React.Component {
 
     componentWillUnmount() {
         this.props.actions.leave();
+        this.setState({
+          leaveDate: new Date(),
+          playedTime: this.state.leaveDate - this.state.joinDate
+        }).then((result) =>{
+          this.actions.setTimer(this.state.playedTime)
+        })
     }
 
     startGame() {
@@ -82,7 +94,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({join, leave, ownCharacter, updateOpponents, updateCharacter}, dispatch)}
+    return {actions: bindActionCreators({join, leave, ownCharacter, updateOpponents, updateCharacter, setTimer}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game)
