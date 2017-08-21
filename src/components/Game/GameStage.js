@@ -32,12 +32,28 @@ function GameStage() {
 
     this.add = (object) => {
         this.gameObjects.push(object);
-        this.stage.addChild(object.sprite);
+        this.draw(object.sprite);
     };
 
     this.remove = (object) => {
         this.stage.removeChild(object.sprite);
         this.gameObjects = this.gameObjects.filter(gameObject => gameObject.id !== object.id);
+    };
+
+    this.draw = (visualRepresentation) => {
+        if (!this.hasChild(visualRepresentation)) {
+            this.stage.addChild(visualRepresentation);
+        }
+    };
+
+    this.erase = (visualRepresentation) => {
+        if (this.hasChild(visualRepresentation)) {
+            this.stage.removeChild(visualRepresentation);
+        }
+    };
+
+    this.hasChild = (visualRepresentation) => {
+        return this.stage.getChildIndex(visualRepresentation) !== -1;
     };
 
     this.link = (object) => {
@@ -91,17 +107,19 @@ function GameStage() {
                 this.networkObjects[object.id].destX = object.x;
                 this.networkObjects[object.id].destY = object.y;
                 this.networkObjects[object.id].destDirection = object.direction;
+                this.networkObjects[object.id].hp = object.hp;
                 break;
         }
     });
 
-    this.socket.on('spawn', mob => {
-        switch (mob.type) {
+    this.socket.on('spawn', monster => {
+        switch (monster.type) {
             case 'Cow':
-                let cow = new Cow(mob.x, mob.y);
-                cow.id = mob.id;
-                cow.direction = mob.direction;
-                cow.play(mob.animation);
+                let cow = new Cow(monster.x, monster.y);
+                cow.id = monster.id;
+                cow.direction = monster.direction;
+                cow.currentHP = monster.currentHP;
+                cow.play(monster.animation);
                 this.networkObjects[cow.id] = cow;
                 break;
         }
