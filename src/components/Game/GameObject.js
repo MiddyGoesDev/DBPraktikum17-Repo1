@@ -7,6 +7,7 @@ export default function GameObject(x, y) {
 
     this.construct = () => {
         this.sprite = new window.createjs.Sprite(new window.createjs.SpriteSheet(this.data), this.animation);
+        this.currentHP = this.baseHP;
         this.hpBar = new HpBar(this);
         this.updatePosition(this.x, this.y);
         GameStage().add(this);
@@ -106,7 +107,6 @@ export default function GameObject(x, y) {
     this.speed = 0;
     this.armor = 0;
     this.baseHP = 100;
-    this.currentHP = 100;
     this.maxHP = () => this.baseHP;
     this.hpBar = null;
     this.keyChanged = false;

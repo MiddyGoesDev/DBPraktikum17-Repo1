@@ -23,7 +23,7 @@ export default function PlayerGuy(x, y) {
         this.character.y = this.y;
         this.character.direction = this.direction;
         this.character.animation = this.animation;
-        this.character.hp = this.currentHP;
+        this.character.current_hp = this.currentHP;
 
         if(this.character._metadata.isReady) {
             this.character.update({force: true});
