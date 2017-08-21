@@ -1,5 +1,5 @@
 
-export function getStats() {
+export function myStatistics() {
   return {
     'BAQEND': {
       type: "STATISTICS",

@@ -6,8 +6,9 @@ import {
     getStatsByProfileDsc,
     getStatsByProfileAsc,
     getStatsByXP,
-    getStatsForProfile
+    getStatistics
 } from '../actions/ranking'
+import {myStatistics} from '../actions/profile';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Grid, Label, Table} from 'semantic-ui-react';
@@ -33,12 +34,20 @@ class Ranking extends React.Component {
     }
 
     componentWillMount() {
-        this.props.actions.me().then(me => { this.state.currentProfileName = me.username; this.state.me = me.username;});
-        this.props.actions.getStatsByKD().then((result) => {
-            this.setState({
-                ranking: result
+        this.props.actions.myStatistics().then(statistics => {
+            this.props.actions.getStatsByKD().then((result) => {
+                this.setState({
+                    ranking: result,
+                    currentProfileName: statistics.username,
+                    me: statistics.username,
+                    kills: statistics.kills,
+                    deaths: statistics.deaths,
+                    exp: statistics.xp,
+                    kd: statistics.kd,
+                    playTime: statistics.playingTime
+                })
             })
-        })
+        });
     }
 
     handleProfile = (event) => {
@@ -81,35 +90,15 @@ class Ranking extends React.Component {
     };
 
     displayProfile = (e) => {
-        this.setState({
-            currentProfileName: e.target.parentNode.getAttribute('name')
-        });
-
-        /*
-        e.preventDefault();
-        e = e || window.e;
-        var user = ""
-        var target = e.srcElement || e.target;
-        while (target && target.nodeName !== "TR") {
-            target = target.parentNode;
-        }
-        if (target) {
-            var cells = target.getElementsByTagName("td");
-            user = cells[0].innerHTML;
-            this.setState({
-                currentProfileName: user
-            })
-        }
-        this.props.actions.getStatsForProfile(user).then((result) => {
-            this.setState({
-                kd: result.kd,
-                exp: result.xp,
-                kills: result.kills,
-                deaths: result.deaths,
-                playTime: result.playingTime
-            })
-        })
-        */
+        let userName = e.target.parentNode.getAttribute('name');
+        this.props.actions.getStatistics(userName).then(statistics => this.setState({
+            currentProfileName: userName,
+            kills: statistics.kills,
+            deaths: statistics.deaths,
+            exp: statistics.xp,
+            kd: statistics.kd,
+            playingTime: statistics.playingTime
+        }));
     };
 
     render() {
@@ -125,87 +114,59 @@ class Ranking extends React.Component {
                                 </Table.Cell>
                                 <Table.Cell>
                                     <button className="ui button"
-                                    style={{backgroundColor: '#f5f5f5'}}
-                                    onClick={this.handleProfile}>
-                                    <h3>Username</h3></button>
+                                            style={{backgroundColor: '#f5f5f5'}}
+                                            onClick={this.handleProfile}>
+                                        <h3>Username</h3>
+                                    </button>
                                 </Table.Cell>
                                 <Table.Cell>
                                     <button className="ui button"
-                                    style={{backgroundColor: '#f5f5f5'}}
-                                    onClick={this.handleKD}>
-                                    <h3>K/D</h3></button>
+                                            style={{backgroundColor: '#f5f5f5'}}
+                                            onClick={this.handleKD}>
+                                        <h3>K/D</h3>
+                                    </button>
                                 </Table.Cell>
                                 <Table.Cell>
                                     <button className="ui borderlessButton button"
-                                    style={{backgroundColor: '#f5f5f5'}}
-                                    onClick={this.handleXP}>
-                                    <h3>Experience</h3></button>
+                                            style={{backgroundColor: '#f5f5f5'}}
+                                            onClick={this.handleXP}>
+                                        <h3>Experience</h3>
+                                    </button>
                                 </Table.Cell>
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                            {this.state.ranking.map(stats =>
-                                <Table.Row id={stats.id} name={stats.username} onClick={this.displayProfile}>
+                            {this.state.ranking.map(statistics =>
+                                <Table.Row
+                                    id={statistics.id}
+                                    key={statistics.id}
+                                    name={statistics.username}
+                                    onClick={this.displayProfile}>
                                     <Table.Cell>
-                                        {this.state.me === stats.username ? (<Label ribbon>{++i}</Label>) : ++i}
+                                        {this.state.me === statistics.username ? (<Label ribbon>{++i}</Label>) : ++i}
                                     </Table.Cell>
-                                    <Table.Cell>{stats.username}</Table.Cell>
-                                    <Table.Cell>{stats.kd}</Table.Cell>
-                                    <Table.Cell>{stats.xp}</Table.Cell>
+                                    <Table.Cell>{statistics.username}</Table.Cell>
+                                    <Table.Cell>{statistics.kd}</Table.Cell>
+                                    <Table.Cell>{statistics.xp}</Table.Cell>
                                 </Table.Row>
                             )}
                         </Table.Body>
                     </Table>
                 </Grid.Column>
                 <Grid.Column width={2}>
-                    <Statistics user={{name: this.state.currentProfileName}}/>
+                    <Statistics
+                        user={{name: this.state.currentProfileName}}
+                        items={[
+                            {label: 'Kills', value: this.state.kills},
+                            {label: 'Deaths', value: this.state.deaths},
+                            {label: 'Total Experience', value: this.state.exp},
+                            {label: 'KD', value: this.state.kd},
+                            {label: 'Time spend', value: Statistics.timePlayed(this.state.playTime)},
+                        ]}
+                    />
                 </Grid.Column>
             </Grid>
         );
-        /*
-        return (
-            <div className="ranking">
-                <div className="scoreboard">
-                    <div className="row">
-                        <div className="col-xs centers">
-                            <button className="Button" onClick={this.handleProfile}><b>Profile</b></button>
-                        </div>
-                        <div className="col-xs centers">
-                            <button className="Button" onClick={this.handleKD}><b>KD</b></button>
-                        </div>
-                        <div className="col-xs centers">
-                            <button className="Button" onClick={this.handleXP}><b>EXP</b></button>
-                        </div>
-                    </div>
-                    {this.state.ranking.map(stats =>
-                        <table key={stats.id}>
-                            <tr onClick={this.displayProfile}>
-                                <td>{stats.username}</td>
-                                <td>{stats.kd}</td>
-                                <td>{stats.xp}</td>
-                            </tr>
-                        </table>
-                    )}
-                </div>
-                <div className="playerProfile">
-                    <div className="picstats">
-                        <div className="profile-pic">
-                            <h2>{this.state.currentProfileName}s Profile</h2>
-                        </div>
-
-                        <div className="statistics">
-                            <h2>Statistics</h2>
-                            Kills: {this.state.kills}<br/>
-                            Deaths: {this.state.deaths}<br/>
-                            Total Experience gained: {this.state.exp}<br/>
-                            KD: {this.state.kd}<br/>
-                            Total Time spend: {this.state.playTime}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-        */
     }
 }
 
@@ -225,7 +186,8 @@ function mapDispatchToProps(dispatch) {
             getStatsByProfileDsc,
             getStatsByProfileAsc,
             getStatsByXP,
-            getStatsForProfile,
+            myStatistics,
+            getStatistics,
             me
         }, dispatch)
     };

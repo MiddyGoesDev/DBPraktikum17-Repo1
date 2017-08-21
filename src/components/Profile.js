@@ -2,7 +2,7 @@ import './Profile.css';
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {getStats, getProfileName} from '../actions/profile'
+import {myStatistics} from '../actions/profile'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -15,31 +15,43 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: null
         }
     }
 
     componentWillMount() {
-        this.props.actions.getStats().then((stats) => {
+        this.props.actions.myStatistics().then((stats) => {
             this.setState({
-                user: stats.username
+                username: stats.username,
+                kills: stats.kills,
+                deaths: stats.deaths,
+                exp: stats.xp,
+                kd: stats.kd,
+                playingTime: stats.playingTime
             })
         })
     }
 
-
     render() {
         return (
-            <Grid centered style={{height: '90%'}}>
-                <div className="two wide column"><Statistics user={{name: this.state.user}}/></div>
-                <div className="six wide column"><Equipment/></div>
+            <Grid columns={10} centered style={{height: '90%'}}>
+                <Grid.Row>
+                    <Grid.Column width={3}>
+                        <Statistics
+                            user={{name: this.state.username}}
+                            items={[
+                                {label: 'Kills', value: this.state.kills},
+                                {label: 'Deaths', value: this.state.deaths},
+                                {label: 'Total Experience', value: this.state.exp},
+                                {label: 'KD', value: this.state.kd},
+                                {label: 'Time spend', value: Statistics.timePlayed(this.state.playingTime)},
+                            ]}
+                        />
+                    </Grid.Column>
+                    <Grid.Column width={6}>
+                        <Equipment/>
+                    </Grid.Column>
+                </Grid.Row>
             </Grid>
-        );
-        return (
-            <div className="ui grid cards centered" style={{height: '90%'}}>
-                <div className="two wide column"><Statistics user={{name: this.state.user}}/></div>
-                <div className="six wide column"><Equipment/></div>
-            </div>
         );
     }
 }
@@ -55,7 +67,7 @@ function mapStateToProps(state) {
 
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({getStats, getProfileName}, dispatch)};
+    return {actions: bindActionCreators({myStatistics}, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

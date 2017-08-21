@@ -7,7 +7,7 @@ export default class Equipment extends React.Component {
 
     render() {
         return (
-            <Grid columns={3} style={{paddingLeft: '300px'}}>
+            <Grid columns={6} centered style={{paddingLeft: '200px'}}>
                 <Grid.Row>
                     <Grid.Column>
                         <Segment className="head">

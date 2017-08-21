@@ -51,14 +51,12 @@ export function getStatsByXP() {
   }
 }
 
-export function getStatsForProfile(user) {
+export function getStatistics(user) {
   return {
     'BAQEND': {
       type: "RANKING_PROFILE_STATS",
       payload: (db) => {
-        return db.Statistic.find().equal('username', user).singleResult().then((result) => {
-          return result
-        })
+        return db.Statistic.find().equal('username', user).singleResult().then(result => result)
       }
     }
   }
