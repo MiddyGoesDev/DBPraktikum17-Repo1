@@ -23,9 +23,9 @@ export default function PlayerGuy(x, y) {
         this.character.y = this.y;
         this.character.direction = this.direction;
         this.character.animation = this.animation;
+
         if(this.character._metadata.isReady) {
             this.character.update({force: true});
-
         }
     };
 

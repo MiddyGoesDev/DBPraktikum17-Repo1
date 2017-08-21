@@ -10,6 +10,8 @@ import {join, leave, ownCharacter, updateOpponents, updateCharacter, setTimer} f
 
 import GameStage from './GameStage';
 
+import {KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT} from './Constants/KeyCodes';
+
 class Game extends React.Component {
 
     constructor(props) {
@@ -59,14 +61,21 @@ class Game extends React.Component {
 
         this.props.actions.updateOpponents();
 
-        document.onkeydown = GameStage().keyPressed;
-        document.onkeyup = GameStage().keyReleased;
-
-        // TODO prevent scrolling
-        window.addEventListener("keydown", function(e) {
-            // space and arrow keys
-            if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        document.addEventListener("keydown", function(e) {
+            // prevent scrolling while playing
+            if([KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT].indexOf(e.keyCode) > -1) {
                 e.preventDefault();
+            }
+            // if userIsntChatting()
+            if (document.activeElement.id !== 'chat-input') {
+                GameStage().keyPressed(e);
+            }
+        }, false);
+
+        document.addEventListener("keyup", function(e) {
+            // if userIsntChatting()
+            if (document.activeElement.id !== 'chat-input') {
+                GameStage().keyReleased(e);
             }
         }, false);
 
@@ -80,9 +89,13 @@ class Game extends React.Component {
         });
     }
 
+    handleClick(e) {
+        document.getElementById('chat-input').blur();
+    }
+
     render() {
         return (
-            <div ref="gameWindow" id="game-window" className="game-window">
+            <div ref="gameWindow" id="game-window" className="game-window" onClick={this.handleClick}>
                 <canvas ref="gameField" id="game-field" width={700} height={400} />
             </div>
         );

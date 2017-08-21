@@ -14,26 +14,11 @@ class Chat extends React.Component {
         super(props);
         this.state = {
             message: "",
-            chatInfo: "",
+            chatInfo: ""
         }
     };
 
-    // componentWillMount() {
-    //         console.log("firstJoin?" + this.state.firstJoin);
-    //         this.props.actions.sendMessage(" has joined the Chat", false).then((result) => {
-    //             this.setState({
-    //             firstJoin: false
-    //         })
-    //         console.log("should be false "+this.state.firstJoin);
-    //
-    //     })
-    // }
-
-    // componentDidMount() {
-    //     this.props.actions.sendMessage(" has joinded the Chat", false)
-    // }
-
-    componentWillUpdate() {
+    componentWillMount() {
         this.props.actions.getMessages();
     };
 
@@ -46,6 +31,7 @@ class Chat extends React.Component {
         event.preventDefault();
         this.props.actions.sendMessage(": " + this.state.message, false);
         this.setState({message: ""});
+        document.getElementById("chat-input").focus();
     };
 
     handleInputChange = (event) => {
@@ -62,11 +48,11 @@ class Chat extends React.Component {
                         </div>
                     )}
                 </div>
-                <div className="chat-interface">
-                    <form onChange={this.handleInputChange}>
+                <div id="chat-interface" className="chat-interface">
+                    <form onChange={this.handleInputChange} >
                         <Input
-                            className="form-control"
                             name="message"
+                            id="chat-input"
                             placeholder="Send a message"
                             value={this.state.message}
                             className="input-field"
@@ -77,7 +63,6 @@ class Chat extends React.Component {
             </div>
         );
     }
-
 }
 
 Chat.propTypes = {
@@ -94,7 +79,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({sendMessage, getMessages}, dispatch)} //clearChat
+    return {actions: bindActionCreators({sendMessage, getMessages}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat)
