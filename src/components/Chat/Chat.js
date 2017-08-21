@@ -18,22 +18,7 @@ class Chat extends React.Component {
         }
     };
 
-    // componentWillMount() {
-    //         console.log("firstJoin?" + this.state.firstJoin);
-    //         this.props.actions.sendMessage(" has joined the Chat", false).then((result) => {
-    //             this.setState({
-    //             firstJoin: false
-    //         })
-    //         console.log("should be false "+this.state.firstJoin);
-    //
-    //     })
-    // }
-
-    // componentDidMount() {
-    //     this.props.actions.sendMessage(" has joinded the Chat", false)
-    // }
-
-    componentWillUpdate() {
+    componentWillMount() {
         this.props.actions.getMessages();
     };
 
@@ -76,7 +61,6 @@ class Chat extends React.Component {
             </div>
         );
     }
-
 }
 
 Chat.propTypes = {
@@ -93,7 +77,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({sendMessage, getMessages}, dispatch)} //clearChat
+    return {actions: bindActionCreators({sendMessage, getMessages}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat)
