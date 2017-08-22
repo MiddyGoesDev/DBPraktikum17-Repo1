@@ -33,8 +33,6 @@ class Account extends Component {
         else {
             this.props.actions.login(this.state.username, this.state.password);
             this.setState({
-                username: null,
-                password: null,
                 info: ""
             });
         }
@@ -82,7 +80,7 @@ class Account extends Component {
                                 <Form size='large' onChange={this.handleInputChange}>
                                     <Segment stacked>
                                         <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' name="username" id="username"/>
-                                        <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' name="password" type='password' id="password"/>
+                                        <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' name="password" type='password' id="password">
                                         <p id="err">{this.state.info}</p>
                                         <Button color='primary' fluid size='large' onClick={this.handleLogin}>
                                             Login
