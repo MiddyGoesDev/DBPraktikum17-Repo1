@@ -53,6 +53,7 @@ export default function Character(x, y) {
 
     this.handleCollision = (object, collision) => {
         switch (object.type) {
+            case 'CollisionMap':
             case 'Wall':
                 let lastX = this.x;
                 let lastY = this.y;

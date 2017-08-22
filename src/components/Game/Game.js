@@ -1,7 +1,6 @@
 import './Game.css';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux'
@@ -34,15 +33,7 @@ class Game extends React.Component {
     componentWillUnmount() {
         this.props.actions.leave();
         this.props.actions.setTimer(this.state.joinDate);
-        this.closeGame();
-    }
-
-    resizeGame() {
-        console.log('resize window');
-        let gameWindow = document.getElementById('game-window');
-        let gameField = document.getElementById('game-field');
-        gameField.width = gameWindow.clientWidth;
-        gameField.height = gameWindow.clientHeight;
+        Game.closeGame();
     }
 
     startGame() {
@@ -52,20 +43,28 @@ class Game extends React.Component {
             GameStage().activeObject.character = character;
             GameStage().activeObject.animation = 'idle';
             GameStage().networkObjects[character.id] = GameStage().activeObject;
+
+            this.props.actions.updateOpponents();
+
+            Game.addListeners();
         });
-
-        this.props.actions.updateOpponents();
-
-        this.addListeners();
     }
 
-    closeGame() {
-        this.removeListeners();
+    static closeGame() {
+        Game.removeListeners();
         clearStage();
     }
 
-    addListeners() {
-        window.addEventListener('resize', this.resizeGame);
+    static resizeGame() {
+        console.log('resize window');
+        let gameWindow = document.getElementById('game-window');
+        let gameField = document.getElementById('game-field');
+        gameField.width = gameWindow.clientWidth;
+        gameField.height = gameWindow.clientHeight;
+    }
+
+    static addListeners() {
+        window.addEventListener('resize', Game.resizeGame);
         document.addEventListener('keydown', Game.handleKeyDown);
         document.addEventListener('keyup', Game.handleKeyUp);
         // Actions carried out each tick (aka frame)
@@ -73,8 +72,8 @@ class Game extends React.Component {
         window.createjs.Ticker.addEventListener('tick', Game.handleTick);
     }
 
-    removeListeners() {
-        window.removeEventListener('resize', this.resizeGame);
+    static removeListeners() {
+        window.removeEventListener('resize', Game.resizeGame);
         document.removeEventListener('keydown', Game.handleKeyDown);
         document.removeEventListener('keyup', Game.handleKeyUp);
         // Actions carried out each tick (aka frame)
@@ -107,13 +106,13 @@ class Game extends React.Component {
         }
     }
 
-    stopChatting() {
+    static stopChatting() {
         document.getElementById('chat-input').blur();
     }
 
     render() {
         return (
-            <div ref="gameWindow" id="game-window" className="game-window" onClick={this.stopChatting}>
+            <div ref="gameWindow" id="game-window" className="game-window" onClick={Game.stopChatting}>
                 <canvas ref="gameField" id="game-field" width={this.state.width} height={this.state.height}/>
             </div>
         );
@@ -121,13 +120,21 @@ class Game extends React.Component {
 }
 
 
-
 function mapStateToProps(state) {
     return {}
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({join, leave, ownCharacter, updateOpponents, updateCharacter, setTimer}, dispatch)}
+    return {
+        actions: bindActionCreators({
+            join,
+            leave,
+            ownCharacter,
+            updateOpponents,
+            updateCharacter,
+            setTimer
+        }, dispatch)
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game)

@@ -18,12 +18,18 @@ function GameStage() {
     this.construct = () => {
         this.stage = new window.createjs.Stage('game-field');
 
-        let backgroundData = {
+        this.add({
+            type: 'CollisionMap',
+            update: (event) => {},
+            sprite: new window.createjs.Sprite(new window.createjs.SpriteSheet({
+                images: ['./assets/world-collision.png'],
+                frames: {width: 1600, height: 4480, count: 1, regX: 0, regY: 0, spacing: 0, margin: 0}
+            }))
+        });
+        this.draw(new window.createjs.Sprite(new window.createjs.SpriteSheet({
             images: ['./assets/full-world.png'],
             frames: {width: 1600, height: 4480, count: 1, regX: 0, regY: 0, spacing: 0, margin: 0}
-        };
-        let background = new window.createjs.Sprite(new window.createjs.SpriteSheet(backgroundData));
-        this.draw(background);
+        })));
     };
 
     this.initialize = (x, y) => {
