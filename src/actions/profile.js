@@ -1,4 +1,4 @@
-import {EQUIPMENT, MY_STATISTICS, MAIN_HAND, MY_CHARACTER } from "./types";
+import {EQUIPMENT, MY_STATISTICS, MAIN_HAND, MY_CHARACTER, GET_CHARACTER, LOAD_CHARACTER } from "./types";
 
 export function myStatistics() {
     return {
@@ -50,4 +50,26 @@ export function myCharacter() {
             }
         }
     }
+}
+
+export function getCharacter(user) {
+  return {
+    'BAQEND': {
+      type: GET_CHARACTER,
+      payload: (db) => {
+        return db.Character.find().equal('owner', user).singleResult()
+      }
+    }
+  }
+}
+
+export function loadCharacter(character) {
+  return {
+    'BAQEND': {
+      type: LOAD_CHARACTER,
+      payload: (db) => {
+        return db.Character.load(character.id)
+      }
+    }
+  }
 }

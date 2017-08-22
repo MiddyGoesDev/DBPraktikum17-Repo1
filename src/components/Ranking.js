@@ -11,7 +11,7 @@ import {
     getStatsByXPDsc,
     getStatistics
 } from '../actions/ranking'
-import {myStatistics} from '../actions/profile';
+import {myStatistics, loadCharacter} from '../actions/profile';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Grid, Label, Table} from 'semantic-ui-react';
@@ -39,20 +39,23 @@ class Ranking extends React.Component {
     }
 
     componentWillMount() {
-        this.props.actions.myStatistics().then(statistics => {
-            this.props.actions.getStatsByProfileAsc().then((result) => {
-                this.setState({
-                    ranking: result,
-                    currentProfileName: statistics.username,
-                    me: statistics.username,
-                    kills: statistics.kills,
-                    deaths: statistics.deaths,
-                    exp: statistics.xp,
-                    kd: statistics.kd,
-                    playTime: statistics.playingTime
-                })
-            })
-        });
+
+      this.props.actions.getStatsByProfileAsc().then(result =>
+      this.props.actions.myStatistics().then(statistics => this.props.actions.loadCharacter(statistics.character)
+      .then(character =>
+         this.setState({
+           ranking: result,
+             currentProfileName: statistics.username,
+             me: statistics.username,
+             kills: statistics.kills,
+             deaths: statistics.deaths,
+             playingTime: statistics.playingTime,
+             level: character.level,
+             vitality: character.vitality,
+             strength: character.strength,
+             dexterity: character.dexterity,
+             intelligence: character.intelligence
+           }))));
     }
 
     handleProfile = (event) => {
@@ -117,14 +120,21 @@ class Ranking extends React.Component {
 
     displayProfile = (e) => {
         let userName = e.target.parentNode.getAttribute('name');
-        this.props.actions.getStatistics(userName).then(statistics => this.setState({
-            currentProfileName: userName,
-            kills: statistics.kills,
-            deaths: statistics.deaths,
-            exp: statistics.xp,
-            kd: statistics.kd,
-            playTime: statistics.playingTime
-        }));
+
+
+         this.props.actions.getStatistics(userName).then(statistics => this.props.actions.loadCharacter(statistics.character)
+         .then(character =>
+            this.setState({
+                currentProfileName: userName,
+                kills: statistics.kills,
+                deaths: statistics.deaths,
+                playingTime: statistics.playingTime,
+                level: character.level,
+                vitality: character.vitality,
+                strength: character.strength,
+                dexterity: character.dexterity,
+                intelligence: character.intelligence
+              })));
     };
 
     render() {
@@ -183,11 +193,13 @@ class Ranking extends React.Component {
                     <Statistics
                         user={{name: this.state.currentProfileName}}
                         items={[
-                            {label: 'Kills', value: this.state.kills},
-                            {label: 'Deaths', value: this.state.deaths},
-                            {label: 'Total Experience', value: this.state.exp},
-                            {label: 'KD', value: this.state.kd},
-                            {label: 'Time spend', value: Statistics.timePlayed(this.state.playTime)},
+                            {label: 'Total Cows killed', value: this.state.kills},
+                            {label: 'Vitality', value: this.state.vitality},
+                            {label: 'Strength', value: this.state.strength},
+                            {label: 'Dexterity', value: this.state.dexterity},
+                            {label: 'Intelligence', value: this.state.intelligence},
+                            {label: 'Level', value: this.state.level},
+                            {label: 'Time spend', value: Statistics.timePlayed(this.state.playingTime)},
                         ]}
                     />
                 </Grid.Column>
@@ -216,6 +228,7 @@ function mapDispatchToProps(dispatch) {
             getStatsByXPDsc,
             myStatistics,
             getStatistics,
+            loadCharacter,
             me
         }, dispatch)
     };

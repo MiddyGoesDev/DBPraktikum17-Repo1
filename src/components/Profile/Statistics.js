@@ -13,15 +13,6 @@ class Statistics extends React.Component {
     }
 
     componentWillMount() {
-        this.props.actions.myStatistics().then((stats) => {
-            this.setState({items: [
-                {label: 'Kills', value: stats.kills},
-                {label: 'Deaths', value: stats.deaths},
-                {label: 'Total Experience', value: stats.xp},
-                {label: 'KD', value: stats.kd},
-                {label: 'Time spend', value: Statistics.timePlayed(stats.playingTime)},
-            ]});
-        });
     }
 
     static timePlayed(time) {
