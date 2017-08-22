@@ -68,11 +68,8 @@ export function createStatistics(character, user) {
                 let stats = new db.Statistic({
                     'character': character,
                     'kills': 0,
-                    'deaths': 0,
                     'playingTime': 0,
-                    'xp': 0,
                     'username': user,
-                    'kd': 0
                 });
                 return stats.insert();
             }

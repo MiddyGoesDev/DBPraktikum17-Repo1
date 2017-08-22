@@ -2,7 +2,7 @@ import './Profile.css';
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {myStatistics} from '../actions/profile'
+import {myStatistics, myCharacter} from '../actions/profile'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -23,11 +23,17 @@ class Profile extends React.Component {
             this.setState({
                 username: stats.username,
                 kills: stats.kills,
-                deaths: stats.deaths,
-                exp: stats.xp,
-                kd: stats.kd,
                 playingTime: stats.playingTime
             })
+        })
+        this.props.actions.myCharacter().then((char) => {
+          this.setState({
+            level: char.level,
+            vitality: char.vitality,
+            strength: char.strength,
+            dexterity: char.dexterity,
+            intelligence: char.intelligence
+          })
         })
     }
 
@@ -39,10 +45,12 @@ class Profile extends React.Component {
                         <Statistics
                             user={{name: this.state.username}}
                             items={[
-                                {label: 'Kills', value: this.state.kills},
-                                {label: 'Deaths', value: this.state.deaths},
-                                {label: 'Total Experience', value: this.state.exp},
-                                {label: 'KD', value: this.state.kd},
+                                {label: 'Total Cows killed', value: this.state.kills},
+                                {label: 'Vitality', value: this.state.vitality},
+                                {label: 'Strength', value: this.state.strength},
+                                {label: 'Dexterity', value: this.state.dexterity},
+                                {label: 'Intelligence', value: this.state.intelligence},
+                                {label: 'Level', value: this.state.level},
                                 {label: 'Time spend', value: Statistics.timePlayed(this.state.playingTime)},
                             ]}
                         />
@@ -67,7 +75,7 @@ function mapStateToProps(state) {
 
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({myStatistics}, dispatch)};
+    return {actions: bindActionCreators({myStatistics, myCharacter}, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
