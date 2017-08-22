@@ -20,6 +20,7 @@ function GameStage() {
     };
 
     this.initialize = (x, y) => {
+        this.construct();
         this.activeObject = new PlayerGuy(x, y);
         new Wall(80, 40);
         var cowContainer = new window.createjs.Container();
@@ -107,7 +108,6 @@ function GameStage() {
     this.fps = 40;
     // this.socket = io('http://localhost:8080');
     this.socket = io('207.154.243.43:8080');
-    this.construct();
 
     this.socket.on('update', object => {
         switch (object.type) {
