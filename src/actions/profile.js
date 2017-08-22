@@ -1,16 +1,39 @@
+import {EQUIPMENT, STATISTICS, MAIN_HAND} from "./types";
 
 export function myStatistics() {
-  return {
-    'BAQEND': {
-      type: "STATISTICS",
-      payload: (db) => {
-          return db.Character.find().equal('owner', db.User.me.id).singleResult().then((result) => {
-            return db.Statistic.find().equal('character', result).singleResult().then((stats) => {
-              return stats
-            })
-          })
+    return {
+        'BAQEND': {
+            type: STATISTICS,
+            payload: (db) => {
+                return db.Character.find().equal('owner', db.User.me.id).singleResult().then((result) => {
+                    return db.Statistic.find().equal('character', result).singleResult().then((stats) => {
+                        return stats
+                    })
+                })
 
+            }
         }
-      }
     }
-  }
+}
+
+export function equipment() {
+    return {
+        'BAQEND': {
+            type: EQUIPMENT,
+            payload: (db) => {
+                return db.Character.find().equal('owner', db.User.me.id).singleResult(character =>
+                    db.Equipment.find().equal('body', character).singleResult()
+                )
+            }
+        }
+    }
+}
+
+export function mainHand(equipment) {
+    return {
+        'BAQEND': {
+            type: MAIN_HAND,
+            payload: (db) => db.Item.load(equipment.main_hand.id)
+        }
+    }
+}

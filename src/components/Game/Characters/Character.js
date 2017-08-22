@@ -22,8 +22,7 @@ export default function Character(x, y) {
     this.use = () => {
         if(!this.isUsing() && this.weapon !== null) {
             this.play('punch');
-            let projectile = this.weapon.use(this.x + this.direction.x * 5, this.y + this.direction.y * 5, this.direction);
-            projectile.owner = this.id;
+            this.weapon.use(this.x + this.direction.x * 5, this.y + this.direction.y * 5, this.direction);
         }
     };
 
@@ -98,13 +97,6 @@ export default function Character(x, y) {
                     }
                 }
                 this.updatePosition(nextX, nextY);
-                break;
-            case 'MainHand':
-                this.weapon = object;
-                this.updateBaqend();
-            case 'Item':
-                this.items.push(object);
-                object.destruct();
                 break;
         }
     };

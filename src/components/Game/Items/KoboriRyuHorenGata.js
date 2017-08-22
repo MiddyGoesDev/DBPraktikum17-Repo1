@@ -19,7 +19,7 @@ export default function KoboriRyuHorenGata(x, y) {
 
     this.hp = 1;
     this.armor = 10;
-    this.type = 'MainHand';
+    this.type = 'main_hand';
     this.name = 'Kobori Ryu Horen Gata';
     this.construct();
     this.play('idle');

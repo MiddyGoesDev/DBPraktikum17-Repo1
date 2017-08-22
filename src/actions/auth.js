@@ -1,4 +1,4 @@
-import {USER_LOGIN, USER_REGISTER, USER_LOGOUT, CREATE_CHARACTER, CREATE_STATISTICS, ME} from './types';
+import {USER_LOGIN, USER_REGISTER, USER_LOGOUT, CREATE_CHARACTER, CREATE_EQUIPMENT, CREATE_STATISTICS, ME} from './types';
 import {DIRECTION_SOUTH} from '../components/Game/Constants/Directions';
 
 export function login(username, password) {
@@ -41,6 +41,20 @@ export function createCharacter(user) {
                     'playing': false
                 });
                 return character.insert();
+            }
+        }
+    };
+}
+
+export function createEquipment(character) {
+    return {
+        'BAQEND': {
+            type: CREATE_EQUIPMENT,
+            payload: (db) => {
+                let equipment = new db.Equipment({
+                    'body': character,
+                });
+                return equipment.insert();
             }
         }
     };

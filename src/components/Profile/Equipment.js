@@ -1,9 +1,39 @@
 import * as React from "react";
 import {Grid, Image, Rail, Segment} from "semantic-ui-react";
+import {equipment, mainHand} from '../../actions/profile';
 
 import './Equipment.css';
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import PropTypes from 'prop-types'
 
-export default class Equipment extends React.Component {
+class Equipment extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
+
+    componentWillMount() {
+        this.props.actions.equipment().then(equip => {
+            this.props.actions.mainHand(equip).then(item => {
+                this.setState({
+                    mainHandSrc: './assets/items/' + this.capitalizeFirstLetter(this.toCamelCase(item.name)) + '.png',
+                    mainHandName: item.name
+                });
+            });
+        });
+    }
+
+    toCamelCase(name) {
+        return name.replace(/(?:^\w|[A-Z]|\b\w)/g, function (letter, index) {
+            return index === 0 ? letter.toLowerCase() : letter.toUpperCase();
+        }).replace(/\s+/g, '');
+    }
+
+    capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
     render() {
         return (
@@ -12,7 +42,7 @@ export default class Equipment extends React.Component {
                     <Grid.Column>
                         <Segment className="head">
                             <p className="item-title">Head</p>
-                            <Image src='' />
+                            <Image src=''/>
 
                             <Rail position='left'>
                                 <Segment className="shoulders" style={{marginLeft: 'auto'}}>
@@ -28,18 +58,20 @@ export default class Equipment extends React.Component {
                         </Segment>
                         <Segment className="torso">
                             <p className="item-title">Torso</p>
-                            <Image src='' />
+                            <Image src=''/>
                         </Segment>
                         <Segment className="belt">
                             <p className="item-title">Belt</p>
-                            <Image src='' />
+                            <Image src=''/>
 
                             <Rail position='left'>
                                 <Segment className="ring" style={{marginLeft: 'auto'}}>
                                     <p className="item-title">Ring 1</p>
                                 </Segment>
                                 <Segment className="weapon" style={{marginLeft: 'auto'}}>
-                                    <p className="item-title">Weapon 1</p>
+                                    <p className="item-title">Main-Hand</p>
+                                    <Image fluid verticalAlign src={this.state.mainHandSrc}/>
+                                    <p>{this.state.name}</p>
                                 </Segment>
                             </Rail>
                             <Rail position='right'>
@@ -47,17 +79,17 @@ export default class Equipment extends React.Component {
                                     <p className="item-title">Ring 2</p>
                                 </Segment>
                                 <Segment className="weapon">
-                                    <p className="item-title">Weapon 2</p>
+                                    <p className="item-title">Off-Hand</p>
                                 </Segment>
                             </Rail>
                         </Segment>
                         <Segment className="pants">
                             <p className="item-title">Pants</p>
-                            <Image src='' />
+                            <Image src=''/>
                         </Segment>
                         <Segment className="boots">
                             <p className="item-title">Boots</p>
-                            <Image src='' />
+                            <Image src=''/>
                         </Segment>
                     </Grid.Column>
                 </Grid.Row>
@@ -65,3 +97,18 @@ export default class Equipment extends React.Component {
         );
     }
 }
+
+
+Equipment.propTypes = {
+    action: PropTypes.object
+};
+
+function mapStateToProps(state) {
+    return {};
+}
+
+function mapDispatchToProps(dispatch) {
+    return {actions: bindActionCreators({equipment, mainHand}, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Equipment);

@@ -103,6 +103,7 @@ function GameStage() {
 
     this.socket.on('update', object => {
         switch (object.type) {
+            case 'Player':
             case 'Character':
                 this.networkObjects[object.id].updatePosition(object.x, object.y);
                 this.networkObjects[object.id].nextDirection = object.direction;
