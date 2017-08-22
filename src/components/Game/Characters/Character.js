@@ -106,8 +106,8 @@ export default function Character(x, y) {
 
     this.handleCollision = (object, collision) => {
         switch (object.type) {
+            case 'CollisionMap':
             case 'Wall':
-                
                 let previousX = this.x - this.direction.x * (this.speed + 1);
                 let previousY = this.y - this.direction.y * (this.speed + 1);
                 let currentX = this.x;
