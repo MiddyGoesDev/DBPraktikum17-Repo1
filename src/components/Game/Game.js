@@ -9,6 +9,7 @@ import {connect} from 'react-redux'
 import {join, leave, ownCharacter, updateOpponents, updateCharacter, setTimer} from '../../actions/character';
 
 import GameStage from './GameStage';
+import {clearStage} from "./GameStage"
 
 import {KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT} from './Constants/KeyCodes';
 
@@ -17,7 +18,7 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          joinDate: new Date(),
+            joinDate: new Date(),
         }
     }
 
@@ -25,10 +26,6 @@ class Game extends React.Component {
         this.resizeGame();
         this.props.actions.join();
         this.startGame();
-    }
-    
-    componentWillMount() {
-        console.log('will mount');
     }
 
     resizeGame() {
@@ -42,12 +39,9 @@ class Game extends React.Component {
         this.props.actions.leave();
         this.props.actions.setTimer(this.state.joinDate);
         this.endGame();
-        console.log('will unmount');
     }
 
     startGame() {
-        window.addEventListener('resize', this.resizeGame);
-
         this.props.actions.ownCharacter().then(character => {
             GameStage().initialize(character.x, character.y);
             GameStage().activeObject.id = character.id;
@@ -56,89 +50,73 @@ class Game extends React.Component {
             GameStage().networkObjects[character.id] = GameStage().activeObject;
         });
 
-        this.props.actions.updateOpponents();
+        this.addListeners();
 
-        document.addEventListener("keydown", function(e) {
-            // prevent scrolling while playing
-            if([KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT].indexOf(e.keyCode) > -1) {
-                e.preventDefault();
-            }
-            // if userIsntChatting()
-            if (document.activeElement.id !== 'chat-input') {
-                GameStage().keyPressed(e);
-            }
-        }, false);
+    }
 
-        document.addEventListener("keyup", function(e) {
-            // if userIsntChatting()
-            if (document.activeElement.id !== 'chat-input') {
-                GameStage().keyReleased(e);
-            }
-        }, false);
 
+    handleKeyDown(e) {
+        // prevent scrolling while playing
+        if ([KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT].indexOf(e.keyCode) > -1) {
+            e.preventDefault();
+        }
+        // if userIsntChatting
+        if (document.activeElement.id !== 'chat-input') {
+            GameStage().keyPressed(e);
+        }
+    }
+
+    handleKeyUp(e) {
+        // if userIsntChatting
+        if (document.activeElement.id !== 'chat-input') {
+            GameStage().keyReleased(e);
+        }
+    }
+
+    addListeners() {
+        window.addEventListener('resize', this.resizeGame);
+        document.addEventListener("keydown", this.handleKeyDown);
+        document.addEventListener("keyup", this.handleKeyUp);
         // Actions carried out each tick (aka frame)
-        window.createjs.Ticker.addEventListener('tick', () => {
-            GameStage().update();
-            if(GameStage().activeObject.keyChanged) {
-                GameStage().activeObject.handleEvent();
-                GameStage().activeObject.keyChanged = false;
-            }
-        });
+        window.createjs.Ticker.addEventListener('tick', this.handleTick);
+    }
+
+    removeListeners() {
+        window.removeEventListener('resize', this.resizeGame);
+        document.removeEventListener("keydown", this.handleKeyDown);
+        document.removeEventListener("keyup", this.handleKeyUp);
+        // Actions carried out each tick (aka frame)
+        window.createjs.Ticker.removeEventListener('tick', this.handleTick);
     }
 
     endGame() {
-        window.removeEventListener('resize', this.resizeGame);
-
-        this.props.actions.ownCharacter().then(character => {
-            GameStage().initialize(character.x, character.y);
-            GameStage().activeObject.id = character.id;
-            GameStage().activeObject.character = character;
-            GameStage().activeObject.animation = 'idle';
-            GameStage().networkObjects[character.id] = GameStage().activeObject;
-        });
-
-        this.props.actions.updateOpponents();
-
-        document.removeEventListener("keydown", function(e) {
-            // prevent scrolling while playing
-            if([KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT].indexOf(e.keyCode) > -1) {
-                e.preventDefault();
-            }
-            // if userIsntChatting()
-            if (document.activeElement.id !== 'chat-input') {
-                GameStage().keyPressed(e);
-            }
-        }, false);
-
-        document.removeEventListener("keyup", function(e) {
-            // if userIsntChatting()
-            if (document.activeElement.id !== 'chat-input') {
-                GameStage().keyReleased(e);
-            }
-        }, false);
-
-        // Actions carried out each tick (aka frame)
-        window.createjs.Ticker.removeEventListener('tick', () => {
-            GameStage().update();
-            if(GameStage().activeObject.keyChanged) {
-                GameStage().activeObject.handleEvent();
-                GameStage().activeObject.keyChanged = false;
-            }
-        });
+        this.removeListeners();
+        clearStage();
     }
 
-    handleClick(e) {
+    handleTick() {
+        GameStage().update();
+        if (GameStage().activeObject.keyChanged) {
+            GameStage().activeObject.handleEvent();
+            GameStage().activeObject.keyChanged = false;
+        }
+    }
+
+
+    stopChatting() {
         document.getElementById('chat-input').blur();
     }
 
     render() {
         return (
-            <div ref="gameWindow" id="game-window" className="game-window" onClick={this.handleClick}>
-                <canvas ref="gameField" id="game-field" width={700} height={400} />
+            <div ref="gameWindow" id="game-window" className="game-window" onClick={this.stopChatting}>
+                <canvas ref="gameField" id="game-field" width={700} height={400}/>
             </div>
         );
     }
 }
+
+
 
 function mapStateToProps(state) {
     return {}

@@ -156,3 +156,7 @@ export default function getStage() {
     }
     return gameStage;
 }
+
+export function clearStage() {
+    gameStage = null;
+}

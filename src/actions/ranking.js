@@ -1,8 +1,8 @@
 
-export function getStatsByKD() {
+export function getStatsByKDAsc() {
   return {
     'BAQEND': {
-      type: "RANKING_KD",
+      type: "RANKING_KD_ASC",
       payload: (db) => {
         return db.Statistic.find().descending("kd").resultList().then(result => {
           return result
@@ -12,12 +12,12 @@ export function getStatsByKD() {
   }
 }
 
-export function getStatsByProfileDsc() {
+export function getStatsByKDDsc() {
   return {
     'BAQEND': {
-      type: "RANKING_PROFILE_DSC",
+      type: "RANKING_KD_DSC",
       payload: (db) => {
-        return db.Statistic.find().descending("username").resultList().then(result => {
+        return db.Statistic.find().ascending("kd").resultList().then(result => {
           return result
         })
       }
@@ -38,12 +38,38 @@ export function getStatsByProfileAsc() {
   }
 }
 
-export function getStatsByXP() {
+export function getStatsByProfileDsc() {
   return {
     'BAQEND': {
-      type: "RANKING_XP",
+      type: "RANKING_PROFILE_DSC",
+      payload: (db) => {
+        return db.Statistic.find().descending("username").resultList().then(result => {
+          return result
+        })
+      }
+    }
+  }
+}
+
+export function getStatsByXPDsc() {
+  return {
+    'BAQEND': {
+      type: "RANKING_XP_DSC",
       payload: (db) => {
         return db.Statistic.find().descending("xp").resultList().then(result => {
+          return result
+        })
+      }
+    }
+  }
+}
+
+export function getStatsByXPAsc() {
+  return {
+    'BAQEND': {
+      type: "RANKING_XP_ASC",
+      payload: (db) => {
+        return db.Statistic.find().ascending("xp").resultList().then(result => {
           return result
         })
       }
