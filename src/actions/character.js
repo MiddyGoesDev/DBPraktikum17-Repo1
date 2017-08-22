@@ -82,7 +82,7 @@ export function updateCharacter(data) {
 export function setTimer(joinTime) {
   return {
     'BAQEND': {
-      type: "SET_TIMER",
+      type: SET_TIMER,
       payload: (db) => {
           return db.Character.find().equal('owner', db.User.me.id).singleResult().then((result) => {
             return db.Statistic.find().equal('character', result).singleResult().then((stats) => {

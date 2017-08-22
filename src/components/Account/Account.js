@@ -39,12 +39,11 @@ class Account extends Component {
             });
         }
         else {
-            console.log("davor");
             this.props.actions.login(this.state.username, this.state.password).then(result => {
-                console.log("drin");
                 this.setState({
                     username: null,
                     password: null,
+                    info: ""
                 });
             },
             err => {

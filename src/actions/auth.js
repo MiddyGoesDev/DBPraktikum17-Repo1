@@ -1,13 +1,13 @@
-import {USER_LOGIN, USER_REGISTER, USER_LOGOUT, CREATE_CHARACTER, CREATE_EQUIPMENT, CREATE_STATISTICS, ME} from './types';
+import {USER_LOGIN, USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE, USER_REGISTER, USER_LOGOUT, CREATE_CHARACTER, CREATE_EQUIPMENT, CREATE_STATISTICS, ME} from './types';
 import {DIRECTION_SOUTH} from '../components/Game/Constants/Directions';
 
 export function login(username, password) {
     return {
         'BAQEND': {
             types: [
-                "USER_LOGIN",
-                "USER_LOGIN_SUCCESS",
-                "USER_LOGIN_FAILURE"
+                USER_LOGIN,
+                USER_LOGIN_SUCCESS,
+                USER_LOGIN_FAILURE
             ],
             payload: (db) => db.User.login(username, password).then(result => result)
             // type: USER_LOGIN,
