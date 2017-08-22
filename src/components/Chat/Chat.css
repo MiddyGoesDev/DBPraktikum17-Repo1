@@ -19,7 +19,7 @@
 #chat-messages {
   word-wrap: break-word;
   overflow-y: scroll;
-  height: 95%;
+  height: 93%;
   color: #696969;
   text-align: left;
 }
