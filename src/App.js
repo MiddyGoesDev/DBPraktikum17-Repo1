@@ -25,7 +25,7 @@ export default class App extends Component {
                     <div className="App">
                         <NavBar/>
                         <Switch>
-                            <Route exact path="/" component={GameChat}/>
+                            <Route exact path="/" component={GameChat}/> //startscreen
                             <Route path="/account" component={Account}/>
                             <Route path="/ranking" component={Ranking}/>
                             <Route path="/profile" component={Profile}/>
