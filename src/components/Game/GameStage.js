@@ -17,11 +17,20 @@ function GameStage() {
 
     this.construct = () => {
         this.stage = new window.createjs.Stage('game-field');
+
+        let backgroundData = {
+            images: ['./assets/full-world.png'],
+            frames: {width: 1600, height: 4480, count: 1, regX: 0, regY: 0, spacing: 0, margin: 0}
+        };
+        let background = new window.createjs.Sprite(new window.createjs.SpriteSheet(backgroundData));
+        this.draw(background);
     };
 
     this.initialize = (x, y) => {
         this.construct();
         this.activeObject = new PlayerGuy(x, y);
+        console.log('player');
+        console.log(this.activeObject);
         new Wall(80, 40);
         var cowContainer = new window.createjs.Container();
         var cowZone = new window.createjs.Shape();
