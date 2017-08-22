@@ -22,26 +22,27 @@ class Game extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.resizeGame();
+    componentWillMount() {
         this.props.actions.join();
-        this.startGame();
     }
 
-    resizeGame() {
-        // TODO fix
-        /*
-        this.gameField = ReactDOM.findDOMNode(this.refs.gameField);
-        this.gameWindow = ReactDOM.findDOMNode(this.refs.gameWindow);
-        this.gameField.width = this.gameWindow.clientWidth;
-        this.gameField.height = this.gameWindow.clientHeight;
-        */
+    componentDidMount() {
+        this.setState({width: this.refs.gameWindow.clientWidth, height: this.refs.gameWindow.clientHeight});
+        this.startGame();
     }
 
     componentWillUnmount() {
         this.props.actions.leave();
         this.props.actions.setTimer(this.state.joinDate);
-        this.endGame();
+        this.closeGame();
+    }
+
+    resizeGame() {
+        console.log('resize window');
+        let gameWindow = document.getElementById('game-window');
+        let gameField = document.getElementById('game-field');
+        gameField.width = gameWindow.clientWidth;
+        gameField.height = gameWindow.clientHeight;
     }
 
     startGame() {
@@ -58,8 +59,29 @@ class Game extends React.Component {
         this.addListeners();
     }
 
+    closeGame() {
+        this.removeListeners();
+        clearStage();
+    }
 
-    handleKeyDown(e) {
+    addListeners() {
+        window.addEventListener('resize', this.resizeGame);
+        document.addEventListener('keydown', Game.handleKeyDown);
+        document.addEventListener('keyup', Game.handleKeyUp);
+        // Actions carried out each tick (aka frame)
+        window.createjs.Ticker.setFPS(GameStage().fps);
+        window.createjs.Ticker.addEventListener('tick', Game.handleTick);
+    }
+
+    removeListeners() {
+        window.removeEventListener('resize', this.resizeGame);
+        document.removeEventListener('keydown', Game.handleKeyDown);
+        document.removeEventListener('keyup', Game.handleKeyUp);
+        // Actions carried out each tick (aka frame)
+        window.createjs.Ticker.removeEventListener('tick', Game.handleTick);
+    }
+
+    static handleKeyDown(e) {
         // prevent scrolling while playing
         if ([KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT].indexOf(e.keyCode) > -1) {
             e.preventDefault();
@@ -70,43 +92,20 @@ class Game extends React.Component {
         }
     }
 
-    handleKeyUp(e) {
+    static handleKeyUp(e) {
         // if userIsntChatting
         if (document.activeElement.id !== 'chat-input') {
             GameStage().keyReleased(e);
         }
     }
 
-    addListeners() {
-        window.addEventListener('resize', this.resizeGame);
-        document.addEventListener("keydown", this.handleKeyDown);
-        document.addEventListener("keyup", this.handleKeyUp);
-        // Actions carried out each tick (aka frame)
-        window.createjs.Ticker.setFPS(GameStage().fps);
-        window.createjs.Ticker.addEventListener('tick', this.handleTick);
-    }
-
-    removeListeners() {
-        window.removeEventListener('resize', this.resizeGame);
-        document.removeEventListener("keydown", this.handleKeyDown);
-        document.removeEventListener("keyup", this.handleKeyUp);
-        // Actions carried out each tick (aka frame)
-        window.createjs.Ticker.removeEventListener('tick', this.handleTick);
-    }
-
-    endGame() {
-        this.removeListeners();
-        clearStage();
-    }
-
-    handleTick(event) {
+    static handleTick(event) {
         GameStage().update(event);
         if (GameStage().activeObject.keyChanged) {
             GameStage().activeObject.handleEvent();
             GameStage().activeObject.keyChanged = false;
         }
     }
-
 
     stopChatting() {
         document.getElementById('chat-input').blur();
@@ -115,7 +114,7 @@ class Game extends React.Component {
     render() {
         return (
             <div ref="gameWindow" id="game-window" className="game-window" onClick={this.stopChatting}>
-                <canvas ref="gameField" id="game-field" width={700} height={400}/>
+                <canvas ref="gameField" id="game-field" width={this.state.width} height={this.state.height}/>
             </div>
         );
     }
