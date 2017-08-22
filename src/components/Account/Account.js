@@ -39,21 +39,30 @@ class Account extends Component {
             });
         }
         else {
-            this.props.actions.login(this.state.username, this.state.password);
-            this.setState({
-                info: ""
-            });
+            this.props.actions.login(this.state.username, this.state.password).then((login) => {
+                this.setState({
+                    username: null,
+                    password: null,
+                    info: ""
+                })
+            })
         }
     };
 
     handleRegister = (event) => {
         event.preventDefault();
-        this.props.actions.checkForExsistence(this.state.username).then(notUsed => {
-            if (!notUsed) {
+        this.props.actions.checkForExsistence(this.state.username).then(Used => {
+            if (!Used) {
                 this.props.actions.register(this.state.username, this.state.password)
                     .then(user => this.props.actions.createCharacter(user)
                         .then(character => this.props.actions.createEquipment(character)
-                            .then(equipment => this.props.actions.createStatistics(character, this.state.username))));
+                            .then(equipment => this.props.actions.createStatistics(character, this.state.username)
+                                .then(this.setState({
+                                    username: null,
+                                    password: null,
+                                    info: ""
+
+                                })))));
             }
             else {
                 this.setState({

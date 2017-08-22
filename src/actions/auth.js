@@ -5,8 +5,14 @@ export function login(username, password) {
     return {
         'BAQEND': {
             type: USER_LOGIN,
-            payload: (db) => db.User.login(username, password)
+            payload: (db) => db.User.login(username, password).then((login) => {
+              console.log("logged in");
+              return login;
+          },
+        (err) => {
+            alert(err.message)
         }
+      )}
     }
 }
 
@@ -103,7 +109,6 @@ export function checkForExsistence(input) {
     'BAQEND': {
       type: "CHECK_FOR_EXSISTENCE",
        payload: (db) => db.modules.get("checkForExsistence" ,{userInput: input}).then((result) => {
-         console.log(result.exists);
          return result.exists;
         })
         }
