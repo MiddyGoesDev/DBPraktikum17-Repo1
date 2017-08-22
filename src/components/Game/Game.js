@@ -51,7 +51,6 @@ class Game extends React.Component {
         });
 
         this.addListeners();
-
     }
 
 
@@ -78,6 +77,7 @@ class Game extends React.Component {
         document.addEventListener("keydown", this.handleKeyDown);
         document.addEventListener("keyup", this.handleKeyUp);
         // Actions carried out each tick (aka frame)
+        window.createjs.Ticker.setFPS(GameStage().fps);
         window.createjs.Ticker.addEventListener('tick', this.handleTick);
     }
 
@@ -94,8 +94,8 @@ class Game extends React.Component {
         clearStage();
     }
 
-    handleTick() {
-        GameStage().update();
+    handleTick(event) {
+        GameStage().update(event);
         if (GameStage().activeObject.keyChanged) {
             GameStage().activeObject.handleEvent();
             GameStage().activeObject.keyChanged = false;

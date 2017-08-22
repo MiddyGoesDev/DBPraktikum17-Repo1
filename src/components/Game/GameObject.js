@@ -6,6 +6,7 @@ import HpBar from './HpBar';
 export default function GameObject(x, y) {
 
     this.construct = () => {
+        this.data.framerate = 25;
         this.sprite = new window.createjs.Sprite(new window.createjs.SpriteSheet(this.data), this.animation);
         this.currentHP = this.baseHP;
         this.hpBar = new HpBar(this);

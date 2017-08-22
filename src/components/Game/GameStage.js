@@ -28,11 +28,17 @@ function GameStage() {
         this.stage.addChild(cowZone);
     };
 
-    this.update = () => {
+    this.update = (event) => {
         this.gameObjects.forEach((gameObject) => {
             gameObject.update();
         });
-        this.stage.update();
+        this.moveCanvasAlong();
+        this.stage.update(event);
+    };
+
+    this.moveCanvasAlong = () => {
+        this.stage.x = - this.activeObject.x + this.stage.canvas.clientWidth / 2;
+        this.stage.y = - this.activeObject.y + this.stage.canvas.clientHeight / 2;
     };
 
     this.add = (object) => {
@@ -97,6 +103,7 @@ function GameStage() {
     this.networkObjects = { };
     this.activeKeys = [];
     this.db = db;
+    this.fps = 40;
     // this.socket = io('http://localhost:8080');
     this.socket = io('207.154.243.43:8080');
     this.construct();
