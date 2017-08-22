@@ -13,8 +13,6 @@ var port = 8080;
 
 db.connect('black-water-73').then(() => console.log('Connected to Baqend'));
 
-setTimeout(() => { db.ItemMask.find().resultList((result) => console.log(result)); }, 1000);
-
 app.listen(port, function(){
     console.log('listening on *:' + port);
 });
@@ -26,6 +24,10 @@ var cows = [];
 var cowZone = { x: 150, y: 150, width: 200, height: 200 };
 
 for (var i=0; i<1; i++) {
+    io.emit('spawn', deliverCow());
+}
+
+function deliverCow() {
     var cow = {
         id: Math.floor(new Date().valueOf() * Math.random()),
         type: 'Cow',
@@ -33,12 +35,11 @@ for (var i=0; i<1; i++) {
         y: Math.round(cowZone.y + cowZone.height * Math.random()),
         animation: 'idle',
         direction: { x: 0, y: 1, name: 'South' },
-        hp: 100
+        currentHP: 100
     };
     cows.push(cow);
     objects[cow.id] = cow;
-    console.log('create cow ' + cow.id);
-    io.emit('spawn', cow);
+    return cow;
 }
 
 io.on('connection', socket => {
@@ -72,9 +73,32 @@ io.on('connection', socket => {
     socket.on('destroy', object => {
         delete objects[object.id];
     });
+    
+    socket.on('cow died', cow => {
+        setTimeout(() => socket.emit('spawn', deliverCow()), 15000);
+        db.ItemMask.find().equal('type', 'main_hand').resultList().then(items => {
+            var randomItem = items[Math.floor(items.length * Math.random())];
+            socket.emit('drop loot', {
+                x: cow.x + 16,
+                y: cow.y + 16,
+                item: {
+                    name: randomItem.name,
+                    type: randomItem.type,
+                    vitality: roll(randomItem, 'vitality'),
+                    dexterity: roll(randomItem, 'dexterity'),
+                    strength: roll(randomItem, 'strength'),
+                    intelligence: roll(randomItem, 'intelligence'),
+                }
+            });
+        });
+    });
 
     console.log(socket.id + ' is connected');
 });
+
+function roll(item, attribute) {
+    return item['min_' + attribute] + Math.floor((item['max_' + attribute] - item['min_' + attribute]) * Math.random());
+}
 
 cows.forEach(cow => setInterval(() => {
     var distance = (Math.floor(Math.random() * 20) - 10);

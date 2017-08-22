@@ -86,8 +86,7 @@ export function setTimer(joinTime) {
       payload: (db) => {
           return db.Character.find().equal('owner', db.User.me.id).singleResult().then((result) => {
             return db.Statistic.find().equal('character', result).singleResult().then((stats) => {
-              console.log(stats);
-              stats.playingTime = Math.abs(new Date() - joinTime);
+              stats.playingTime += Math.abs(new Date() - joinTime);
               return stats.update();
             })
           })

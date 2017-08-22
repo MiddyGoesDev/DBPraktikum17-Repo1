@@ -17,7 +17,7 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          joinDate: new Date,
+          joinDate: new Date(),
         }
     }
 
@@ -25,8 +25,10 @@ class Game extends React.Component {
         this.resizeGame();
         this.props.actions.join();
         this.startGame();
-        console.log(this.state.joinDate);
-
+    }
+    
+    componentWillMount() {
+        console.log('will mount');
     }
 
     resizeGame() {
@@ -39,7 +41,8 @@ class Game extends React.Component {
     componentWillUnmount() {
         this.props.actions.leave();
         this.props.actions.setTimer(this.state.joinDate);
-        console.log(Math.abs(new Date() - this.state.joinDate));
+        this.endGame();
+        console.log('will unmount');
     }
 
     startGame() {
@@ -75,6 +78,47 @@ class Game extends React.Component {
 
         // Actions carried out each tick (aka frame)
         window.createjs.Ticker.addEventListener('tick', () => {
+            GameStage().update();
+            if(GameStage().activeObject.keyChanged) {
+                GameStage().activeObject.handleEvent();
+                GameStage().activeObject.keyChanged = false;
+            }
+        });
+    }
+
+    endGame() {
+        window.removeEventListener('resize', this.resizeGame);
+
+        this.props.actions.ownCharacter().then(character => {
+            GameStage().initialize(character.x, character.y);
+            GameStage().activeObject.id = character.id;
+            GameStage().activeObject.character = character;
+            GameStage().activeObject.animation = 'idle';
+            GameStage().networkObjects[character.id] = GameStage().activeObject;
+        });
+
+        this.props.actions.updateOpponents();
+
+        document.removeEventListener("keydown", function(e) {
+            // prevent scrolling while playing
+            if([KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT].indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+            }
+            // if userIsntChatting()
+            if (document.activeElement.id !== 'chat-input') {
+                GameStage().keyPressed(e);
+            }
+        }, false);
+
+        document.removeEventListener("keyup", function(e) {
+            // if userIsntChatting()
+            if (document.activeElement.id !== 'chat-input') {
+                GameStage().keyReleased(e);
+            }
+        }, false);
+
+        // Actions carried out each tick (aka frame)
+        window.createjs.Ticker.removeEventListener('tick', () => {
             GameStage().update();
             if(GameStage().activeObject.keyChanged) {
                 GameStage().activeObject.handleEvent();

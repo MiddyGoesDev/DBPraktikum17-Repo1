@@ -30,8 +30,29 @@ export default function PlayerGuy(x, y) {
         }
     };
 
+    this.createBaqendItem = (item) => {
+        item = new GameStage().db.Item({
+            type: item.type,
+            name: item.name,
+            vitality: item.vitality,
+            strength: item.strength,
+            dexterity: item.dexterity,
+            intelligence: item.intelligence,
+            movement_speed: item.movementSpeed
+        });
+        item.insert().then(baqendItem => {
+            this.equipBaqend(baqendItem);
+        });
+    };
+
+    this.equipBaqend = (item) => {
+        GameStage().db.Equipment.find().equal('body', this.character).singleResult(equipment => {
+            equipment[item.type] = item;
+            equipment.update();
+        });
+    };
+
     this.takeDamage = (damage) => {
-        console.log('player took damage');
         this.currentHP -= Math.max(0, damage - this.armor);
         this.hpBar.updateHealth();
         if (this.currentHP <= 0) {
@@ -94,7 +115,7 @@ export default function PlayerGuy(x, y) {
                 break;
             case KEYCODE_1:
                 // TODO type
-                if (this.items.filter(item => item.type === 'Item').length !== 0){
+                if (this.weapon !== null) {
                    this.use();
                 }
                 this.emit('change');
@@ -141,6 +162,7 @@ export default function PlayerGuy(x, y) {
         }
     };
 
+    this.type = 'Player';
     this.character = null;
 
     this.construct();

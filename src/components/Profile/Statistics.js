@@ -1,7 +1,7 @@
 import React from "react";
-import {Button, Card, Header, Dimmer, Image} from "semantic-ui-react";
+import {Statistic, Card, Header, Image} from "semantic-ui-react";
 import {bindActionCreators} from "redux";
-import {getStats} from "../../actions/profile";
+import {myStatistics} from "../../actions/profile";
 import {connect} from "react-redux";
 import PropTypes from 'prop-types'
 
@@ -9,52 +9,33 @@ class Statistics extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-
-        }
+        this.state = {}
     }
 
     componentWillMount() {
-        this.props.actions.getStats().then((stats) => {
-            this.setState({
-                kills: stats.kills,
-                deaths: stats.deaths,
-                exp: stats.xp,
-                kd: stats.kd,
-                playTime: stats.playingTime,
-                user: stats.username
-            })
-        })
+        this.props.actions.myStatistics().then((stats) => {
+            this.setState({items: [
+                {label: 'Kills', value: stats.kills},
+                {label: 'Deaths', value: stats.deaths},
+                {label: 'Total Experience', value: stats.xp},
+                {label: 'KD', value: stats.kd},
+                {label: 'Time spend', value: Statistics.timePlayed(stats.playingTime)},
+            ]});
+        });
     }
 
-    setTimePlayed(){
-      var min = this.state.playTime/60000;
-      if (min >= 60){
-        var h = (min - min % 60)/60;
-        return h + " Stunden und " + min % 60 + " Minuten"
-      }
-      else{
-        return "0 Stunden und " + min + " Minuten"
-      }
+    static timePlayed(time) {
+        var min = time / 60000;
+        var h = Math.floor(min / 60);
+        min = Math.round(min % 60);
+        return h + ":" + (min.toString().length===1 ? '0' + min : min);
     }
 
     render() {
-        const { active } = this.state;
-        const dimmedContent = (
-            <div className="center">
-                <Button primary>Change</Button>
-            </div>
-        );
         return (
             <Card style={{padding: 0}}>
-                <Dimmer.Dimmable
-                    as={Image}
-                    blurring
-                    dimmed={active}
-                    dimmer={{active, dimmedContent}}
-                    onMouseEnter={() => this.setState({ active: true })}
-                    onMouseLeave={() => this.setState({ active: false })}
-                    src="./assets/avatar/matthew.png" />
+                <Image
+                    src="./assets/avatar/matthew.png"/>
                 <Card.Content style={{flexGrow: 'unset'}}>
                     <Card.Header>
                         {this.props.user.name}
@@ -65,16 +46,7 @@ class Statistics extends React.Component {
                         <Header as="h4" className="ui sub header">
                             Statistics
                         </Header>
-                        <div className="ui horizontal statistics mini">
-                        <div className="statistics">
-                          <h2>Statistics</h2>
-                          Kills: {this.state.kills}<br/>
-                          Deaths: {this.state.deaths}<br/>
-                          Total Experience: {this.state.exp}<br/>
-                          KD: {this.state.kd}<br/>
-                          Total Time spend: {this.setTimePlayed()}
-                         </div>
-                        </div>
+                        <Statistic.Group horizontal mini items={this.props.items}/>
                     </Card.Description>
                 </Card.Content>
             </Card>
@@ -92,7 +64,7 @@ function mapStateToProps(state) {
 
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({getStats}, dispatch)};
+    return {actions: bindActionCreators({myStatistics}, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Statistics);

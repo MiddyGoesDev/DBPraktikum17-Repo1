@@ -5,7 +5,15 @@ import PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
-import {login, register, logout, createCharacter, createStatistics, checkForExsistence} from '../../actions/auth'
+import {
+    login,
+    register,
+    logout,
+    createCharacter,
+    createEquipment,
+    createStatistics,
+    checkForExsistence
+} from '../../actions/auth'
 import {Button, Card, Form, Grid, Header, Message, Segment} from "semantic-ui-react";
 
 class Account extends Component {
@@ -25,7 +33,7 @@ class Account extends Component {
 
     handleLogin = (event) => {
         event.preventDefault();
-        if(this.state.username === null || this.state.password === null) {
+        if (this.state.username === null || this.state.password === null) {
             this.setState({
                 info: "Please enter a valid username and password"
             });
@@ -40,20 +48,20 @@ class Account extends Component {
 
     handleRegister = (event) => {
         event.preventDefault();
-        this.props.actions.checkForExsistence(this.state.username).then(notUsed => { //wenn nicht gefunden true
-            console.log("username is not used: "+notUsed);
-            if(!notUsed){
+        this.props.actions.checkForExsistence(this.state.username).then(notUsed => {
+            if (!notUsed) {
                 this.props.actions.register(this.state.username, this.state.password)
                     .then(user => this.props.actions.createCharacter(user)
-                        .then(character => this.props.actions.createStatistics(character, this.state.username)));
-                    }
-                    else {
-                        this.setState({
-                            info: "Username is already registered"
-                              })
-                        }
-                    })
-                };
+                        .then(character => this.props.actions.createEquipment(character)
+                            .then(equipment => this.props.actions.createStatistics(character, this.state.username))));
+            }
+            else {
+                this.setState({
+                    info: "Username is already registered"
+                })
+            }
+        })
+    };
 
     handleLogout = (event) => {
         this.props.actions.logout();
@@ -62,8 +70,8 @@ class Account extends Component {
     render() {
         return (
             <div className="account" style={{height: '90%'}}>
-                <Grid textAlign='center' style={{ height: '80%' }} verticalAlign='middle'>
-                    <Grid.Column style={{ maxWidth: 450 }}>
+                <Grid textAlign='center' style={{height: '80%'}} verticalAlign='middle'>
+                    <Grid.Column style={{maxWidth: 450}}>
                         {this.props.auth.isLoggedIn ? (
                             <Card fluid style={{padding: '20px'}}>
                                 <Header size='large' style={{paddingTop: '10px'}}>
@@ -79,8 +87,10 @@ class Account extends Component {
                             <div>
                                 <Form size='large' onChange={this.handleInputChange}>
                                     <Segment stacked>
-                                        <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' name="username" id="username"/>
-                                        <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' name="password" type='password' id="password">
+                                        <Form.Input fluid icon='user' iconPosition='left' placeholder='Username'
+                                                    name="username" id="username"/>
+                                        <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password'
+                                                    name="password" type='password' id="password"/>
                                         <p id="err">{this.state.info}</p>
                                         <Button color='primary' fluid size='large' onClick={this.handleLogin}>
                                             Login
@@ -106,7 +116,17 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({login, register, logout, createCharacter, createStatistics, checkForExsistence}, dispatch)}
+    return {
+        actions: bindActionCreators({
+            login,
+            register,
+            logout,
+            createCharacter,
+            createEquipment,
+            createStatistics,
+            checkForExsistence
+        }, dispatch)
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Account)

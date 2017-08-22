@@ -5,7 +5,11 @@ import Cow from './Characters/Cow';
 import { db } from 'baqend/realtime';
 import io from 'socket.io-client';
 import Cottage from "./Cottage";
-import Fist from "./Projectiles/Fist";
+import Manji from "./Items/Manji";
+import GurandoMasutaa from "./Items/GurandoMasutaa";
+import KoboriRyuHorenGata from "./Items/KoboriRyuHorenGata";
+import YagyuRyuYayuji from "./Items/YagyuRyuYayuji";
+import IgaRyuHappo from "./Items/IgaRyuHappo";
 
 let gameStage = null;
 
@@ -93,12 +97,13 @@ function GameStage() {
     this.networkObjects = { };
     this.activeKeys = [];
     this.db = db;
-    this.socket = io('http://localhost:8080');
-    // this.socket = io('207.154.243.43:8080');
+    // this.socket = io('http://localhost:8080');
+    this.socket = io('207.154.243.43:8080');
     this.construct();
 
     this.socket.on('update', object => {
         switch (object.type) {
+            case 'Player':
             case 'Character':
                 this.networkObjects[object.id].updatePosition(object.x, object.y);
                 this.networkObjects[object.id].nextDirection = object.direction;
@@ -107,8 +112,7 @@ function GameStage() {
             case 'Cow':
                 this.networkObjects[object.id].destX = object.x;
                 this.networkObjects[object.id].destY = object.y;
-                this.networkObjects[object.id].destDirection = object.direction;
-                this.networkObjects[object.id].hp = object.hp;
+                this.networkObjects[object.id].currentHP = object.currentHP;
                 break;
         }
     });
@@ -127,9 +131,22 @@ function GameStage() {
     });
 
     this.socket.on('spawn fist', player => {
-        console.log('spawn fist');
-        console.log(this.networkObjects[player.id]);
         this.networkObjects[player.id].punch();
+    });
+
+    this.socket.on('drop loot', loot => {
+        var item = null;
+        switch (loot.item.name) {
+            case 'Manji': item = new Manji(loot.x, loot.y); break;
+            case 'Yagyu Ryu Yayuji': item = new YagyuRyuYayuji(loot.x, loot.y); break;
+            case 'Kobori Ryu Horen Gata': item = new KoboriRyuHorenGata(loot.x, loot.y); break;
+            case 'Iga Ryu Happo': item = new IgaRyuHappo(loot.x, loot.y); break;
+            case 'Gurando Masutaa': item = new GurandoMasutaa(loot.x, loot.y); break;
+        }
+        item.vitality = loot.item.vitality;
+        item.strength = loot.item.strength;
+        item.dexterity = loot.item.dexterity;
+        item.intelligence = loot.item.intelligence;
     });
 }
 

@@ -1,6 +1,5 @@
 import GameObject from '../GameObject';
 import Fist from '../Projectiles/Fist';
-import Shuriken from '../Projectiles/Shuriken';
 
 export default function Character(x, y) {
 
@@ -20,11 +19,10 @@ export default function Character(x, y) {
         }
     };
 
-    this.use = (item) => {
-        if(!this.isUsing()) {
+    this.use = () => {
+        if(!this.isUsing() && this.weapon !== null) {
             this.play('punch');
-            let shuriken = new Shuriken(this.x + this.direction.x * 5, this.y + this.direction.y * 5, this.direction);
-            shuriken.owner = this.id;
+            this.weapon.use(this.x + this.direction.x * 5, this.y + this.direction.y * 5, this.direction);
         }
     };
 
@@ -105,6 +103,7 @@ export default function Character(x, y) {
 
     this.type = 'Character';
     this.items = [];
+    this.weapon = null;
     this.vitality = 0;
     this.strength = 0;
     this.dexterity = 0;
