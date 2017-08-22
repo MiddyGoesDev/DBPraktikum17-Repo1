@@ -32,7 +32,14 @@ function GameStage() {
         this.gameObjects.forEach((gameObject) => {
             gameObject.update();
         });
+
+        this.moveCanvasAlong();
         this.stage.update();
+    };
+
+    this.moveCanvasAlong = () => {
+        this.stage.x = - this.activeObject.x + this.stage.canvas.clientWidth / 2;
+        this.stage.y = - this.activeObject.y + this.stage.canvas.clientHeight / 2;
     };
 
     this.add = (object) => {
