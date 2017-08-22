@@ -22,6 +22,7 @@ function GameStage() {
     this.initialize = (x, y) => {
         this.activeObject = new PlayerGuy(x, y);
         new Wall(80, 40);
+        var cowContainer = new window.createjs.Container();
         var cowZone = new window.createjs.Shape();
         cowZone.graphics.s("gray").f("transparent").drawRect(150, 150, 200, 200);
         new Cottage(400, 220);
@@ -164,6 +165,7 @@ export default function getStage() {
     return gameStage;
 }
 
+//TODO macht es sinn das zu exportieren? oder sollte es ne normale funktion sein
 export function clearStage() {
     gameStage = null;
 }

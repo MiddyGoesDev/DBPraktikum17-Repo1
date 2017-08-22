@@ -65,6 +65,11 @@ export default function GameObject(x, y) {
         this.sprite.x = x;
         this.sprite.y = y;
         this.hpBar.updatePosition(this);
+        this.updateText(x, y);
+    };
+
+    this.updateText = (x, y) => {
+
     };
 
     this.updateDirection = (destX, destY) => {

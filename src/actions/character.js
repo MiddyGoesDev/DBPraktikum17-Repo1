@@ -35,6 +35,7 @@ export function ownCharacter() {
     }
 }
 
+// TODO refactor
 export function updateOpponents() {
     return {
         'BAQEND': {

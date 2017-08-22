@@ -1,9 +1,9 @@
-import {EQUIPMENT, STATISTICS, MAIN_HAND} from "./types";
+import {EQUIPMENT, MY_STATISTICS, MAIN_HAND, MY_CHARACTER } from "./types";
 
 export function myStatistics() {
     return {
         'BAQEND': {
-            type: STATISTICS,
+            type: MY_STATISTICS,
             payload: (db) => {
                 return db.Character.find().equal('owner', db.User.me.id).singleResult().then((result) => {
                     return db.Statistic.find().equal('character', result).singleResult().then((stats) => {
@@ -34,6 +34,20 @@ export function mainHand(equipment) {
         'BAQEND': {
             type: MAIN_HAND,
             payload: (db) => db.Item.load(equipment.main_hand.id)
+        }
+    }
+}
+
+export function myCharacter() {
+    return {
+        'BAQEND': {
+            type: MY_CHARACTER,
+            payload: (db) => {
+                return db.Character.find().equal('owner', db.User.me.id).singleResult().then((result) => {
+                        return result
+                })
+
+            }
         }
     }
 }
