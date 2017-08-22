@@ -78,6 +78,7 @@ class Game extends React.Component {
         document.addEventListener("keydown", this.handleKeyDown);
         document.addEventListener("keyup", this.handleKeyUp);
         // Actions carried out each tick (aka frame)
+        window.createjs.Ticker.setFPS(GameStage().fps);
         window.createjs.Ticker.addEventListener('tick', this.handleTick);
     }
 

@@ -104,6 +104,7 @@ function GameStage() {
     this.networkObjects = { };
     this.activeKeys = [];
     this.db = db;
+    this.fps = 40;
     // this.socket = io('http://localhost:8080');
     this.socket = io('207.154.243.43:8080');
     this.construct();
