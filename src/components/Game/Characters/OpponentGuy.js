@@ -1,4 +1,6 @@
 import Character from './Character';
+import Text from '../Text';
+import GameStage from "../GameStage";
 
 export default function OpponentGuy(x, y) {
 
@@ -18,6 +20,11 @@ export default function OpponentGuy(x, y) {
             this.move();
             this.check();
         }
+    };
+
+    this.updateText = (x, y) => {
+        this.text.x = x - 40;
+        this.text.y = y - 50;
     };
 
     this.height = 16;
@@ -57,7 +64,11 @@ export default function OpponentGuy(x, y) {
 
     this.nextAnimation = null;
     this.nextDirection = null;
+    //TODO soll das hier sein? ich glaube nicht
+    this.name = 'Bob';
+    this.text = new Text(this.name);
 
+    GameStage().draw(this.text);
     this.construct();
     this.idle();
 }
