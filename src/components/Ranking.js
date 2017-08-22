@@ -2,10 +2,12 @@ import './Ranking.css';
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-    getStatsByKD,
+    getStatsByKDDsc,
+    getStatsByKDAsc,
     getStatsByProfileDsc,
     getStatsByProfileAsc,
-    getStatsByXP,
+    getStatsByXPAsc,
+    getStatsByXPDsc,
     getStatistics
 } from '../actions/ranking'
 import {myStatistics} from '../actions/profile';
@@ -22,7 +24,9 @@ class Ranking extends React.Component {
         super(props);
         this.state = {
             ranking: [],
-            profileClicks: 0,
+            profileClicks: 1,
+            kdClicks: 0,
+            xpClicks: 0,
             currentProfileName: null,
             kd: null,
             exp: null,
@@ -35,7 +39,7 @@ class Ranking extends React.Component {
 
     componentWillMount() {
         this.props.actions.myStatistics().then(statistics => {
-            this.props.actions.getStatsByKD().then((result) => {
+            this.props.actions.getStatsByProfileAsc().then((result) => {
                 this.setState({
                     ranking: result,
                     currentProfileName: statistics.username,
@@ -70,23 +74,44 @@ class Ranking extends React.Component {
         }
     };
 
-
     handleKD = (event) => {
         event.preventDefault();
-        this.props.actions.getStatsByKD().then((result) => {
-            this.setState({
-                ranking: result
+        if (this.state.kdClicks === 1) {
+            this.props.actions.getStatsByKDDsc().then((result) => {
+                this.setState({
+                    ranking: result,
+                    kdClicks: 0
+                })
             })
-        })
+        }
+        else {
+            this.props.actions.getStatsByKDAsc().then((result) => {
+                this.setState({
+                    ranking: result,
+                    kdClicks: 1
+                })
+            })
+        }
     };
 
     handleXP = (event) => {
         event.preventDefault();
-        this.props.actions.getStatsByXP().then((result) => {
-            this.setState({
-                ranking: result
+        if (this.state.xpClicks === 1) {
+            this.props.actions.getStatsByXPDsc().then((result) => {
+                this.setState({
+                    ranking: result,
+                    xpClicks: 0
+                })
             })
-        })
+        }
+        else {
+            this.props.actions.getStatsByXPAsc().then((result) => {
+                this.setState({
+                    ranking: result,
+                    xpClicks: 1
+                })
+            })
+        }
     };
 
     displayProfile = (e) => {
@@ -182,10 +207,12 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getStatsByKD,
+            getStatsByKDAsc,
+            getStatsByKDDsc,
             getStatsByProfileDsc,
             getStatsByProfileAsc,
-            getStatsByXP,
+            getStatsByXPAsc,
+            getStatsByXPDsc,
             myStatistics,
             getStatistics,
             me
