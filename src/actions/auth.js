@@ -4,15 +4,21 @@ import {DIRECTION_SOUTH} from '../components/Game/Constants/Directions';
 export function login(username, password) {
     return {
         'BAQEND': {
-            type: USER_LOGIN,
-            payload: (db) => db.User.login(username, password).then((login) => {
-              console.log("logged in");
-              return login;
-          },
-        (err) => {
-            alert(err.message)
+            types: [
+                "USER_LOGIN",
+                "USER_LOGIN_SUCCESS",
+                "USER_LOGIN_FAILURE"
+            ],
+            payload: (db) => db.User.login(username, password).then(result => result)
+            // type: USER_LOGIN,
+            // payload: (db) => db.User.login(username, password).then((login) => {
+            //   console.log([login, true]);
+            //   return [login, true]
+            // },(err) => {
+            //     console.log([err.message, false]);
+            //     return [err.message, false]
+            // })
         }
-      )}
     }
 }
 
