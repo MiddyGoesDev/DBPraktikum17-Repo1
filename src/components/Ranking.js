@@ -97,7 +97,7 @@ class Ranking extends React.Component {
             deaths: statistics.deaths,
             exp: statistics.xp,
             kd: statistics.kd,
-            playingTime: statistics.playingTime
+            playTime: statistics.playingTime
         }));
     };
 
