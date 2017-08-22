@@ -51,6 +51,7 @@ export default function Character(x, y) {
         return this.animation === 'walk';
     };
 
+    /*
     this.handleCollision = (object, collision) => {
         switch (object.type) {
             case 'CollisionMap':
@@ -99,6 +100,66 @@ export default function Character(x, y) {
                 }
                 this.updatePosition(nextX, nextY);
                 break;
+        }
+    };
+    */
+
+    this.handleCollision = (object, collision) => {
+        switch (object.type) {
+            case 'Wall':
+                
+                let previousX = this.x - this.direction.x * (this.speed + 1);
+                let previousY = this.y - this.direction.y * (this.speed + 1);
+                let currentX = this.x;
+                let currentY = this.y;
+                let nextX = currentX;
+                let nextY = currentY;
+
+                this.move();
+                let nextCollision = this.checkCollision(object);
+                let nextSignX = this.direction.x;
+                let nextSignY = this.direction.y;
+
+                // kollidiert nicht nur einen Frame lang
+                if (nextCollision !== false) {
+                    // kollidiert mehr vertikal
+                    if (collision.height >= collision.width) {
+                        if (this.direction.x === 0) {
+                            // collisionLeft of sprite center
+                            if (this.x + 8 > nextCollision.x) {
+                                nextSignX = -1;
+                            }
+                            // collisionRight of sprite center
+                            else {
+                                nextSignX = 1;
+                            }
+                        }
+
+                        nextX = currentX - nextSignX * collision.width;
+                    }
+                    // kollidiert mehr horizontal
+                    if (collision.height <= collision.width) {
+                        if (this.direction.y === 0) {
+                            // collision below sprite center
+                            if (this.y + 8 < nextCollision.y) {
+                                nextSignY = 1;
+                            }
+                            // collision above sprite center
+                            else {
+                                nextSignY = -1;
+                            }
+                        }
+                        nextY = currentY - nextSignY * collision.height;
+                    }
+                }
+                this.updatePosition(nextX, nextY);
+
+                // failsafe
+                if(this.checkCollision(object) !== false) {
+                    this.updatePosition(previousX, previousY);
+                }
+                break;
+                
         }
     };
 
