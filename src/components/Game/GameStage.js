@@ -28,13 +28,12 @@ function GameStage() {
         this.stage.addChild(cowZone);
     };
 
-    this.update = () => {
+    this.update = (event) => {
         this.gameObjects.forEach((gameObject) => {
             gameObject.update();
         });
-
         this.moveCanvasAlong();
-        this.stage.update();
+        this.stage.update(event);
     };
 
     this.moveCanvasAlong = () => {

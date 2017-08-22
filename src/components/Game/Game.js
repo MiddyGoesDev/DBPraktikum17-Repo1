@@ -51,7 +51,6 @@ class Game extends React.Component {
         });
 
         this.addListeners();
-
     }
 
 
@@ -95,8 +94,8 @@ class Game extends React.Component {
         clearStage();
     }
 
-    handleTick() {
-        GameStage().update();
+    handleTick(event) {
+        GameStage().update(event);
         if (GameStage().activeObject.keyChanged) {
             GameStage().activeObject.handleEvent();
             GameStage().activeObject.keyChanged = false;
