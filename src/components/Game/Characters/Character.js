@@ -109,6 +109,6 @@ export default function Character(x, y) {
     this.dexterity = 0;
     this.intelligence = 0;
     this.maxHP = () => this.baseHP + this.vitality;
-    this.speed = 4;
+    this.speed = 3;
     this.animation = null;
 }

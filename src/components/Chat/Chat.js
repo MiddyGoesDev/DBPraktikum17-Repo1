@@ -14,7 +14,7 @@ class Chat extends React.Component {
         super(props);
         this.state = {
             message: ""
-        }
+          }
     };
 
     componentWillMount() {

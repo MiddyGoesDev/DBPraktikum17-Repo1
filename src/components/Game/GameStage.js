@@ -22,17 +22,24 @@ function GameStage() {
     this.initialize = (x, y) => {
         this.activeObject = new PlayerGuy(x, y);
         new Wall(80, 40);
+        var cowContainer = new window.createjs.Container();
         var cowZone = new window.createjs.Shape();
         cowZone.graphics.s("gray").f("transparent").drawRect(150, 150, 200, 200);
         new Cottage(400, 220);
         this.stage.addChild(cowZone);
     };
 
-    this.update = () => {
+    this.update = (event) => {
         this.gameObjects.forEach((gameObject) => {
             gameObject.update();
         });
-        this.stage.update();
+        this.moveCanvasAlong();
+        this.stage.update(event);
+    };
+
+    this.moveCanvasAlong = () => {
+        this.stage.x = - this.activeObject.x + this.stage.canvas.clientWidth / 2;
+        this.stage.y = - this.activeObject.y + this.stage.canvas.clientHeight / 2;
     };
 
     this.add = (object) => {
@@ -97,6 +104,7 @@ function GameStage() {
     this.networkObjects = { };
     this.activeKeys = [];
     this.db = db;
+    this.fps = 40;
     // this.socket = io('http://localhost:8080');
     this.socket = io('207.154.243.43:8080');
     this.construct();
@@ -157,6 +165,7 @@ export default function getStage() {
     return gameStage;
 }
 
+//TODO macht es sinn das zu exportieren? oder sollte es ne normale funktion sein
 export function clearStage() {
     gameStage = null;
 }
