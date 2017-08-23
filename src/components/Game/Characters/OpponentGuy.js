@@ -70,7 +70,7 @@ export default function OpponentGuy(x, y) {
     this.nextAnimation = null;
     this.nextDirection = null;
     this.name = 'Tim';
-    this.text = new Text(this.name);
+    this.text = new Text(this.name, this.x, this.y, 0.5, 0.4);
 
     GameStage().draw(this.text);
     this.construct();

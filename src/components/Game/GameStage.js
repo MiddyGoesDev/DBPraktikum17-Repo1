@@ -1,6 +1,6 @@
 import PlayerGuy from './Characters/PlayerGuy';
-import Wall from './Wall';
 import Cow from './Characters/Cow';
+import Text from './Text';
 
 import { db } from 'baqend/realtime';
 import io from 'socket.io-client';
@@ -30,6 +30,7 @@ function GameStage() {
             images: ['./assets/full-world.png'],
             frames: {width: 1600, height: 4480, count: 1, regX: 0, regY: 0, spacing: 0, margin: 0}
         })));
+        this.text = new Text('5', 0, 0, 1, 1);
     };
 
     this.initialize = (x, y) => {
@@ -71,6 +72,20 @@ function GameStage() {
     this.draw = (visualRepresentation) => {
         if (!this.hasChild(visualRepresentation)) {
             this.stage.addChild(visualRepresentation);
+        }
+    };
+
+    this.startCountdown = (time) => {
+        this.erase(this.text);
+        let x = this.activeObject.x - this.stage.canvas.clientWidth / 2;
+        let y = this.activeObject.y - this.stage.canvas.clientHeight / 2;
+        this.text = new Text(time + '', x, y, 1, 1.3);
+        this.draw(this.text);
+        if(time > 0) {
+            setTimeout(this.startCountdown, 1000, time - 1);
+        }
+        else {
+            setTimeout(this.erase, 1000, this.text);
         }
     };
 
@@ -168,6 +183,8 @@ function GameStage() {
         item.intelligence = loot.item.intelligence;
     });
 }
+
+
 
 export default function getStage() {
     if (gameStage === null) {

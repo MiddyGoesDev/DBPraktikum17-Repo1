@@ -53,8 +53,10 @@ export default function Cow(x, y) {
                 object.takeDamage(this);
                 let tempDirection = object.direction;
                 object.direction = this.direction;
-                object.move();
-                object.check();
+                for(var i = 0; i < 3; i++) {
+                    object.move();
+                    object.check();
+                }
                 object.emit('change');
                 object.direction = tempDirection;
                 break;
@@ -92,8 +94,8 @@ export default function Cow(x, y) {
     };
 
     this.type = 'Cow';
-    this.damage = 1;
-    this.killer = null;
+    this.damage = 5;
+    this.hitter = null;
     this.speed = 3;
     this.construct();
     this.destX = this.x;

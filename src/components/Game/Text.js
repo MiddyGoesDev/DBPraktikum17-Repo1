@@ -1,4 +1,4 @@
-export default function Text(string) {
+export default function Text(string, x, y, scaleX, scaleY) {
 
     // Embedded SpriteSheet data.
     var data = {
@@ -89,8 +89,10 @@ export default function Text(string) {
 
     var ss = new window.createjs.SpriteSheet(data);
     var text = new window.createjs.BitmapText(string , ss);
-    text.scaleX = 0.5;
-    text.scaleY = 0.4;
+    text.scaleX = scaleX;
+    text.scaleY = scaleY;
+    text.x = x;
+    text.y = y;
     text.letterSpacing = -12;
     text.lineHeight = 1;
 
