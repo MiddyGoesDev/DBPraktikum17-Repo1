@@ -11,8 +11,7 @@ import {
     logout,
     createCharacter,
     createEquipment,
-    createStatistics,
-    checkForExistence
+    createStatistics
 } from '../../actions/auth'
 import {sendMessage} from '../../actions/message'
 import {Button, Card, Form, Grid, Header, Message, Segment} from "semantic-ui-react";
@@ -84,11 +83,6 @@ class Account extends Component {
             });
         } else
         if (!this.state.error) {
-            // this.props.actions.checkForExistence(this.state.username).then(Used => {
-            //     console.log(Used);
-            //     console.log('username', this.state.username);
-            //     console.log('pw', this.state.password);
-            //     if (!Used) {
                     this.props.actions.register(this.state.username, this.state.password)
                         .then(user => this.props.actions.createCharacter(user)
                             .then(character => this.props.actions.createEquipment(character)
@@ -105,11 +99,6 @@ class Account extends Component {
                             info: err.message
                         }));
                     }
-        //     }
-        //     , err => {
-        //         console.log(err);
-        //     });
-        // }
     };
 
     handleLogout = (event) => {
@@ -180,7 +169,6 @@ function mapDispatchToProps(dispatch) {
             createCharacter,
             createEquipment,
             createStatistics,
-            checkForExistence,
             sendMessage
         }, dispatch)
     }
