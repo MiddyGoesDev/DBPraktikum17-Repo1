@@ -24,12 +24,12 @@ function GameStage() {
             update: () => {},
             sprite: new window.createjs.Sprite(new window.createjs.SpriteSheet({
                 images: ['./assets/world-collision.png'],
-                frames: {width: 1600, height: 4480, count: 1, regX: 0, regY: 0, spacing: 0, margin: 0}
+                frames: {width: 2400, height: 5280, count: 1, regX: 0, regY: 0, spacing: 0, margin: 0}
             }))
         });
         this.draw(new window.createjs.Sprite(new window.createjs.SpriteSheet({
-            images: ['./assets/full-world.png'],
-            frames: {width: 1600, height: 4480, count: 1, regX: 0, regY: 0, spacing: 0, margin: 0}
+            images: ['./assets/world.png'],
+            frames: {width: 2400, height: 5280, count: 1, regX: 0, regY: 0, spacing: 0, margin: 0}
         })));
         this.text = new Text('5', 0, 0, 1, 1);
     };
@@ -133,8 +133,8 @@ function GameStage() {
     this.activeKeys = [];
     this.db = db;
     this.fps = 40;
-    this.socket = io('http://localhost:8080');
-    // this.socket = io('207.154.243.43:8080');
+    // this.socket = io('http://localhost:8080');
+    this.socket = io('207.154.243.43:8080');
 
     this.socket.on('update', object => {
         switch (object.type) {
