@@ -16,6 +16,7 @@ export default function GameObject(x, y) {
 
     this.destruct = () => {
         GameStage().remove(this);
+        GameStage().erase(this.text);
     };
 
     this.update = () => { };
