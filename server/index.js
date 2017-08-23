@@ -117,7 +117,7 @@ io.on('connection', socket => {
                 cow.x = objects[characters[socket.id].id].x;
                 cow.y = objects[characters[socket.id].id].y;
                 io.emit('update', cow);
-                let id = setInterval(() => {
+                id = setInterval(() => {
                     try {
                     cow.x = objects[characters[socket.id].id].x;
                     cow.y = objects[characters[socket.id].id].y;
