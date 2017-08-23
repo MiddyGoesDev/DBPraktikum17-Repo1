@@ -14,6 +14,7 @@ import {
     createStatistics,
     checkForExsistence
 } from '../../actions/auth'
+import {sendMessage} from '../../actions/message'
 import {Button, Card, Form, Grid, Header, Message, Segment} from "semantic-ui-react";
 
 class Account extends Component {
@@ -21,64 +22,80 @@ class Account extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: null,
-            password: null,
-            info: ""
+            username: "",
+            password: "",
+            info: "",
+            error: false
         }
     }
 
     handleInputChange = (event) => {
-        this.setState({[event.target.name]: event.target.value})
-    };
-
+        let message = '';
+        if (this.state.username.length > 9) {
+            message = 'Pleaes select a username shorter than 10 letters.';
+        }
+        this.setState({
+            [event.target.name]: event.target.value,
+            info: message,
+            error: message.length !== 0
+        })
+}
     handleLogin = (event) => {
         event.preventDefault();
         if (this.state.username === null || this.state.password === null) {
             this.setState({
-                info: "Please enter a valid username and password"
+                info: "Please enter a valid username and password."
             });
         }
         else {
-            this.props.actions.login(this.state.username, this.state.password).then(result => {
-                    this.setState({
-                        username: null,
-                        password: null,
-                        info: ""
+            if (!this.state.error) {
+                this.props.actions.login(this.state.username, this.state.password).then(result => {
+                        this.setState({
+                            username: null,
+                            password: null,
+                            info: ""
+                        });
+                        this.props.actions.sendMessage(" has logged in.")
+                    },
+                    err => {
+                        this.setState({
+                            info: err.message
+                        });
                     });
-                },
-                err => {
-                    this.setState({
-                        info: err.message
-                    });
-                });
+            }
         }
     };
 
     handleRegister = (event) => {
         event.preventDefault();
-        this.props.actions.checkForExsistence(this.state.username).then(Used => {
-            if (!Used) {
-                this.props.actions.register(this.state.username, this.state.password)
-                    .then(user => this.props.actions.createCharacter(user)
-                        .then(character => this.props.actions.createEquipment(character)
-                            .then(equipment => this.props.actions.createStatistics(character, this.state.username)
-                                .then(this.setState({
-                                    username: null,
-                                    password: null,
-                                    info: ""
+        if (!this.state.error) {
+            this.props.actions.checkForExsistence(this.state.username).then(Used => {
+                if (!Used) {
+                    this.props.actions.register(this.state.username, this.state.password)
+                        .then(user => this.props.actions.createCharacter(user)
+                            .then(character => this.props.actions.createEquipment(character)
+                                .then(equipment => this.props.actions.createStatistics(character, this.state.username)
+                                    .then(this.setState({
+                                        username: null,
+                                        password: null,
+                                        info: ""
 
-                                })))));
-            }
-            else {
-                this.setState({
-                    info: "Username is already registered"
-                })
-            }
-        })
+                                    })                            )
+                        )
+                    )
+                );
+                } else {
+                    this.setState({
+                        info: "Username is already registered."
+                    })
+                }
+            });
+        }
     };
 
     handleLogout = (event) => {
         this.props.actions.logout();
+        this.props.actions.sendMessage(" has logged out.")
     };
 
     render() {
@@ -138,7 +155,8 @@ function mapDispatchToProps(dispatch) {
             createCharacter,
             createEquipment,
             createStatistics,
-            checkForExsistence
+            checkForExsistence,
+            sendMessage
         }, dispatch)
     }
 }
