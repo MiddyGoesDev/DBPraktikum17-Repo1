@@ -57,9 +57,20 @@ export default function PlayerGuy(x, y) {
         this.hpBar.updateHealth();
         if (this.currentHP <= 0) {
             this.destruct();
+            GameStage().startCountdown(5);
+            setTimeout(this.respawn, 5000);
         }
         this.updateBaqend();
     };
+
+    this.respawn = () => {
+        this.currentHP = 100;
+        this.updatePosition(894, 2596);
+        GameStage().add(this);
+        this.emit('change');
+    };
+
+
 
     // TODO: refactor this! use math
     this.handleEvent = () => {
