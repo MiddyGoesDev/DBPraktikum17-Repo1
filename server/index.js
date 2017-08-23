@@ -38,7 +38,8 @@ function deliverCow() {
         y: Math.round(cowZone.y + cowZone.height * Math.random()),
         animation: 'idle',
         direction: { x: 0, y: 1, name: 'South' },
-        currentHP: 100
+        currentHP: 100,
+        aggro: {}
     };
     cows.push(cow);
     objects[cow.id] = cow;
@@ -76,10 +77,9 @@ io.on('connection', socket => {
     });
     
     socket.on('cow died', cow => {
-        console.log('cow killer', cow.killer);
         console.log('character', characters[socket.id]);
 
-        if (cow.killer === characters[socket.id].id) {
+        if (cow.hitter === characters[socket.id].id) {
             console.log('cow died: ' + cow.id);
             console.log(cows);
             cows = cows.filter(object => object.id !== cow.id);
@@ -88,7 +88,7 @@ io.on('connection', socket => {
 
             delete objects[cow.id];
             setTimeout(() => socket.emit('spawn', deliverCow()), 15000);
-            db.Statistic.find().equal('character', cow.killer).singleResult().then(statistic => {
+            db.Statistic.find().equal('character', cow.hitter).singleResult().then(statistic => {
                 statistic.kills++;
                 statistic.update();
             });
@@ -110,6 +110,30 @@ io.on('connection', socket => {
         }
     });
 
+    socket.on('hit cow', cow => {
+        try {
+            if (cow.hitter === characters[socket.id].id) {
+                console.log(characters[socket.id]);
+                cow.x = objects[characters[socket.id].id].x;
+                cow.y = objects[characters[socket.id].id].y;
+                io.emit('update', cow);
+                let id = setInterval(() => {
+                    try {
+                    cow.x = objects[characters[socket.id].id].x;
+                    cow.y = objects[characters[socket.id].id].y;
+                    io.emit('update', cow);
+                    } catch (err) {
+                        clearInterval(id);
+                    }
+                }, 200);
+
+            }
+        } catch (err) {
+            console.log('could not update cow (character not known)');
+        }
+
+    });
+
     console.log(socket.id + ' is connected');
 });
 
@@ -117,6 +141,7 @@ function roll(item, attribute) {
     return item['min_' + attribute] + Math.floor((item['max_' + attribute] - item['min_' + attribute]) * Math.random());
 }
 
+/*
 cows.forEach(cow => setInterval(() => {
     var distance = (Math.floor(Math.random() * 20) - 10);
     var destX = cow.x;
@@ -142,6 +167,7 @@ cows.forEach(cow => setInterval(() => {
     io.emit('update', cow);
     console.log('emit cow ' + cow.id + ' x: ' + cow.x + ' y: ' + cow.y);
 }, 5000 + Math.floor(Math.random() * 5000)));
+*/
 
 function directionName(x, y) {
     return (y < 0 ? 'North' : y > 0 ? 'South' : '') + (x < 0 ? 'West' : x > 0 ? 'East' : '');

@@ -14,9 +14,13 @@ export default function Projectile(x, y, direction) {
     };
 
     this.handleCollision = (object, collision) => {
-        if (object.id !== this.owner) {
-            object.takeDamage(this);
-            this.destruct();
+        switch (object.type) {
+            case 'CollisionMap': this.destruct(); break;
+            default:
+                if (object.id !== this.owner) {
+                    object.takeDamage(this);
+                    this.destruct();
+                }
         }
     };
 
