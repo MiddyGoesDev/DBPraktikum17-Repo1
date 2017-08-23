@@ -14,17 +14,18 @@ class Equipment extends React.Component {
         this.state = {}
     }
 
+    static body() {
+        return ['head', 'neck', 'torso', 'shoulders', 'hands', 'wrists', 'waist', 'finger_1', 'finger_2', 'legs', 'feet', 'main_hand', 'off_hand'];
+    }
+
     componentWillMount() {
         this.props.actions.equipment().then(equip =>
-            this.props.actions.mainHand(equip).then(mainHand =>
-                this.props.actions.head(equip).then(head => {
-                    this.setState({
-                        mainHandSrc: './assets/items/' + this.capitalizeFirstLetter(this.toCamelCase(mainHand.name)) + '.png',
-                        mainHandName: mainHand.name,
-                        headSrc: './assets/items/' + this.capitalizeFirstLetter(this.toCamelCase(head.name)) + '.png',
-                        headName: head.name,
-                    });
-                })));
+            this.setState({
+                mainHandSrc: './assets/items/' + this.capitalizeFirstLetter(this.toCamelCase(equip.main_hand.name)) + '.png',
+                mainHandName: equip.main_hand.name,
+                headSrc: './assets/items/' + this.capitalizeFirstLetter(this.toCamelCase(equip.head.name)) + '.png',
+                headName: equip.head.name
+            }));
     }
 
     toCamelCase(name) {
@@ -44,7 +45,7 @@ class Equipment extends React.Component {
                     <Grid.Column>
                         <Segment className="head">
                             <p className="item-title">Head</p>
-                            <Image fluid verticalAlign src={this.state.headSrc} className="item-img" />
+                            <Image fluid verticalAlign src={this.state.headSrc} className="item-img"/>
 
                             <Rail position='left'>
                                 <Segment className="shoulders" style={{marginLeft: 'auto'}}>
@@ -72,7 +73,7 @@ class Equipment extends React.Component {
                                 </Segment>
                                 <Segment className="weapon" style={{marginLeft: 'auto'}}>
                                     <p className="item-title">Main-Hand</p>
-                                    <Image fluid verticalAlign src={this.state.mainHandSrc} className="item-img" />
+                                    <Image fluid verticalAlign src={this.state.mainHandSrc} className="item-img"/>
                                     <p>{this.state.name}</p>
                                 </Segment>
                             </Rail>

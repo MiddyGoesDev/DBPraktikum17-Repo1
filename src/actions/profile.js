@@ -1,4 +1,4 @@
-import {EQUIPMENT, MY_STATISTICS, MAIN_HAND, HEAD, MY_CHARACTER, GET_CHARACTER, LOAD_CHARACTER} from "./types";
+import {EQUIPMENT, MY_STATISTICS, MY_CHARACTER, GET_CHARACTER, GET_EQUIPMENT, LOAD_CHARACTER} from "./types";
 
 export function myStatistics() {
     return {
@@ -20,29 +20,17 @@ export function equipment() {
     return {
         'BAQEND': {
             type: EQUIPMENT,
-            payload: (db) => {
-                return db.Character.find().equal('owner', db.User.me.id).singleResult(character =>
-                    db.Equipment.find().equal('body', character).singleResult()
-                )
-            }
+            payload: (db) => db.Character.find().equal('owner', db.User.me.id).singleResult(character =>
+                db.Equipment.find().equal('body', character).singleResult({depth: 1}, result => result))
         }
     }
 }
 
-export function mainHand(equipment) {
+export function getEquipment(character) {
     return {
         'BAQEND': {
-            type: MAIN_HAND,
-            payload: (db) => db.Item.load(equipment.main_hand.id)
-        }
-    }
-}
-
-export function head(equipment) {
-    return {
-        'BAQEND': {
-            type: HEAD,
-            payload: (db) => db.Item.load(equipment.head.id)
+            type: GET_EQUIPMENT,
+            payload: (db) => db.Equipment.find().equal('body', character).singleResult({depth: 1}, result => result)
         }
     }
 }

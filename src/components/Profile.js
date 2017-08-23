@@ -2,7 +2,7 @@ import './Profile.css';
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {myStatistics, myCharacter} from '../actions/profile'
+import {myStatistics, myCharacter, equipment} from '../actions/profile'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -15,8 +15,7 @@ class Profile extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-        }
+        this.state = {}
     }
 
     componentWillMount() {
@@ -27,14 +26,30 @@ class Profile extends React.Component {
                 playingTime: stats.playingTime
             })
         });
-        this.props.actions.myCharacter().then((char) => {
-          this.setState({
-            level: char.level,
-            vitality: char.vitality,
-            strength: char.strength,
-            dexterity: char.dexterity,
-            intelligence: char.intelligence
-          })
+        this.props.actions.myCharacter().then(character => {
+            this.props.actions.equipment().then(equipment => {
+                let vitality = character.vitality;
+                let strength = character.strength;
+                let dexterity = character.dexterity;
+                let intelligence = character.intelligence;
+
+                Equipment.body().forEach(part => {
+                    if (equipment[part] !== null) {
+                        vitality += equipment[part].vitality;
+                        strength += equipment[part].strength;
+                        dexterity += equipment[part].dexterity;
+                        intelligence += equipment[part].intelligence;
+                    }
+                });
+
+                this.setState({
+                    level: character.level,
+                    vitality: vitality,
+                    strength: strength,
+                    dexterity: dexterity,
+                    intelligence: intelligence
+                })
+            });
         });
     }
 
@@ -77,7 +92,7 @@ function mapStateToProps(state) {
 
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({myStatistics, myCharacter}, dispatch)};
+    return {actions: bindActionCreators({myStatistics, myCharacter, equipment}, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

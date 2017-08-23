@@ -22,7 +22,8 @@ export default function Character(x, y) {
     this.use = () => {
         if(!this.isUsing() && this.weapon !== null) {
             this.play('punch');
-            this.weapon.use(this.x + this.direction.x * 5, this.y + this.direction.y * 5, this.direction);
+            let projectile = this.weapon.use(this.x + this.direction.x * 5, this.y + this.direction.y * 5, this.direction);
+            projectile.owner = this.id;
         }
     };
 

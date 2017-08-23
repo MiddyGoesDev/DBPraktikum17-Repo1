@@ -10,11 +10,12 @@ import {
     getStatsByPlayingTimeDsc,
     getStatistics
 } from '../actions/ranking'
-import {myStatistics, loadCharacter} from '../actions/profile';
+import {myStatistics, loadCharacter, getEquipment} from '../actions/profile';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Grid, Label, Table} from 'semantic-ui-react';
 import Statistics from "./Profile/Statistics";
+import Equipment from './Profile/Equipment';
 import {me} from "../actions/auth";
 
 
@@ -41,18 +42,34 @@ class Ranking extends React.Component {
         this.props.actions.getStatsByKillsAsc().then(result =>
             this.props.actions.myStatistics().then(statistics =>
                 this.props.actions.loadCharacter(statistics.character).then(character =>
-                    this.setState({
-                        ranking: result,
-                        currentProfileName: statistics.username,
-                        me: statistics.username,
-                        kills: statistics.kills,
-                        deaths: statistics.deaths,
-                        playingTime: statistics.playingTime,
-                        level: character.level,
-                        vitality: character.vitality,
-                        strength: character.strength,
-                        dexterity: character.dexterity,
-                        intelligence: character.intelligence
+                    this.props.actions.getEquipment(character).then(equipment => {
+                        let vitality = character.vitality;
+                        let strength = character.strength;
+                        let dexterity = character.dexterity;
+                        let intelligence = character.intelligence;
+
+                        Equipment.body().forEach(part => {
+                            if (equipment[part] !== null) {
+                                vitality += equipment[part].vitality;
+                                strength += equipment[part].strength;
+                                dexterity += equipment[part].dexterity;
+                                intelligence += equipment[part].intelligence;
+                            }
+                        });
+
+                        this.setState({
+                            ranking: result,
+                            currentProfileName: statistics.username,
+                            me: statistics.username,
+                            kills: statistics.kills,
+                            deaths: statistics.deaths,
+                            playingTime: statistics.playingTime,
+                            level: character.level,
+                            vitality: vitality,
+                            strength: strength,
+                            dexterity: dexterity,
+                            intelligence: intelligence
+                        })
                     }))));
     }
 
@@ -120,18 +137,34 @@ class Ranking extends React.Component {
         let userName = e.target.parentNode.getAttribute('name');
 
 
-        this.props.actions.getStatistics(userName).then(statistics => this.props.actions.loadCharacter(statistics.character)
-            .then(character =>
-                this.setState({
-                    currentProfileName: userName,
-                    kills: statistics.kills,
-                    deaths: statistics.deaths,
-                    playingTime: statistics.playingTime,
-                    level: character.level,
-                    vitality: character.vitality,
-                    strength: character.strength,
-                    dexterity: character.dexterity,
-                    intelligence: character.intelligence
+        this.props.actions.getStatistics(userName).then(statistics =>
+            this.props.actions.loadCharacter(statistics.character).then(character =>
+                this.props.actions.getEquipment(character).then(equipment => {
+                    let vitality = character.vitality;
+                    let strength = character.strength;
+                    let dexterity = character.dexterity;
+                    let intelligence = character.intelligence;
+
+                    Equipment.body().forEach(part => {
+                        if (equipment[part] !== null) {
+                            vitality += equipment[part].vitality;
+                            strength += equipment[part].strength;
+                            dexterity += equipment[part].dexterity;
+                            intelligence += equipment[part].intelligence;
+                        }
+                    });
+
+                    this.setState({
+                        currentProfileName: statistics.username,
+                        kills: statistics.kills,
+                        deaths: statistics.deaths,
+                        playingTime: statistics.playingTime,
+                        level: character.level,
+                        vitality: vitality,
+                        strength: strength,
+                        dexterity: dexterity,
+                        intelligence: intelligence
+                    })
                 })));
     };
 
@@ -226,6 +259,7 @@ function mapDispatchToProps(dispatch) {
             getStatsByPlayingTimeDsc,
             myStatistics,
             getStatistics,
+            getEquipment,
             loadCharacter,
             me
         }, dispatch)

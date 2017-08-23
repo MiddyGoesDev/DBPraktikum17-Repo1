@@ -38,7 +38,7 @@ function deliverCow() {
         y: Math.round(cowZone.y + cowZone.height * Math.random()),
         animation: 'idle',
         direction: { x: 0, y: 1, name: 'South' },
-        currentHP: 100,
+        currentHP: 20,
         aggro: {}
     };
     cows.push(cow);
@@ -109,6 +109,7 @@ io.on('connection', socket => {
     socket.on('hit cow', cow => {
         try {
             if (cow.hitter === characters[socket.id].id) {
+                objects[cow.id] = cow
                 cow.x = objects[characters[socket.id].id].x;
                 cow.y = objects[characters[socket.id].id].y;
                 io.emit('update', cow);

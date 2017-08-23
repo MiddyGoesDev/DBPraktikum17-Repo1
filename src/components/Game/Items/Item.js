@@ -12,7 +12,7 @@ export default function Item(x, y) {
                 console.log('type', this.type);
                 if (this.type === 'main_hand') {
                     console.log('equip');
-                    object.weapon = object;
+                    object.weapon = this;
                 }
                 object.createBaqendItem(this);
             case 'Character':

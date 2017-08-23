@@ -24,7 +24,7 @@ class Statistics extends React.Component {
 
     render() {
         return (
-            <Card style={{padding: 0}}>
+            <Card style={{padding: 0, minWidth: '180px'}}>
                 <Image
                     src="./assets/avatar/matthew.png"/>
                 <Card.Content style={{flexGrow: 'unset'}}>
