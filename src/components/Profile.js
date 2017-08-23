@@ -8,6 +8,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import Statistics from './Profile/Statistics';
 import Equipment from './Profile/Equipment';
+import Inventory from './Profile/Inventory'
 import {Grid} from "semantic-ui-react";
 
 class Profile extends React.Component {
@@ -57,6 +58,7 @@ class Profile extends React.Component {
                     </Grid.Column>
                     <Grid.Column width={6}>
                         <Equipment/>
+                        <Inventory/>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

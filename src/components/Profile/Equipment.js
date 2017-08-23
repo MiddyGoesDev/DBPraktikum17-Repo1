@@ -3,6 +3,7 @@ import {Grid, Image, Rail, Segment} from "semantic-ui-react";
 import {equipment, mainHand} from '../../actions/profile';
 
 import './Equipment.css';
+import Inventory from './Inventory'
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import PropTypes from 'prop-types'
@@ -52,7 +53,7 @@ class Equipment extends React.Component {
 
                             <Rail position='right'>
                                 <Segment className="amulet">
-                                    <p className="item-title">Amulet</p>
+                                    <p className="item-title">Neck</p>
                                 </Segment>
                             </Rail>
                         </Segment>
@@ -61,12 +62,12 @@ class Equipment extends React.Component {
                             <Image src=''/>
                         </Segment>
                         <Segment className="belt">
-                            <p className="item-title">Belt</p>
+                            <p className="item-title">Waist</p>
                             <Image src=''/>
 
                             <Rail position='left'>
                                 <Segment className="ring" style={{marginLeft: 'auto'}}>
-                                    <p className="item-title">Ring 1</p>
+                                    <p className="item-title">Finger 1</p>
                                 </Segment>
                                 <Segment className="weapon" style={{marginLeft: 'auto'}}>
                                     <p className="item-title">Main-Hand</p>
@@ -76,7 +77,7 @@ class Equipment extends React.Component {
                             </Rail>
                             <Rail position='right'>
                                 <Segment className="ring">
-                                    <p className="item-title">Ring 2</p>
+                                    <p className="item-title">Finger 2</p>
                                 </Segment>
                                 <Segment className="weapon">
                                     <p className="item-title">Off-Hand</p>
@@ -84,11 +85,11 @@ class Equipment extends React.Component {
                             </Rail>
                         </Segment>
                         <Segment className="pants">
-                            <p className="item-title">Pants</p>
+                            <p className="item-title">Legs</p>
                             <Image src=''/>
                         </Segment>
                         <Segment className="boots">
-                            <p className="item-title">Boots</p>
+                            <p className="item-title">Feet</p>
                             <Image src=''/>
                         </Segment>
                     </Grid.Column>
