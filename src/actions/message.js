@@ -1,5 +1,5 @@
 
-export function sendMessage(text, bool) {
+export function sendMessage(text) {
   return {
     'BAQEND': {
       type: "MESSAGE_SEND",
@@ -7,10 +7,8 @@ export function sendMessage(text, bool) {
         let messageObj = new db.Message({
           'name':db.User.me.username,
           'message':text,
-          'isJoinInfo':bool,
         });
         return messageObj.insert().then((abort) => {
-          console.log("msg inserted into db");
         },
         (error) => {
           console.log(error.message);

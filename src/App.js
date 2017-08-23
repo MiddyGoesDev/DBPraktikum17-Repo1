@@ -18,6 +18,11 @@ const store = createStore();
 
 export default class App extends Component {
 
+    // componentWillMount() {
+    //     this.props.actions.sendInfo()
+    // }
+
+
     render() {
         return (
             <Provider store={store}>

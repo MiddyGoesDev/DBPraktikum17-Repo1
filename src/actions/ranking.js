@@ -2,7 +2,7 @@
 export function getStatsByKillsAsc() {
   return {
     'BAQEND': {
-      type: "RANKING_KD_ASC",
+      type: "RANKING_KILLS_ASC",
       payload: (db) => {
         return db.Statistic.find().descending("kills").resultList().then(result => {
           return result
@@ -15,7 +15,7 @@ export function getStatsByKillsAsc() {
 export function getStatsByKillsDsc() {
   return {
     'BAQEND': {
-      type: "RANKING_KD_DSC",
+      type: "RANKING_KILLS_DSC",
       payload: (db) => {
         return db.Statistic.find().ascending("kills").resultList().then(result => {
           return result

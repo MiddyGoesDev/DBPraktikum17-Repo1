@@ -28,7 +28,7 @@ class Chat extends React.Component {
 
     handleMessage = (event) => {
         event.preventDefault();
-        this.props.actions.sendMessage(": " + this.state.message, false);
+        this.props.actions.sendMessage(": " + this.state.message);
         this.setState({message: ""});
         document.getElementById("chat-input").focus();
     };
