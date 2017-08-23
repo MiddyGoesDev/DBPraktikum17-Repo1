@@ -20,7 +20,7 @@ function GameStage() {
 
         this.add({
             type: 'CollisionMap',
-            update: (event) => {},
+            update: () => {},
             sprite: new window.createjs.Sprite(new window.createjs.SpriteSheet({
                 images: ['./assets/world-collision.png'],
                 frames: {width: 1600, height: 4480, count: 1, regX: 0, regY: 0, spacing: 0, margin: 0}
@@ -45,15 +45,19 @@ function GameStage() {
         this.stage.addChild(cowZone);
     };
 
+    this.clear = () => {
+        gameStage = null;
+    };
+
     this.update = (event) => {
         this.gameObjects.forEach((gameObject) => {
             gameObject.update();
         });
-        this.moveCanvasAlong();
+        this.moveCamera();
         this.stage.update(event);
     };
 
-    this.moveCanvasAlong = () => {
+    this.moveCamera = () => {
         this.stage.x = - this.activeObject.x + this.stage.canvas.clientWidth / 2;
         this.stage.y = - this.activeObject.y + this.stage.canvas.clientHeight / 2;
     };
@@ -91,10 +95,6 @@ function GameStage() {
     this.unlink = (id) => {
         this.remove(this.networkObjects[id]);
         delete this.networkObjects[id];
-    };
-
-    this.on = (action) => {
-        this.networkObjects.forEach(object => object.on(action));
     };
 
     this.near = (object) => {
@@ -178,9 +178,4 @@ export default function getStage() {
         gameStage = new GameStage();
     }
     return gameStage;
-}
-
-//TODO macht es sinn das zu exportieren? oder sollte es ne normale funktion sein
-export function clearStage() {
-    gameStage = null;
 }

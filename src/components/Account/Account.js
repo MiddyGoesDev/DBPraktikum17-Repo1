@@ -40,19 +40,19 @@ class Account extends Component {
         }
         else {
             this.props.actions.login(this.state.username, this.state.password).then(result => {
-                this.setState({
-                    username: null,
-                    password: null,
-                    info: ""
+                    this.setState({
+                        username: null,
+                        password: null,
+                        info: ""
+                    });
+                },
+                err => {
+                    this.setState({
+                        info: err.message
+                    });
                 });
-            },
-            err => {
-                this.setState({
-                info: err.message
-            });
-        });
-    }
-}
+        }
+    };
 
     handleRegister = (event) => {
         event.preventDefault();
