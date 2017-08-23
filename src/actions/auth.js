@@ -100,16 +100,16 @@ export function me() {
     }
 }
 
-export function checkForExsistence(input) {
+export function checkForExistence(input) {
   return {
     'BAQEND': {
-      type: "CHECK_FOR_EXSISTENCE",
+      type: "CHECK_FOR_EXISTENCE",
       payload: (db) => db.User.find().equal('username', input).singleResult().then(user => {
               return user !== null;
       })
         // TODO baqend code oder lieber refactoren
         /*
-       payload: (db) => db.modules.get("checkForExsistence" ,{userInput: input}).then((result) => {
+       payload: (db) => db.modules.get("checkForExistence" ,{userInput: input}).then((result) => {
          return result.exists;
         })
         */

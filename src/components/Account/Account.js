@@ -12,7 +12,7 @@ import {
     createCharacter,
     createEquipment,
     createStatistics,
-    checkForExsistence
+    checkForExistence
 } from '../../actions/auth'
 import {sendMessage} from '../../actions/message'
 import {Button, Card, Form, Grid, Header, Message, Segment} from "semantic-ui-react";
@@ -75,7 +75,7 @@ class Account extends Component {
             });
         } else
         if (!this.state.error) {
-            this.props.actions.checkForExsistence(this.state.username).then(Used => {
+            this.props.actions.checkForExistence(this.state.username).then(Used => {
                 console.log(Used);
                 console.log('username', this.state.username);
                 console.log('pw', this.state.password);
@@ -174,7 +174,7 @@ function mapDispatchToProps(dispatch) {
             createCharacter,
             createEquipment,
             createStatistics,
-            checkForExsistence,
+            checkForExistence,
             sendMessage
         }, dispatch)
     }
