@@ -68,6 +68,12 @@ class Account extends Component {
 
     handleRegister = (event) => {
         event.preventDefault();
+        debugger;
+        if (this.state.username === "" || this.state.password === "") {
+            this.setState({
+                info: "Please enter a valid username and password."
+            });
+        } else
         if (!this.state.error) {
             this.props.actions.checkForExsistence(this.state.username).then(Used => {
                 if (!Used) {
