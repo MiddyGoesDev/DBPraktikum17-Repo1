@@ -2,9 +2,7 @@ import * as React from "react";
 import {Grid, Image, Segment} from "semantic-ui-react";
 
 import './Inventory.css';
-import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import PropTypes from 'prop-types'
 
 class Inventory extends React.Component{
 
@@ -15,9 +13,9 @@ class Inventory extends React.Component{
 
   render() {
     return(
-      <Grid centered style={{paddingLeft: '200px'},{float:'right'}}>
-      <Segment className ="Iventory">
-        <p className="item-title">Iventory</p>
+      <Grid centered style={{paddingLeft: '200px', float:'right'}}>
+      <Segment className ="Inventory">
+        <p className="item-title">Inventory</p>
         <Grid.Row>
             <Segment className="item-slot">1
                 <Image src=""/>
