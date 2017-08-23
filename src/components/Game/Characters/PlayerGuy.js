@@ -166,7 +166,6 @@ export default function PlayerGuy(x, y) {
     this.character = null;
 
     this.construct();
-    this.emit('join');
     this.idle();
     this.hpBar.displayHealth();
 }

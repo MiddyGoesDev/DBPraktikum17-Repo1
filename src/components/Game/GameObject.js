@@ -92,8 +92,8 @@ export default function GameObject(x, y) {
         return frames;
     };
 
-    this.takeDamage = (damage) => {
-        this.currentHP -= Math.max(0, damage - this.armor);
+    this.takeDamage = (object) => {
+        this.currentHP -= Math.max(0, object.damage - this.armor);
         this.hpBar.updateHealth();
         if (this.currentHP <= 0) {
             this.destruct();

@@ -21,8 +21,32 @@ export default function Cow(x, y) {
         }
     };
 
+    this.emit = (action) => {
+        GameStage().socket.emit(action, {
+            type: this.type,
+            id: this.id,
+            x: this.x,
+            y: this.y,
+            direction: this.direction,
+            animation: this.animation,
+            currentHP: this.currentHP,
+            killer: this.killer,
+        });
+    };
+
+    this.takeDamage = (object) => {
+        if (object.owner !== this.id) {
+            this.currentHP -= Math.max(0, object.damage - this.armor);
+            this.hpBar.updateHealth();
+            if (this.currentHP <= 0) {
+                this.killer = object.owner;
+                this.destruct();
+            }
+            this.emit('cow died');
+        }
+    };
+
     this.destruct = () => {
-        this.emit('cow died');
         GameStage().remove(this);
     };
 
@@ -53,6 +77,7 @@ export default function Cow(x, y) {
     };
 
     this.type = 'Cow';
+    this.killer = null;
     this.speed = 3;
     this.construct();
     this.destX = this.x;

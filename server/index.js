@@ -21,10 +21,13 @@ var characters = {};
 var objects = {};
 
 var cows = [];
+var aliveCows = 0;
+var maxCows = 5;
 var cowZone = { x: 150, y: 150, width: 200, height: 200 };
 
-for (var i=0; i<1; i++) {
+for (var i=0; i<maxCows; i++) {
     io.emit('spawn', deliverCow());
+    aliveCows++;
 }
 
 function deliverCow() {
@@ -60,8 +63,6 @@ io.on('connection', socket => {
     });
 
     socket.on('punch', object => {
-        console.log('punch');
-        console.log(object);
         socket.broadcast.emit('spawn fist', object);
     });
 
@@ -75,22 +76,38 @@ io.on('connection', socket => {
     });
     
     socket.on('cow died', cow => {
-        setTimeout(() => socket.emit('spawn', deliverCow()), 15000);
-        db.ItemMask.find().equal('type', 'main_hand').resultList().then(items => {
-            var randomItem = items[Math.floor(items.length * Math.random())];
-            socket.emit('drop loot', {
-                x: cow.x + 16,
-                y: cow.y + 16,
-                item: {
-                    name: randomItem.name,
-                    type: randomItem.type,
-                    vitality: roll(randomItem, 'vitality'),
-                    dexterity: roll(randomItem, 'dexterity'),
-                    strength: roll(randomItem, 'strength'),
-                    intelligence: roll(randomItem, 'intelligence'),
-                }
+        console.log('cow killer', cow.killer);
+        console.log('character', characters[socket.id]);
+
+        if (cow.killer === characters[socket.id].id) {
+            console.log('cow died: ' + cow.id);
+            console.log(cows);
+            cows = cows.filter(object => object.id !== cow.id);
+            console.log('cow post');
+            console.log(cows);
+
+            delete objects[cow.id];
+            setTimeout(() => socket.emit('spawn', deliverCow()), 15000);
+            db.Statistic.find().equal('character', cow.killer).singleResult().then(statistic => {
+                statistic.kills++;
+                statistic.update();
             });
-        });
+            db.ItemMask.find().equal('type', 'main_hand').resultList().then(items => {
+                var randomItem = items[Math.floor(items.length * Math.random())];
+                socket.emit('drop loot', {
+                    x: cow.x + 16,
+                    y: cow.y + 16,
+                    item: {
+                        name: randomItem.name,
+                        type: randomItem.type,
+                        vitality: roll(randomItem, 'vitality'),
+                        dexterity: roll(randomItem, 'dexterity'),
+                        strength: roll(randomItem, 'strength'),
+                        intelligence: roll(randomItem, 'intelligence'),
+                    }
+                });
+            });
+        }
     });
 
     console.log(socket.id + ' is connected');
