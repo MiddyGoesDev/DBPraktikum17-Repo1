@@ -30,16 +30,26 @@ class Account extends Component {
     }
 
     handleInputChange = (event) => {
-        let message = '';
-        if (this.state.username.length > 9) {
-            message = 'Pleaes select a username shorter than 10 letters.';
+        let message = this.state.info;
+        let invalidCharacters = /[^a-z0-9]/i;
+
+        if (event.target.name === 'username') {
+            if (event.target.value.length > 9) {
+                message = 'Please select a username shorter than 10 letters.';
+            } else if (invalidCharacters.test(event.target.value)) {
+                message = 'Please select a username with only alphanumeric characters.';
+            }
+            else {
+                message = '';
+            }
         }
         this.setState({
             [event.target.name]: event.target.value,
             info: message,
             error: message.length !== 0
         })
-}
+    };
+    
     handleLogin = (event) => {
         event.preventDefault();
         if (this.state.username === null || this.state.password === null) {
@@ -68,7 +78,6 @@ class Account extends Component {
 
     handleRegister = (event) => {
         event.preventDefault();
-        // debugger;
         if (this.state.username === "" || this.state.password === "") {
             this.setState({
                 info: "Please enter a valid username and password."
@@ -108,7 +117,7 @@ class Account extends Component {
 
     handleLogout = (event) => {
         this.props.actions.logout();
-        this.props.actions.sendMessage(" has logged out.")
+        this.props.actions.sendMessage(" has logged out.");
         this.state = {
             username: "",
             password: "",
