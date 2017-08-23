@@ -23,7 +23,7 @@ var objects = {};
 var cows = [];
 var aliveCows = 0;
 var maxCows = 5;
-var cowZone = { x: 800, y: 2900, width: 200, height: 200 };
+var cowZone = { x: 1170, y: 3290, width: 200, height: 200 };
 
 for (var i=0; i<maxCows; i++) {
     io.emit('spawn', deliverCow());
