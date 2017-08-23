@@ -1,4 +1,5 @@
-import {USER_LOGIN, USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE, USER_LOGOUT, CREATE_CHARACTER, CREATE_EQUIPMENT, CREATE_STATISTICS, ME, USER_REGISTER} from './types';
+import {USER_LOGIN, USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE, USER_LOGOUT,
+    CREATE_CHARACTER, CREATE_EQUIPMENT, CREATE_STATISTICS, ME, USER_REGISTER_SUCESS, USER_REGISTER_FAILURE, USER_REGISTER} from './types';
 import {DIRECTION_SOUTH} from '../components/Game/Constants/Directions';
 
 export function login(username, password) {
@@ -17,8 +18,11 @@ export function login(username, password) {
 export function register(username, password) {
     return {
         'BAQEND': {
-            type:
-              USER_REGISTER,
+            types: [
+                USER_REGISTER,
+                USER_REGISTER_SUCESS,
+                USER_REGISTER_FAILURE
+            ],
             payload: (db) => db.User.register(username, password).then(result => result)
         }
     }
@@ -100,19 +104,19 @@ export function me() {
     }
 }
 
-export function checkForExistence(input) {
-  return {
-    'BAQEND': {
-      type: "CHECK_FOR_EXISTENCE",
-      payload: (db) => db.User.find().equal('username', input).singleResult().then(user => {
-              return user !== null;
-      })
-        // TODO baqend code oder lieber refactoren
-        /*
-       payload: (db) => db.modules.get("checkForExistence" ,{userInput: input}).then((result) => {
-         return result.exists;
-        })
-        */
-        }
-      }
-    }
+// export function checkForExistence(input) {
+//   return {
+//     'BAQEND': {
+//       type: "CHECK_FOR_EXISTENCE",
+//       payload: (db) => db.User.find().equal('username', input).singleResult().then(user => {
+//               return user !== null;
+//       })
+//         // TODO baqend code oder lieber refactoren
+//         /*
+//        payload: (db) => db.modules.get("checkForExistence" ,{userInput: input}).then((result) => {
+//          return result.exists;
+//         })
+//         */
+//         }
+//       }
+//     }
