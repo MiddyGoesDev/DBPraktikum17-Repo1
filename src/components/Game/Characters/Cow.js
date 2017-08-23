@@ -51,10 +51,12 @@ export default function Cow(x, y) {
         switch (object.type) {
             case 'Player': 
                 object.takeDamage(this);
+                let tempDirection = object.direction;
                 object.direction = this.direction;
                 object.move();
                 object.check();
                 object.emit('change');
+                object.direction = tempDirection;
                 break;
         }
     };
