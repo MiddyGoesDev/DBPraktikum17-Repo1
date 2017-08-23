@@ -49,10 +49,10 @@ class Account extends Component {
             error: message.length !== 0
         })
     };
-    
+
     handleLogin = (event) => {
         event.preventDefault();
-        if (this.state.username === null || this.state.password === null) {
+        if (this.state.username === "" || this.state.password === "") {
             this.setState({
                 info: "Please enter a valid username and password."
             });
@@ -61,8 +61,8 @@ class Account extends Component {
             if (!this.state.error) {
                 this.props.actions.login(this.state.username, this.state.password).then(result => {
                         this.setState({
-                            username: null,
-                            password: null,
+                            username: "",
+                            password: "",
                             info: ""
                         });
                         this.props.actions.sendMessage(" has logged in.")
@@ -98,17 +98,13 @@ class Account extends Component {
                                         password: null,
                                         info: ""
 
-                                    })                            )
-                        )
-                    )
-                , err => this.setState({
-                                info: err.message
-                            }));
-                } else {
-                    this.setState({
-                        info: "Username is already registered."
-                    })
-                }
+                                    })
+                                )
+                            )
+                        ), err => this.setState({
+                            info: err.message
+                        }));
+                    }
             }, err => {
                 console.log(err);
             });
