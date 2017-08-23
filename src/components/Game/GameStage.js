@@ -105,8 +105,8 @@ function GameStage() {
     this.keyPressed = (event) => {
         if (this.activeKeys.indexOf(event.keyCode) === -1) {
             this.activeKeys.push(event.keyCode);
+            this.activeObject.keyChanged = true;
         }
-        this.activeObject.keyChanged = true;
     };
 
     this.keyReleased = (event) => {
@@ -121,8 +121,8 @@ function GameStage() {
     this.activeKeys = [];
     this.db = db;
     this.fps = 40;
-    // this.socket = io('http://localhost:8080');
-    this.socket = io('207.154.243.43:8080');
+    this.socket = io('http://localhost:8080');
+    // this.socket = io('207.154.243.43:8080');
 
     this.socket.on('update', object => {
         switch (object.type) {

@@ -8,8 +8,7 @@ import {connect} from 'react-redux'
 import {join, leave, ownCharacter, updateOpponents, updateCharacter, setTimer} from '../../actions/character';
 
 import GameStage from './GameStage';
-
-import {KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT} from './Constants/KeyCodes';
+import {KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT, KEYCODE_UP} from "./Constants/KeyCodes";
 
 class Game extends React.Component {
 
@@ -41,6 +40,7 @@ class Game extends React.Component {
             GameStage().activeObject.id = character.id;
             GameStage().activeObject.character = character;
             GameStage().activeObject.animation = 'idle';
+            GameStage().activeObject.emit('join');
             GameStage().networkObjects[character.id] = GameStage().activeObject;
 
             this.props.actions.updateOpponents();
@@ -80,12 +80,11 @@ class Game extends React.Component {
     }
 
     static handleKeyDown(e) {
-        // prevent scrolling while playing
-        if ([KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT].indexOf(e.keyCode) > -1) {
-            e.preventDefault();
-        }
         // if userIsntChatting
         if (document.activeElement.id !== 'chat-input') {
+            if ([KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT].indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+            }
             GameStage().keyPressed(e);
         }
     }

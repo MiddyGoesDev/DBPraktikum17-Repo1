@@ -9,27 +9,14 @@ export default function Projectile(x, y, direction) {
             this.check();
             this.move();
         } else {
-            this.emit('destroy');
             this.destruct();
         }
     };
 
     this.handleCollision = (object, collision) => {
-        switch (object.type) {
-            case 'Wall':
-                this.destruct();
-                object.takeDamage(this.damage);
-                break;
-            case 'Character':
-                if (object.id !== this.owner) {
-                    this.destruct();
-                    object.takeDamage(this.damage);
-                }
-                break;
-            case 'Cow':
-                this.destruct();
-                object.takeDamage(this.damage);
-                break;
+        if (object.id !== this.owner) {
+            object.takeDamage(this);
+            this.destruct();
         }
     };
 
