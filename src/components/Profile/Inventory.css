@@ -7,4 +7,6 @@
     height: 50px;
     float: left;
     margin: 2px !important;
+    background: #faf9fa !important;
+    box-shadow: 0 0 0 !important;
 }

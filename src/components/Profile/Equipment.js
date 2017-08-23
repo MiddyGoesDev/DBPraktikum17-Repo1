@@ -1,9 +1,8 @@
 import * as React from "react";
 import {Grid, Image, Rail, Segment} from "semantic-ui-react";
-import {equipment, mainHand} from '../../actions/profile';
+import {equipment, mainHand, head} from '../../actions/profile';
 
 import './Equipment.css';
-import Inventory from './Inventory'
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import PropTypes from 'prop-types'
@@ -16,14 +15,16 @@ class Equipment extends React.Component {
     }
 
     componentWillMount() {
-        this.props.actions.equipment().then(equip => {
-            this.props.actions.mainHand(equip).then(item => {
-                this.setState({
-                    mainHandSrc: './assets/items/' + this.capitalizeFirstLetter(this.toCamelCase(item.name)) + '.png',
-                    mainHandName: item.name
-                });
-            });
-        });
+        this.props.actions.equipment().then(equip =>
+            this.props.actions.mainHand(equip).then(mainHand =>
+                this.props.actions.head(equip).then(head => {
+                    this.setState({
+                        mainHandSrc: './assets/items/' + this.capitalizeFirstLetter(this.toCamelCase(mainHand.name)) + '.png',
+                        mainHandName: mainHand.name,
+                        headSrc: './assets/items/' + this.capitalizeFirstLetter(this.toCamelCase(head.name)) + '.png',
+                        headName: head.name,
+                    });
+                })));
     }
 
     toCamelCase(name) {
@@ -43,7 +44,7 @@ class Equipment extends React.Component {
                     <Grid.Column>
                         <Segment className="head">
                             <p className="item-title">Head</p>
-                            <Image src=''/>
+                            <Image fluid verticalAlign src={this.state.headSrc} className="item-img" />
 
                             <Rail position='left'>
                                 <Segment className="shoulders" style={{marginLeft: 'auto'}}>
@@ -71,7 +72,7 @@ class Equipment extends React.Component {
                                 </Segment>
                                 <Segment className="weapon" style={{marginLeft: 'auto'}}>
                                     <p className="item-title">Main-Hand</p>
-                                    <Image fluid verticalAlign src={this.state.mainHandSrc}/>
+                                    <Image fluid verticalAlign src={this.state.mainHandSrc} className="item-img" />
                                     <p>{this.state.name}</p>
                                 </Segment>
                             </Rail>
@@ -109,7 +110,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({equipment, mainHand}, dispatch)};
+    return {actions: bindActionCreators({equipment, mainHand, head}, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Equipment);

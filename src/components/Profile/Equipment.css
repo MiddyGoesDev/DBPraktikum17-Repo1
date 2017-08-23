@@ -1,3 +1,10 @@
+.item-img {
+    height: 70% !important;
+    width: auto !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .item-title {
     text-align: center;
 }

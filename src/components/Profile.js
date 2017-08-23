@@ -26,7 +26,7 @@ class Profile extends React.Component {
                 kills: stats.kills,
                 playingTime: stats.playingTime
             })
-        })
+        });
         this.props.actions.myCharacter().then((char) => {
           this.setState({
             level: char.level,
@@ -35,7 +35,7 @@ class Profile extends React.Component {
             dexterity: char.dexterity,
             intelligence: char.intelligence
           })
-        })
+        });
     }
 
     render() {

@@ -10,6 +10,7 @@ import GurandoMasutaa from "./Items/GurandoMasutaa";
 import KoboriRyuHorenGata from "./Items/KoboriRyuHorenGata";
 import YagyuRyuYayuji from "./Items/YagyuRyuYayuji";
 import IgaRyuHappo from "./Items/IgaRyuHappo";
+import Skull from "./Items/Skull";
 
 let gameStage = null;
 
@@ -117,8 +118,8 @@ function GameStage() {
     this.activeKeys = [];
     this.db = db;
     this.fps = 40;
-    //this.socket = io('http://localhost:8080');
-    this.socket = io('207.154.243.43:8080');
+    this.socket = io('http://localhost:8080');
+    // this.socket = io('207.154.243.43:8080');
 
     this.socket.on('update', object => {
         switch (object.type) {
@@ -155,12 +156,14 @@ function GameStage() {
 
     this.socket.on('drop loot', loot => {
         var item = null;
+        console.log(loot.item.name);
         switch (loot.item.name) {
             case 'Manji': item = new Manji(loot.x, loot.y); break;
             case 'Yagyu Ryu Yayuji': item = new YagyuRyuYayuji(loot.x, loot.y); break;
             case 'Kobori Ryu Horen Gata': item = new KoboriRyuHorenGata(loot.x, loot.y); break;
             case 'Iga Ryu Happo': item = new IgaRyuHappo(loot.x, loot.y); break;
             case 'Gurando Masutaa': item = new GurandoMasutaa(loot.x, loot.y); break;
+            case 'Steven\'s Skull':  item = new Skull(loot.x, loot.y); break;
         }
         item.vitality = loot.item.vitality;
         item.strength = loot.item.strength;

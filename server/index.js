@@ -87,7 +87,8 @@ io.on('connection', socket => {
                 statistic.kills++;
                 statistic.update();
             });
-            db.ItemMask.find().equal('type', 'main_hand').resultList().then(items => {
+            var queryBuilder = db.ItemMask.find();
+            queryBuilder.or(queryBuilder.equal('type', 'main_hand'), queryBuilder.equal('type', 'head')).resultList().then(items => {
                 var randomItem = items[Math.floor(items.length * Math.random())];
                 socket.emit('drop loot', {
                     x: cow.x + 16,

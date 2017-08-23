@@ -106,6 +106,7 @@ export default function Character(x, y) {
                     this.updatePosition(previousX, previousY);
                 }
                 break;
+            case 'head':
             case 'main_hand':
             case 'Item': object.handleCollision(this, collision);
             break;

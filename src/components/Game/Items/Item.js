@@ -4,8 +4,7 @@ export default function Item(x, y) {
 
     GameObject.call(this, x, y);
 
-    this.update = () => {
-    };
+    this.update = () => { };
 
     this.handleCollision = (object, collision) => {
         switch (object.type) {
