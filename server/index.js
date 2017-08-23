@@ -77,14 +77,9 @@ io.on('connection', socket => {
     });
     
     socket.on('cow died', cow => {
-        console.log('character', characters[socket.id]);
-
         if (cow.hitter === characters[socket.id].id) {
             console.log('cow died: ' + cow.id);
-            console.log(cows);
             cows = cows.filter(object => object.id !== cow.id);
-            console.log('cow post');
-            console.log(cows);
 
             delete objects[cow.id];
             setTimeout(() => socket.emit('spawn', deliverCow()), 15000);
@@ -113,7 +108,6 @@ io.on('connection', socket => {
     socket.on('hit cow', cow => {
         try {
             if (cow.hitter === characters[socket.id].id) {
-                console.log(characters[socket.id]);
                 cow.x = objects[characters[socket.id].id].x;
                 cow.y = objects[characters[socket.id].id].y;
                 io.emit('update', cow);
