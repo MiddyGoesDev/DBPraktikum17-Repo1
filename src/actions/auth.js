@@ -31,8 +31,8 @@ export function createCharacter(user) {
             payload: (db) => {
                 let character = new db.Character({
                     'owner': user,
-                    'x': 10,
-                    'y': 10,
+                    'x': 850 + Math.floor(Math.random() * 100),
+                    'y': 2596 + Math.floor(Math.random() * 50),
                     'animation': 'idle',
                     'direction': DIRECTION_SOUTH,
                     'base_hp': 100,
