@@ -54,6 +54,7 @@ export default function Cow(x, y) {
                 object.direction = this.direction;
                 object.move();
                 object.check();
+                object.emit('change');
                 break;
         }
     };
