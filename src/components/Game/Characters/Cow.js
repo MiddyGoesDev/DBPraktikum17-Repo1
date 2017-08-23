@@ -12,6 +12,7 @@ export default function Cow(x, y) {
             let distance = Math.sqrt(Math.pow(Math.abs(this.destX - this.x), 2) + Math.pow(Math.abs(this.destY - this.y), 2));
             this.speed =  distance < this.speed ? distance : 3;
             this.move();
+            this.check();
             if (this.directionChanged(direction) || !this.isWalking()) {
                 this.walk();
             }
@@ -30,19 +31,33 @@ export default function Cow(x, y) {
             direction: this.direction,
             animation: this.animation,
             currentHP: this.currentHP,
-            killer: this.killer,
+            hitter: this.hitter,
         });
     };
 
     this.takeDamage = (object) => {
-        if (object.owner !== this.id) {
             this.currentHP -= Math.max(0, object.damage - this.armor);
             this.hpBar.updateHealth();
+            this.hitter = object.owner;
             if (this.currentHP <= 0) {
-                this.killer = object.owner;
                 this.destruct();
+                this.emit('cow died');
+            } else {
+                this.emit('hit cow');
             }
-            this.emit('cow died');
+    };
+
+    this.handleCollision = (object, collision) => {
+        switch (object.type) {
+            case 'Player': 
+                object.takeDamage(this);
+                let tempDirection = object.direction;
+                object.direction = this.direction;
+                object.move();
+                object.check();
+                object.emit('change');
+                object.direction = tempDirection;
+                break;
         }
     };
 
@@ -77,6 +92,7 @@ export default function Cow(x, y) {
     };
 
     this.type = 'Cow';
+    this.damage = 1;
     this.killer = null;
     this.speed = 3;
     this.construct();

@@ -35,10 +35,6 @@ function GameStage() {
     this.initialize = (x, y) => {
         this.construct();
         this.activeObject = new PlayerGuy(x, y);
-        console.log('player');
-        console.log(this.activeObject);
-        new Wall(80, 40);
-        var cowContainer = new window.createjs.Container();
         var cowZone = new window.createjs.Shape();
         cowZone.graphics.s("gray").f("transparent").drawRect(150, 150, 200, 200);
         new Cottage(400, 220);
@@ -99,7 +95,7 @@ function GameStage() {
 
     this.near = (object) => {
         // TODO: implement near
-        return this.gameObjects.filter(gameObject => gameObject.id !== object.id );
+        return this.gameObjects.filter(gameObject => gameObject.id !== object.id);
     };
 
     this.keyPressed = (event) => {
@@ -121,8 +117,8 @@ function GameStage() {
     this.activeKeys = [];
     this.db = db;
     this.fps = 40;
-    this.socket = io('http://localhost:8080');
-    // this.socket = io('207.154.243.43:8080');
+    //this.socket = io('http://localhost:8080');
+    this.socket = io('207.154.243.43:8080');
 
     this.socket.on('update', object => {
         switch (object.type) {

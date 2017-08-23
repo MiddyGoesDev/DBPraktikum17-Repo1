@@ -16,6 +16,7 @@ export default function GameObject(x, y) {
 
     this.destruct = () => {
         GameStage().remove(this);
+        GameStage().erase(this.text);
     };
 
     this.update = () => { };
@@ -47,7 +48,8 @@ export default function GameObject(x, y) {
     };
 
     this.checkCollision = (object) => {
-        return window.ndgmr.checkPixelCollision(this.sprite, object.sprite, 0.01, true);
+        // TODO: pixelPerfect collision not working reliably
+        return window.ndgmr.checkPixelCollision(this.sprite, object.sprite, 0, true);
     };
 
     this.play = (animation) => {
@@ -66,6 +68,10 @@ export default function GameObject(x, y) {
         this.sprite.y = y;
         this.hpBar.updatePosition(this);
         this.updateText(x, y);
+    };
+
+    this.push = (x, y, direction) => {
+
     };
 
     this.updateText = (x, y) => {
