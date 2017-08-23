@@ -80,12 +80,9 @@ class Game extends React.Component {
     }
 
     static handleKeyDown(e) {
-        // prevent scrolling while playing
-        if ([KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT].indexOf(e.keyCode) > -1) {
-            e.preventDefault();
-        }
         // if userIsntChatting
         if (document.activeElement.id !== 'chat-input') {
+            e.preventDefault();
             GameStage().keyPressed(e);
         }
     }
