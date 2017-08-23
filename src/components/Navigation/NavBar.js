@@ -29,9 +29,12 @@ class NavBar extends React.Component {
                     <NavLink className="item" activeClassName="active" to="/ranking">
                         Ranking
                     </NavLink>
-                    <NavLink className="item" activeClassName="active" to="/profile">
-                        Profile
-                    </NavLink>
+                    {this.props.auth.isLoggedIn ? (
+                        <NavLink className="item" activeClassName="active" to="/profile">
+                            Profile
+                        </NavLink>
+                    ) : (<div></div>)
+                    }
                 </div>
 
                 {this.props.auth.isLoggedIn ? (
