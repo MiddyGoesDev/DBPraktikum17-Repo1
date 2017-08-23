@@ -19,7 +19,7 @@ export function register(username, password) {
         'BAQEND': {
             type:
               USER_REGISTER,
-            payload: (db) => db.User.register(username, password)
+            payload: (db) => db.User.register(username, password).then(result => result)
         }
     }
 }
@@ -104,9 +104,15 @@ export function checkForExsistence(input) {
   return {
     'BAQEND': {
       type: "CHECK_FOR_EXSISTENCE",
+      payload: (db) => db.User.find().equal('username', input).singleResult().then(user => {
+              return user !== null;
+      })
+        // TODO baqend code oder lieber refactoren
+        /*
        payload: (db) => db.modules.get("checkForExsistence" ,{userInput: input}).then((result) => {
          return result.exists;
         })
+        */
         }
       }
     }

@@ -68,7 +68,7 @@ class Account extends Component {
 
     handleRegister = (event) => {
         event.preventDefault();
-        debugger;
+        // debugger;
         if (this.state.username === "" || this.state.password === "") {
             this.setState({
                 info: "Please enter a valid username and password."
@@ -76,6 +76,9 @@ class Account extends Component {
         } else
         if (!this.state.error) {
             this.props.actions.checkForExsistence(this.state.username).then(Used => {
+                console.log(Used);
+                console.log('username', this.state.username);
+                console.log('pw', this.state.password);
                 if (!Used) {
                     this.props.actions.register(this.state.username, this.state.password)
                         .then(user => this.props.actions.createCharacter(user)
@@ -89,12 +92,16 @@ class Account extends Component {
                                     })                            )
                         )
                     )
-                );
+                , err => this.setState({
+                                info: err.message
+                            }));
                 } else {
                     this.setState({
                         info: "Username is already registered."
                     })
                 }
+            }, err => {
+                console.log(err);
             });
         }
     };
@@ -102,6 +109,12 @@ class Account extends Component {
     handleLogout = (event) => {
         this.props.actions.logout();
         this.props.actions.sendMessage(" has logged out.")
+        this.state = {
+            username: "",
+            password: "",
+            info: "",
+            error: false
+        }
     };
 
     render() {
