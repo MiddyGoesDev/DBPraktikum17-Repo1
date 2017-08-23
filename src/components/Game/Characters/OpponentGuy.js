@@ -22,6 +22,11 @@ export default function OpponentGuy(x, y) {
         }
     };
 
+    this.rename = (name) => {
+        this.name = name;
+        this.text.text = name;
+    };
+
     this.updateText = (x, y) => {
         this.text.x = x - 8;
         this.text.y = y - 18;
@@ -64,7 +69,6 @@ export default function OpponentGuy(x, y) {
 
     this.nextAnimation = null;
     this.nextDirection = null;
-    //TODO soll das hier sein? ich glaube nicht
     this.name = 'Tim';
     this.text = new Text(this.name);
 

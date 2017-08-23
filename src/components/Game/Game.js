@@ -8,7 +8,6 @@ import {connect} from 'react-redux'
 import {join, leave, ownCharacter, updateOpponents, updateCharacter, setTimer} from '../../actions/character';
 
 import GameStage from './GameStage';
-import {clearStage} from "./GameStage"
 
 import {KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT} from './Constants/KeyCodes';
 
@@ -52,7 +51,7 @@ class Game extends React.Component {
 
     static closeGame() {
         Game.removeListeners();
-        clearStage();
+        GameStage().clear();
     }
 
     static resizeGame() {

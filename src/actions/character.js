@@ -49,6 +49,7 @@ export function updateOpponents() {
                         opponent.baseHP = character.data.base_hp;
                         opponent.currentHP = character.data.current_hp;
                         opponent.animation = 'idle';
+                        db.User.load(character.data.owner.id).then(user => opponent.rename(user.username));
                         GameStage().link(opponent);
                     } else if (!character.data.playing && GameStage().networkObjects.hasOwnProperty(character.data.id)) {
                         GameStage().unlink(character.data.id);

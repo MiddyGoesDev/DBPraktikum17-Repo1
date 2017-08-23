@@ -1,4 +1,3 @@
-
 import './Ranking.css';
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -39,23 +38,22 @@ class Ranking extends React.Component {
     }
 
     componentWillMount() {
-
-      this.props.actions.getStatsByProfileAsc().then(result =>
-      this.props.actions.myStatistics().then(statistics => this.props.actions.loadCharacter(statistics.character)
-      .then(character =>
-         this.setState({
-           ranking: result,
-             currentProfileName: statistics.username,
-             me: statistics.username,
-             kills: statistics.kills,
-             deaths: statistics.deaths,
-             playingTime: statistics.playingTime,
-             level: character.level,
-             vitality: character.vitality,
-             strength: character.strength,
-             dexterity: character.dexterity,
-             intelligence: character.intelligence
-           }))));
+        this.props.actions.getStatsByProfileAsc().then(result =>
+            this.props.actions.myStatistics().then(statistics =>
+                this.props.actions.loadCharacter(statistics.character).then(character =>
+                    this.setState({
+                        ranking: result,
+                        currentProfileName: statistics.username,
+                        me: statistics.username,
+                        kills: statistics.kills,
+                        deaths: statistics.deaths,
+                        playingTime: statistics.playingTime,
+                        level: character.level,
+                        vitality: character.vitality,
+                        strength: character.strength,
+                        dexterity: character.dexterity,
+                        intelligence: character.intelligence
+                    }))));
     }
 
     handleProfile = (event) => {
@@ -122,19 +120,19 @@ class Ranking extends React.Component {
         let userName = e.target.parentNode.getAttribute('name');
 
 
-         this.props.actions.getStatistics(userName).then(statistics => this.props.actions.loadCharacter(statistics.character)
-         .then(character =>
-            this.setState({
-                currentProfileName: userName,
-                kills: statistics.kills,
-                deaths: statistics.deaths,
-                playingTime: statistics.playingTime,
-                level: character.level,
-                vitality: character.vitality,
-                strength: character.strength,
-                dexterity: character.dexterity,
-                intelligence: character.intelligence
-              })));
+        this.props.actions.getStatistics(userName).then(statistics => this.props.actions.loadCharacter(statistics.character)
+            .then(character =>
+                this.setState({
+                    currentProfileName: userName,
+                    kills: statistics.kills,
+                    deaths: statistics.deaths,
+                    playingTime: statistics.playingTime,
+                    level: character.level,
+                    vitality: character.vitality,
+                    strength: character.strength,
+                    dexterity: character.dexterity,
+                    intelligence: character.intelligence
+                })));
     };
 
     render() {
