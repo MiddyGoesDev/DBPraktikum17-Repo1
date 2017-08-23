@@ -1,6 +1,6 @@
 import logo from '../../react_baqend.svg';
 import * as React from 'react';
-import {NavLink} from "react-router-dom";
+import {NavLink, withRouter} from "react-router-dom";
 import {logout} from "../../actions/auth";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
@@ -61,4 +61,5 @@ function mapDispatchToProps(dispatch) {
     return {actions: bindActionCreators({logout}, dispatch)}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar))
+
