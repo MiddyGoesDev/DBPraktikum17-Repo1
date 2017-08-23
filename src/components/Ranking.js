@@ -38,7 +38,7 @@ class Ranking extends React.Component {
     }
 
     componentWillMount() {
-        this.props.actions.getStatsByProfileAsc().then(result =>
+        this.props.actions.getStatsByKillsAsc().then(result =>
             this.props.actions.myStatistics().then(statistics =>
                 this.props.actions.loadCharacter(statistics.character).then(character =>
                     this.setState({
