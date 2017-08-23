@@ -1,10 +1,10 @@
 
-export function getStatsByKDAsc() {
+export function getStatsByKillsAsc() {
   return {
     'BAQEND': {
       type: "RANKING_KD_ASC",
       payload: (db) => {
-        return db.Statistic.find().descending("kd").resultList().then(result => {
+        return db.Statistic.find().descending("kills").resultList().then(result => {
           return result
         })
       }
@@ -12,12 +12,12 @@ export function getStatsByKDAsc() {
   }
 }
 
-export function getStatsByKDDsc() {
+export function getStatsByKillsDsc() {
   return {
     'BAQEND': {
       type: "RANKING_KD_DSC",
       payload: (db) => {
-        return db.Statistic.find().ascending("kd").resultList().then(result => {
+        return db.Statistic.find().ascending("kills").resultList().then(result => {
           return result
         })
       }
@@ -51,12 +51,12 @@ export function getStatsByProfileDsc() {
   }
 }
 
-export function getStatsByXPDsc() {
+export function getStatsByPlayingTimeDsc() {
   return {
     'BAQEND': {
-      type: "RANKING_XP_DSC",
+      type: "RANKING_PLAYINGTIME_DSC",
       payload: (db) => {
-        return db.Statistic.find().descending("xp").resultList().then(result => {
+        return db.Statistic.find().descending("playingTime").resultList().then(result => {
           return result
         })
       }
@@ -64,12 +64,12 @@ export function getStatsByXPDsc() {
   }
 }
 
-export function getStatsByXPAsc() {
+export function getStatsByPlayingTimeAsc() {
   return {
     'BAQEND': {
-      type: "RANKING_XP_ASC",
+      type: "RANKING_PLAYINGTIME_ASC",
       payload: (db) => {
-        return db.Statistic.find().ascending("xp").resultList().then(result => {
+        return db.Statistic.find().ascending("playingTime").resultList().then(result => {
           return result
         })
       }

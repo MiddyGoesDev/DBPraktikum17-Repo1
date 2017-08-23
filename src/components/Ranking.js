@@ -3,12 +3,12 @@ import './Ranking.css';
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-    getStatsByKDDsc,
-    getStatsByKDAsc,
+    getStatsByKillsDsc,
+    getStatsByKillsAsc,
     getStatsByProfileDsc,
     getStatsByProfileAsc,
-    getStatsByXPAsc,
-    getStatsByXPDsc,
+    getStatsByPlayingTimeAsc,
+    getStatsByPlayingTimeDsc,
     getStatistics
 } from '../actions/ranking'
 import {myStatistics, loadCharacter} from '../actions/profile';
@@ -26,14 +26,14 @@ class Ranking extends React.Component {
         this.state = {
             ranking: [],
             profileClicks: 1,
-            kdClicks: 0,
-            xpClicks: 0,
+            killsClicks: 0,
+            playingTimeClicks: 1,
             currentProfileName: null,
             kd: null,
             exp: null,
             kills: null,
             deaths: null,
-            playTime: null,
+            playingTime: null,
             me: null
         }
     }
@@ -78,41 +78,41 @@ class Ranking extends React.Component {
         }
     };
 
-    handleKD = (event) => {
+    handleKills = (event) => {
         event.preventDefault();
-        if (this.state.kdClicks === 1) {
-            this.props.actions.getStatsByKDDsc().then((result) => {
+        if (this.state.killsClicks === 1) {
+            this.props.actions.getStatsByKillsDsc().then((result) => {
                 this.setState({
                     ranking: result,
-                    kdClicks: 0
+                    killsClicks: 0
                 })
             })
         }
         else {
-            this.props.actions.getStatsByKDAsc().then((result) => {
+            this.props.actions.getStatsByKillsAsc().then((result) => {
                 this.setState({
                     ranking: result,
-                    kdClicks: 1
+                    killsClicks: 1
                 })
             })
         }
     };
 
-    handleXP = (event) => {
+    handlePlayingTime = (event) => {
         event.preventDefault();
-        if (this.state.xpClicks === 1) {
-            this.props.actions.getStatsByXPDsc().then((result) => {
+        if (this.state.playingTimeClicks === 1) {
+            this.props.actions.getStatsByPlayingTimeDsc().then((result) => {
                 this.setState({
                     ranking: result,
-                    xpClicks: 0
+                    playingTimeClicks: 0
                 })
             })
         }
         else {
-            this.props.actions.getStatsByXPAsc().then((result) => {
+            this.props.actions.getStatsByPlayingTimeAsc().then((result) => {
                 this.setState({
                     ranking: result,
-                    xpClicks: 1
+                    playingTimeClicks: 1
                 })
             })
         }
@@ -158,15 +158,15 @@ class Ranking extends React.Component {
                                 <Table.Cell>
                                     <button className="ui button"
                                             style={{backgroundColor: '#f5f5f5'}}
-                                            onClick={this.handleKD}>
-                                        <h3>K/D</h3>
+                                            onClick={this.handlePlayingTime}>
+                                        <h3>Total Time</h3>
                                     </button>
                                 </Table.Cell>
                                 <Table.Cell>
-                                    <button className="ui borderlessButton button"
+                                    <button className="ui button"
                                             style={{backgroundColor: '#f5f5f5'}}
-                                            onClick={this.handleXP}>
-                                        <h3>Experience</h3>
+                                            onClick={this.handleKills}>
+                                        <h3>Cow Kills</h3>
                                     </button>
                                 </Table.Cell>
                             </Table.Row>
@@ -182,8 +182,8 @@ class Ranking extends React.Component {
                                         {this.state.me === statistics.username ? (<Label ribbon>{++i}</Label>) : ++i}
                                     </Table.Cell>
                                     <Table.Cell>{statistics.username}</Table.Cell>
-                                    <Table.Cell>{statistics.kd}</Table.Cell>
-                                    <Table.Cell>{statistics.xp}</Table.Cell>
+                                    <Table.Cell>{Statistics.timePlayed(statistics.playingTime)}</Table.Cell>
+                                    <Table.Cell>{statistics.kills}</Table.Cell>
                                 </Table.Row>
                             )}
                         </Table.Body>
@@ -220,12 +220,12 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getStatsByKDAsc,
-            getStatsByKDDsc,
+            getStatsByKillsAsc,
+            getStatsByKillsDsc,
             getStatsByProfileDsc,
             getStatsByProfileAsc,
-            getStatsByXPAsc,
-            getStatsByXPDsc,
+            getStatsByPlayingTimeAsc,
+            getStatsByPlayingTimeDsc,
             myStatistics,
             getStatistics,
             loadCharacter,
