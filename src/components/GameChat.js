@@ -7,6 +7,9 @@ import {Card, Grid} from 'semantic-ui-react'
 
 class GameChat extends React.Component {
 
+  /*
+  *Puts the game next to the chat
+  */
     render() {
         return (
             <Grid centered style={{paddingTop: '20px', height: '90%'}}>

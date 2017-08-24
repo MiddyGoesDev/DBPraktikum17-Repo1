@@ -113,8 +113,9 @@ export function updateCharacter(data) {
 }
 
 /*
-* Keeps the time played statsitic up to date by adding the time played in the current session to the
+* Keeps the time played statsitic up to date by adding the time played of the current session to the
 * time that has been played before
+* @param joinTime: time at which the user started playing the game
 */
 export function setTimer(joinTime) {
   return {

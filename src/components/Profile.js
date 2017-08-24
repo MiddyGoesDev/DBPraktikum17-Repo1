@@ -13,27 +13,34 @@ import {Grid} from "semantic-ui-react";
 
 class Profile extends React.Component {
 
+    /*
+    *Initializes the state as an empty list
+    */
     constructor(props) {
         super(props);
         this.state = {}
     }
-
+     /*
+     * 1) gets the values that get displayed in the profile out of the statistics, from the user that is loged in
+     * 2) gets the values that get display in the profile out of the character, from the user that is loged in
+     * 3) TODO richtig? calculates the values to be displayed with bonis from the equipment
+     */
     componentWillMount() {
-        this.props.actions.myStatistics().then((stats) => {
+        this.props.actions.myStatistics().then((stats) => { // 1)
             this.setState({
                 username: stats.username,
                 kills: stats.kills,
                 playingTime: stats.playingTime
             })
         });
-        this.props.actions.myCharacter().then(character => {
+        this.props.actions.myCharacter().then(character => { // 2)
             this.props.actions.equipment().then(equipment => {
                 let vitality = character.vitality;
                 let strength = character.strength;
                 let dexterity = character.dexterity;
                 let intelligence = character.intelligence;
 
-                Equipment.body().forEach(part => {
+                Equipment.body().forEach(part => { // 3)
                     if (equipment[part] !== null) {
                         vitality += equipment[part].vitality;
                         strength += equipment[part].strength;
@@ -52,13 +59,15 @@ class Profile extends React.Component {
             });
         });
     }
-
+     /*
+     *Renders the Statistics on the left side with the two components inventory and equipment on the right side
+     */
     render() {
         return (
             <Grid columns={10} centered style={{height: '90%'}}>
                 <Grid.Row>
                     <Grid.Column width={3}>
-                        <Statistics
+                        <Statistics //displays the values loaded into the components state
                             user={{name: this.state.username}}
                             items={[
                                 {label: 'Level', value: this.state.level},
@@ -81,16 +90,28 @@ class Profile extends React.Component {
     }
 }
 
+/*
+* During runtime, this will throw a warning if the props in this definition dont match with the props
+* the component got passed.
+*/
 Profile.propTypes = {
     action: PropTypes.object,
     statistics: PropTypes.object
 };
 
+/*
+* This makes the component subscribe to the redux store, meaning that anytime the state of the store
+* gets updated, mapStateToProps will be called, updating the state of the component accordingly
+* @param state the state of the redux store
+*/
 function mapStateToProps(state) {
     return {statistics: state.statistics};
 }
 
-
+/*
+* This will be re-invoked whenever the connected component (Account) receives new props. This
+* works the other way arround compared to how mapStateToProps works.
+*/
 function mapDispatchToProps(dispatch) {
     return {actions: bindActionCreators({myStatistics, myCharacter, equipment}, dispatch)};
 }

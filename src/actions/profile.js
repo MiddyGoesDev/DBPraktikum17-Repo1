@@ -2,7 +2,6 @@ import {EQUIPMENT, INVENTORY, MY_STATISTICS, MY_CHARACTER, GET_CHARACTER, GET_EQ
 
 /*
 * Finds the statistics for the user that is loged in via the character that user ownes.
-* @return the statistics for the user, ie time spend playing the game
 */
 export function myStatistics() {
     return {
@@ -21,7 +20,6 @@ export function myStatistics() {
 
 /*
 * Finds the equipment for the user that is loged in via the character that user ownes.
-* @return the equipment for the user, ie the weapon
 */
 export function equipment() {
     return {
@@ -35,7 +33,6 @@ export function equipment() {
 
 /*
 * Finds the inventory for the user that is loged in via the character that user ownes.
-* @return the inventory for the user
 */
 export function inventory() {
     return {
@@ -48,9 +45,8 @@ export function inventory() {
 }
 
 /*
-* Finds the equioment for any character.
+* Finds the equipment for any character given as parameter.
 * @param character: the charater for which the equipment is wanted
-* @return the equipment for the character
 */
 export function getEquipment(character) {
     return {
@@ -62,9 +58,8 @@ export function getEquipment(character) {
 }
 
 /*
-* Finds the inventory for any character.
+* Finds the inventory for any character given as paraeter.
 * @param character: the charater for which the invntory is wanted
-* @return the inventory for the character
 */
 export function getInventory(character) {
     return {
@@ -77,7 +72,6 @@ export function getInventory(character) {
 
 /*
 * Finds the Character of the user that is logged in.
-* @return the character for the user that is logged in
 */
 export function myCharacter() {
     return {
@@ -89,9 +83,8 @@ export function myCharacter() {
 }
 
 /*
-* Finds the character for any user.
+* Finds the character for any user given as parameter.
 * @param user: user for which the character is wanted
-* @return the character belonging to the user
 */
 export function getCharacter(user) {
     return {
@@ -106,9 +99,8 @@ export function getCharacter(user) {
 
 /*
 * Loads the character based on its id, this is needed for the ranking where we only have the characters id,
-* but not the character.
-* @param charcter: the character of which we haev the id and want the entire character
-* @return the character based on its id
+* but not the character entire charater information.
+* @param charcter: the character of which we have the id and want the entire character
 */
 export function loadCharacter(character) {
     return {

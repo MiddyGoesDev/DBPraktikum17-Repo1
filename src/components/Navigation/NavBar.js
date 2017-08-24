@@ -10,12 +10,18 @@ import {leave} from "../../actions/character";
 
 class NavBar extends React.Component {
 
+    /*
+    * If the Logout button in the navbar gets clicked, those actions have to be executed
+    */
     handleLogout = (event) => {
         this.props.actions.leave();
         Game.closeGame();
         this.props.actions.logout();
     };
 
+    /*
+    * Renders the Links on the top of the page which lead to the according components
+    */
     render() {
         return (
             <div className="ui secondary menu">
@@ -33,7 +39,7 @@ class NavBar extends React.Component {
                     <NavLink className="item" activeClassName="active" to="/ranking">
                         Ranking
                     </NavLink>
-                    {this.props.auth.isLoggedIn ? (
+                    {this.props.auth.isLoggedIn ? ( //only if the user is logged in he is able to inspect his profile
                         <NavLink className="item" activeClassName="active" to="/profile">
                             Profile
                         </NavLink>
@@ -41,7 +47,7 @@ class NavBar extends React.Component {
                     }
                 </div>
 
-                {this.props.auth.isLoggedIn ? (
+                {this.props.auth.isLoggedIn ? ( //If the user is logged in display an logout button, vice versa
                     <div className="right item">
                         <Button color='primary' onClick={this.handleLogout}>
                             Logout
@@ -60,13 +66,21 @@ class NavBar extends React.Component {
     }
 }
 
+/*
+* This makes the component subscribe to the redux store, meaning that anytime the state of the store
+* gets updated, mapStateToProps will be called, updating the state of the component accordingly
+* @param state the state of the redux store
+*/
 function mapStateToProps(state) {
     return {auth: state.auth, user: state.auth.user}
 }
 
+/*
+* This will be re-invoked whenever the connected component (Account) receives new props. This
+* works the other way arround compared to how mapStateToProps works.
+*/
 function mapDispatchToProps(dispatch) {
     return {actions: bindActionCreators({logout, leave}, dispatch)}
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar))
-

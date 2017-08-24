@@ -23,6 +23,7 @@ class Ranking extends React.Component {
 
 /*
 *Sets both the rankings' profile and the ranking itself to an empty state
+*the click fields are tracking the current order of the table, ascending and descending
 */
     constructor(props) {
         super(props);
@@ -152,13 +153,13 @@ class Ranking extends React.Component {
     };
 
 /*
-*gets the characterstats for a given user and sets the fields with it
+*gets the character statistics for the user clicked on in the ranking and displays the information
+*on the right side.
 */
     displayProfile = (e) => {
         let userName = e.target.parentNode.getAttribute('name');
 
-
-        this.props.actions.getStatistics(userName).then(statistics =>
+        this.props.actions.getStatistics(userName).then(statistics => //finds the statistics for the user clicked on
             this.props.actions.loadCharacter(statistics.character).then(character =>
                 this.props.actions.getEquipment(character).then(equipment => {
                     let vitality = character.vitality;
