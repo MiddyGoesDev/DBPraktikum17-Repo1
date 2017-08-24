@@ -37,7 +37,7 @@ class Statistics extends React.Component {
                         <Header as="h4" className="ui sub header">
                             Statistics
                         </Header>
-                        <Statistic.Group horizontal mini items={this.props.items}/>
+                        <Statistic.Group horizontal size='tiny' items={this.props.items}/>
                     </Card.Description>
                 </Card.Content>
             </Card>

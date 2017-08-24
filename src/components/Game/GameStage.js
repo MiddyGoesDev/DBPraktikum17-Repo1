@@ -13,6 +13,7 @@ import IgaRyuHappo from "./Items/IgaRyuHappo";
 import Skull from "./Items/Skull";
 import Gate from "./Gate";
 import Key from "./Items/Key";
+import Dragon from "./Characters/Dragon";
 
 let gameStage = null;
 
@@ -40,10 +41,11 @@ function GameStage() {
         this.construct();
         this.activeObject = new PlayerGuy(x, y);
         var cowZone = new window.createjs.Shape();
-        cowZone.graphics.s("gray").f("transparent").drawRect(1170, 3290, 200, 200);
+        cowZone.graphics.s("gray").f("transparent").drawRect(800, 3300, 1100, 700);
         new Cottage(400, 220);
         new Gate(1725, 1075);
-        new Key(1825, 1275);
+        new Key(653, 1263);
+        new Dragon(1738, 710);
         this.stage.addChild(cowZone);
     };
 
@@ -188,6 +190,10 @@ function GameStage() {
         item.strength = loot.item.strength;
         item.dexterity = loot.item.dexterity;
         item.intelligence = loot.item.intelligence;
+    });
+
+    this.socket.on('gate opened', gate => {
+        this.gameObjects[gate.id].destruct();
     });
 }
 
