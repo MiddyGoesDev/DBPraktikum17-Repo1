@@ -224,12 +224,12 @@ class Ranking extends React.Component {
                     <Statistics
                         user={{name: this.state.currentProfileName}}
                         items={[
-                            {label: 'Total Cows killed', value: this.state.kills},
+                            {label: 'Level', value: this.state.level},
                             {label: 'Vitality', value: this.state.vitality},
                             {label: 'Strength', value: this.state.strength},
                             {label: 'Dexterity', value: this.state.dexterity},
                             {label: 'Intelligence', value: this.state.intelligence},
-                            {label: 'Level', value: this.state.level},
+                            {label: 'Total Cows killed', value: this.state.kills},
                             {label: 'Time spend', value: Statistics.timePlayed(this.state.playingTime)},
                         ]}
                     />

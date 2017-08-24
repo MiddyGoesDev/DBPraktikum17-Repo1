@@ -43,7 +43,7 @@ class Inventory extends React.Component {
         return (
             <Grid centered style={{paddingLeft: '200px', float:'right'}}>
                 <Segment className="Inventory">
-                    <p className="item-title">Iventory</p>
+                    <p className="item-title">Inventory</p>
                     <Grid.Row>
                         {[...Array(5)].map((x, i) => (
                             <Segment className="item-slot">
