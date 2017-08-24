@@ -10,6 +10,9 @@ import {connect} from 'react-redux'
 
 class Chat extends React.Component {
 
+/*
+*Setting the initial state of the written message to an empty String
+*/
     constructor(props) {
         super(props);
         this.state = {
@@ -17,19 +20,31 @@ class Chat extends React.Component {
           }
     };
 
+/*
+*Subscribes to the stream of messages to get alerted on changes
+*/
     componentWillMount() {
         this.props.actions.getMessages().then((sub) => this.messageStream = sub);
     };
 
-    componentDidUpdate() {
-        let el = this.refs.chatbox;
-        el.scrollTop = el.scrollHeight;
-    };
+/*
+*If a meesage gets inserted, the chatbox will be shown at the very bottom with the latest message
+*/
+    // componentDidUpdate() {
+    //     let el = this.refs.chatbox;
+    //     el.scrollTop = el.scrollHeight;
+    // };
 
+ /*
+ *Unsubscribes to the stream of messages to no longer get alerted on changes
+ */
     componentWillUnmount(){
         this.messageStream.unsubscribe();
     }
 
+  /*
+  *Sends a message with the given message from the inputfield and resets the message field with an empty string.
+  */
     handleMessage = (event) => {
         event.preventDefault();
         this.props.actions.sendMessage(": " + this.state.message);
@@ -37,10 +52,19 @@ class Chat extends React.Component {
         document.getElementById("chat-input").focus();
     };
 
+    /*
+    *Sets the message field with the given written message
+    */
     handleInputChange = (event) => {
         this.setState({[event.target.name]: event.target.value});
     };
 
+    /*
+    *@return Returns the Layout of the Chatbox with every message and the chat-interface with a inputfield and a submitbutton
+    *Takes the list of messages and maps every message with its name and returns the created div
+    *Takes every change from the inputfield and executes the handleInputChange function
+    *Takes the value of the Inputfield and executes the handleMessage function
+    */
     render() {
         return (
             <div className="chat-room">

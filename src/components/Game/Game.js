@@ -31,6 +31,7 @@ class Game extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.refs);
         this.setState({width: this.refs.gameWindow.clientWidth, height: this.refs.gameWindow.clientHeight});
         this.startGame();
     }

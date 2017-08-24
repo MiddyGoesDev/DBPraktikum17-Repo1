@@ -1,7 +1,7 @@
 import Character from './Character';
 import GameStage from '../GameStage';
 
-import {KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT, KEYCODE_S, KEYCODE_1} from '../Constants/KeyCodes';
+import {KEYCODE_UP, KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT, KEYCODE_S, KEYCODE_1, KEYCODE_K} from '../Constants/KeyCodes';
 import {
     DIRECTION_SOUTH, DIRECTION_NORTH, DIRECTION_EAST, DIRECTION_WEST,
     DIRECTION_NORTHEAST, DIRECTION_NORTHWEST, DIRECTION_SOUTHEAST, DIRECTION_SOUTHWEST
@@ -142,6 +142,10 @@ export default function PlayerGuy(x, y) {
             case KEYCODE_S:
                 this.punch();
                 this.emit('punch');
+                break;
+            case KEYCODE_K:
+                this.takeDamage({damage: 5000});
+                this.emit('change');
                 break;
             case KEYCODE_1:
                 // TODO type

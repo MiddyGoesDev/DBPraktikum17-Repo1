@@ -9,12 +9,11 @@ export default function Item(x, y) {
     this.handleCollision = (object, collision) => {
         switch (object.type) {
             case 'Player':
-                console.log('type', this.type);
                 if (this.type === 'main_hand') {
-                    console.log('equip');
                     object.weapon = this;
                 }
                 object.createBaqendItem(this);
+                this.destruct();
             case 'Character':
                 object.items.push(this);
                 this.destruct();
