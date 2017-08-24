@@ -31,7 +31,7 @@ class Account extends Component {
     handleInputChange = (event) => {
         let message = this.state.info;
         let invalidCharacters = /[^a-z0-9]/i;
-        let err = this.state.error
+        let err = this.state.error;
 
         if (event.target.name === 'username') {
             if (event.target.value.length > 9) {

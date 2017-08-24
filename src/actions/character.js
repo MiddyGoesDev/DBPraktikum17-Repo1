@@ -109,7 +109,6 @@ export function setTimer(joinTime) {
               return stats.update();
             })
           })
-
         }
       }
     }

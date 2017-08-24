@@ -84,7 +84,6 @@ class Game extends React.Component {
     }
 
     static resizeGame() {
-        console.log('resize window');
         let gameWindow = document.getElementById('game-window');
         let gameField = document.getElementById('game-field');
         gameField.width = gameWindow.clientWidth;

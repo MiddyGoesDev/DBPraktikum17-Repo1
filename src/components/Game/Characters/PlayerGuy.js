@@ -84,6 +84,8 @@ export default function PlayerGuy(x, y) {
         this.currentHP = 100;
         this.updatePosition(1290, 3000);
         GameStage().add(this);
+        this.hpBar.updateHealth();
+        this.hpBar.displayHealth();
         this.emit('change');
     };
 
