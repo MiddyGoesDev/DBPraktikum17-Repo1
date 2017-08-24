@@ -39,7 +39,7 @@ function deliverCow() {
         y: Math.round(cowZone.y + cowZone.height * Math.random()),
         animation: 'idle',
         direction: { x: dx, y: 1, name: directionName(dx, 1) },
-        currentHP: 20,
+        currentHP: 70,
         aggro: {}
     };
     cows.push(cow);
