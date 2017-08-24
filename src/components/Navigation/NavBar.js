@@ -1,14 +1,18 @@
 import logo from '../../react_baqend.svg';
+import Game from '../Game/Game';
 import * as React from 'react';
 import {NavLink, withRouter} from "react-router-dom";
 import {logout} from "../../actions/auth";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Button} from "semantic-ui-react";
+import {leave} from "../../actions/character";
 
 class NavBar extends React.Component {
 
     handleLogout = (event) => {
+        this.props.actions.leave();
+        Game.closeGame();
         this.props.actions.logout();
     };
 
@@ -61,7 +65,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({logout}, dispatch)}
+    return {actions: bindActionCreators({logout, leave}, dispatch)}
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar))
