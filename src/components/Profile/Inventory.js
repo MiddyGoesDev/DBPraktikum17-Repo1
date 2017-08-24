@@ -10,6 +10,10 @@ import {myCharacter, getInventory} from "../../actions/profile";
 
 class Inventory extends React.Component {
 
+
+/*
+*Initializes every Inventoryslot with an empty string
+*/
     constructor(props) {
         super(props);
         this.state = {
@@ -26,19 +30,27 @@ class Inventory extends React.Component {
         }
     }
 
+/*
+*Sets every Inventory slot with the name of its item for a given Character
+*/
     componentWillMount() {
         this.props.actions.myCharacter().then(character =>
             this.props.actions.getInventory(character).then(inventory => {
-                console.log(inventory.length, inventory[0]);
+                //console.log(inventory.length, inventory[0]);
                 let state = {};
                 for (let i=1; i<=10 && i<=inventory.length; i++) {
                     state['src' + i] ='./assets/items/' + Equipment.capitalizeFirstLetter(Equipment.toCamelCase(inventory[i-1].item.name)) + '.png';
                 }
-                console.log('state', state);
+                //console.log('state', state);
                 this.setState(state);
             }));
     }
-
+//TODO
+/*
+*
+*
+*@return returns the images for every inventory slot
+*/
     render() {
         return (
             <Grid centered style={{paddingLeft: '200px', float:'right'}}>
@@ -88,4 +100,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Inventory);
-
