@@ -1,6 +1,11 @@
 import {JOIN, LEAVE, OWN_CHARACTER, UPDATE_OPPONENTS, UPDATE_CHARACTER, SET_TIMER} from './types'
 import GameStage from '../components/Game/GameStage';
 import Opponent from '../components/Game/Characters/OpponentGuy';
+import Manji from "../components/Game/Items/Manji";
+import YagyuRyuYayuji from "../components/Game/Items/YagyuRyuYayuji";
+import KoboriRyuHorenGata from "../components/Game/Items/KoboriRyuHorenGata";
+import IgaRyuHappo from "../components/Game/Items/IgaRyuHappo";
+import GurandoMasutaa from "../components/Game/Items/GurandoMasutaa";
 
 export function join() {
     return {
@@ -51,6 +56,18 @@ export function updateOpponents() {
                         opponent.animation = 'idle';
                         db.User.load(character.data.owner.id).then(user => opponent.rename(user.username));
                         GameStage().link(opponent);
+
+                        db.Equipment.find().equal('body', character).singleResult({depth: 1}, result => result).then(equipment => {
+                            if (equipment.main_hand !== null) {
+                                switch (equipment.main_hand.name) {
+                                    case 'Manji': opponent.weapon = new Manji(0, 0); break;
+                                    case 'Yagyu Ryu Yayuji': opponent.weapon = new YagyuRyuYayuji(0, 0); break;
+                                    case 'Kobori Ryu Horen Gata': opponent.weapon = new KoboriRyuHorenGata(0, 0); break;
+                                    case 'Iga Ryu Happo': opponent.weapon = new IgaRyuHappo(0, 0); break;
+                                    case 'Gurando Masutaa': opponent.weapon = new GurandoMasutaa(0, 0); break;
+                                }
+                            }
+                        });
                     } else if (!character.data.playing && GameStage().networkObjects.hasOwnProperty(character.data.id)) {
                         GameStage().unlink(character.data.id);
                     }
