@@ -44,7 +44,7 @@ function GameStage() {
         cowZone.graphics.s("gray").f("transparent").drawRect(1170, 3290, 200, 200);
         new Cottage(400, 220);
         new Gate(1725, 1075);
-        new Key(1825, 1275);
+        new Key(653, 1263);
         new Dragon(1738, 710);
         this.stage.addChild(cowZone);
     };
@@ -139,8 +139,8 @@ function GameStage() {
     this.activeKeys = [];
     this.db = db;
     this.fps = 40;
-    // this.socket = io('http://localhost:8080');
-    this.socket = io('207.154.243.43:8080');
+    this.socket = io('http://localhost:8080');
+    // this.socket = io('207.154.243.43:8080');
 
     this.socket.on('update', object => {
         switch (object.type) {
@@ -190,6 +190,10 @@ function GameStage() {
         item.strength = loot.item.strength;
         item.dexterity = loot.item.dexterity;
         item.intelligence = loot.item.intelligence;
+    });
+
+    this.socket.on('gate opened', gate => {
+        this.gameObjects[gate.id].destruct();
     });
 }
 

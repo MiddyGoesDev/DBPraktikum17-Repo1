@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux'
 
 import {join, leave, ownCharacter, updateOpponents, updateCharacter, setTimer} from '../../actions/character';
-import {equipment} from '../../actions/profile';
+import {equipment, inventory} from '../../actions/profile';
 
 import GameStage from './GameStage';
 import {KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT, KEYCODE_UP} from "./Constants/KeyCodes";
@@ -15,6 +15,7 @@ import YagyuRyuYayuji from "./Items/YagyuRyuYayuji";
 import KoboriRyuHorenGata from "./Items/KoboriRyuHorenGata";
 import IgaRyuHappo from "./Items/IgaRyuHappo";
 import GurandoMasutaa from "./Items/GurandoMasutaa";
+import Key from "./Items/Key";
 
 class Game extends React.Component {
 
@@ -50,16 +51,25 @@ class Game extends React.Component {
             GameStage().networkObjects[character.id] = GameStage().activeObject;
 
             this.props.actions.equipment().then(equipment => {
-                console.log('equip', equipment);
-                if (equipment.main_hand !== null) {
-                    switch (equipment.main_hand.name) {
-                        case 'Manji': GameStage().activeObject.weapon = new Manji(0, 0); break;
-                        case 'Yagyu Ryu Yayuji': GameStage().activeObject.weapon = new YagyuRyuYayuji(0, 0); break;
-                        case 'Kobori Ryu Horen Gata': GameStage().activeObject.weapon = new KoboriRyuHorenGata(0, 0); break;
-                        case 'Iga Ryu Happo': GameStage().activeObject.weapon = new IgaRyuHappo(0, 0); break;
-                        case 'Gurando Masutaa': GameStage().activeObject.weapon = new GurandoMasutaa(0, 0); break;
+                this.props.actions.inventory().then(inventory => {
+                    if (equipment.main_hand !== null) {
+                        switch (equipment.main_hand.name) {
+                            case 'Manji': GameStage().activeObject.weapon = new Manji(0, 0); break;
+                            case 'Yagyu Ryu Yayuji': GameStage().activeObject.weapon = new YagyuRyuYayuji(0, 0); break;
+                            case 'Kobori Ryu Horen Gata': GameStage().activeObject.weapon = new KoboriRyuHorenGata(0, 0); break;
+                            case 'Iga Ryu Happo': GameStage().activeObject.weapon = new IgaRyuHappo(0, 0); break;
+                            case 'Gurando Masutaa': GameStage().activeObject.weapon = new GurandoMasutaa(0, 0); break;
+                        }
                     }
-                }
+                    inventory.forEach(inventoryItem => {
+                        switch (inventoryItem.item.name) {
+                            case 'Key':
+                                let key = new Key(0, 0);
+                                key.id = inventoryItem.item.id;
+                                GameStage().activeObject.items.push(key);
+                        }
+                    })
+                });
             });
 
             this.props.actions.updateOpponents();
@@ -150,7 +160,8 @@ function mapDispatchToProps(dispatch) {
             updateOpponents,
             updateCharacter,
             setTimer,
-            equipment
+            equipment,
+            inventory
         }, dispatch)
     }
 }
