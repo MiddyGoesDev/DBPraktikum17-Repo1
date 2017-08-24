@@ -111,6 +111,7 @@ function GameStage() {
     };
 
     this.unlink = (id) => {
+        this.networkObjects[id].destruct();
         this.remove(this.networkObjects[id]);
         delete this.networkObjects[id];
     };
