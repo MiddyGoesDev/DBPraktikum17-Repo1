@@ -95,6 +95,7 @@ export default function Dragon(x, y) {
 
     this.type = 'Cow';
     this.damage = 50;
+    this.baseHP = 10000;
     this.hitter = null;
     this.speed = 4;
     this.construct();

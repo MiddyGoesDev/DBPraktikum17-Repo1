@@ -145,6 +145,7 @@ export default function PlayerGuy(x, y) {
                 // TODO type
                 if (this.weapon !== null) {
                    this.use();
+                   this.emit('use');
                 }
                 this.emit('change');
                 break;

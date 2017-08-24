@@ -175,6 +175,11 @@ function GameStage() {
         this.networkObjects[player.id].punch();
     });
 
+    this.socket.on('spawn weapon', player => {
+        this.networkObjects[player.id].use();
+    });
+
+
     this.socket.on('drop loot', loot => {
         var item = null;
         console.log(loot.item.name);

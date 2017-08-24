@@ -68,6 +68,10 @@ io.on('connection', socket => {
         socket.broadcast.emit('spawn fist', object);
     });
 
+    socket.on('use', object => {
+        socket.broadcast.emit('spawn weapon', object);
+    });
+
     socket.on('change', object => {
         objects[object.id] = object;
         socket.broadcast.emit('update', object);
