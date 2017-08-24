@@ -22,7 +22,7 @@ var objects = {};
 
 var cows = [];
 var aliveCows = 0;
-var maxCows = 20;
+var maxCows = 10;
 var cowZone = { x: 800, y: 3300, width: 1100, height: 700 };
 
 for (var i=0; i<maxCows; i++) {
@@ -39,7 +39,7 @@ function deliverCow() {
         y: Math.round(cowZone.y + cowZone.height * Math.random()),
         animation: 'idle',
         direction: { x: dx, y: 1, name: directionName(dx, 1) },
-        currentHP: 70,
+        currentHP: 50,
         aggro: {}
     };
     cows.push(cow);
@@ -103,6 +103,11 @@ io.on('connection', socket => {
                         intelligence: roll(randomItem, 'intelligence'),
                     }
                 });
+                socket.emit('drop gold', {
+                    x: cow.x + (Math.ceil(32 * Math.random()) -16),
+                    y: cow.y + (Math.ceil(32 * Math.random()) -16),
+                    amount: Math.ceil(10 * Math.random())
+                });
             });
         }
     });
@@ -114,7 +119,7 @@ io.on('connection', socket => {
                 cow.x = objects[characters[socket.id].id].x;
                 cow.y = objects[characters[socket.id].id].y;
                 io.emit('update', cow);
-                id = setInterval(() => {
+                var id = setInterval(() => {
                     try {
                     cow.x = objects[characters[socket.id].id].x;
                     cow.y = objects[characters[socket.id].id].y;
