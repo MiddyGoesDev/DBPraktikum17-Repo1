@@ -1,7 +1,12 @@
-import {USER_LOGIN, USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE, USER_LOGOUT,
-    CREATE_CHARACTER, CREATE_EQUIPMENT, CREATE_STATISTICS, ME, USER_REGISTER_SUCESS, USER_REGISTER_FAILURE, USER_REGISTER} from './types';
+import {USER_LOGIN, USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE, USER_LOGOUT, CREATE_CHARACTER, CREATE_EQUIPMENT, CREATE_STATISTICS, ME, USER_REGISTER_SUCESS, USER_REGISTER_FAILURE, USER_REGISTER} from './types';
 import {DIRECTION_SOUTH} from '../components/Game/Constants/Directions';
 
+/*
+* Baqend login function, if combination of password and user is correct, login is sucessfull.
+* @param username: the username to be logged in
+* @param password: the password belonging to the username
+* @return one of the types, gets dealed with in the reducer
+*/
 export function login(username, password) {
     return {
         'BAQEND': {
@@ -15,6 +20,13 @@ export function login(username, password) {
     }
 }
 
+/*
+* Baqend register function, inserts a new combination of username and password into the db.
+* User is loged in after sucessfull regisdtration.
+* @param username: the username to be registered
+* @param password: the password to be registered with the username
+* @return one of the types, gets dealed with in the reducer
+*/
 export function register(username, password) {
     return {
         'BAQEND': {
@@ -28,6 +40,11 @@ export function register(username, password) {
     }
 }
 
+/*
+* Creates a playable character for the user that is loged in and initializes the fields accordingly
+* @param user: the user for which the character gets created
+* @return inserts the character into the db
+*/
 export function createCharacter(user) {
     return {
         'BAQEND': {
@@ -55,6 +72,11 @@ export function createCharacter(user) {
     };
 }
 
+/*
+* Creates the equipment for the character that belongs to a user
+* @param character: the character which gets the Equipment
+* @return inserts the equipment into the db
+*/
 export function createEquipment(character) {
     return {
         'BAQEND': {
@@ -69,6 +91,12 @@ export function createEquipment(character) {
     };
 }
 
+/*
+* Creates the statistics for a user and the users character, initializes the fields
+* @param character: the character to which the statistics belong
+* @param user: the user to which the statistics belong
+* @return inserts the statistics into the db
+*/
 export function createStatistics(character, user) {
     return {
         'BAQEND': {
@@ -86,20 +114,15 @@ export function createStatistics(character, user) {
     }
 }
 
+/*
+* Baqends logout function. Logs the user out that is loged in
+* @return inserts the statistics into the db
+*/
 export function logout() {
     return {
         'BAQEND': {
             type: USER_LOGOUT,
             payload: (db) => db.User.logout()
-        }
-    }
-}
-
-export function me() {
-    return {
-        'BAQEND': {
-            type: ME,
-            payload: (db) => db.User.find(db.User.me.id).singleResult()
         }
     }
 }

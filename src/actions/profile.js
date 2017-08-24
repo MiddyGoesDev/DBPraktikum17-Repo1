@@ -15,7 +15,11 @@ export function myStatistics() {
         }
     }
 }
-
+/*
+*
+* @param
+* @return
+*/
 export function equipment() {
     return {
         'BAQEND': {
