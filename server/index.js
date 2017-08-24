@@ -130,6 +130,10 @@ io.on('connection', socket => {
 
     });
 
+    socket.on('open gate', gate => {
+        socket.broadcast.emit('gate opened', gate);
+    });
+
     console.log(socket.id + ' is connected');
 });
 

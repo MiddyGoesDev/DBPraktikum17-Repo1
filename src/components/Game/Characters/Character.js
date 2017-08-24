@@ -57,9 +57,10 @@ export default function Character(x, y) {
             case 'Gate':
                 let keys = this.items.filter(item => item.name === 'Key');
                 if (keys.length !== 0) {
-                    keys.forEach(key => this.removeFromInventoryBaqend(key));
                     this.items = this.items.filter(item => item.name !== 'Key');
+                    object.emit('open gate');
                     object.destruct();
+                    keys.forEach(key => this.removeFromInventoryBaqend(key));
                 }
             case 'CollisionMap':
             case 'Wall':
