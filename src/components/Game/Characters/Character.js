@@ -131,5 +131,7 @@ export default function Character(x, y) {
     this.intelligence = 0;
     this.maxHP = () => this.baseHP + this.vitality;
     this.speed = 3;
+    this.spawnX = 1290;
+    this.spawnY = 3000;
     this.animation = null;
 }
