@@ -98,10 +98,13 @@ export default function GameObject(x, y) {
     this.takeDamage = (object) => {
         this.currentHP -= Math.max(0, object.damage - this.armor);
         this.hpBar.updateHealth();
-        if (this.currentHP <= 0) {
+        if (this.isDead()) {
             this.destruct();
         }
     };
+
+    this.isDead = () => this.currentHP <= 0;
+
 
     this.type = 'GameObject';
     this.id = Math.floor(new Date().valueOf() * Math.random());

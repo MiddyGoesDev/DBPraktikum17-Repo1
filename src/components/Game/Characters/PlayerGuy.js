@@ -72,12 +72,13 @@ export default function PlayerGuy(x, y) {
     this.takeDamage = (object) => {
         this.currentHP -= Math.max(0, object.damage - this.armor);
         this.hpBar.updateHealth();
-        if (this.currentHP <= 0) {
+        if (this.isDead()) {
             this.destruct();
             GameStage().startCountdown(5);
             setTimeout(this.respawn, 5000);
         }
         this.updateBaqend();
+        this.emit('change');
     };
 
     this.respawn = () => {
