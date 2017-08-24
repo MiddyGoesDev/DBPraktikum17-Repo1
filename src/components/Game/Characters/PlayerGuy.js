@@ -54,17 +54,18 @@ export default function PlayerGuy(x, y) {
                 equipment[item.type] = item;
                 equipment.update();
             } else {
-                let inventoryItem = new GameStage().db.InventoryItem({ owner: this.character, item: item});
+                let inventoryItem = new GameStage().db.InventoryItem({ owner: this.character, item: item, active: true});
                 inventoryItem.insert();
             }
         });
     };
 
     this.removeFromInventoryBaqend = (item) => {
-        console.log(item.id);
-        GameStage().db.InventoryItem.load(item.id).then(item => {
-            console.log('inventory', item);
-            item.delete().then(result => console.log(result))
+        console.log('delete item', item.id);
+        GameStage().db.InventoryItem.find().equal('item', item.id).singleResult().then(item => {
+            console.log('item loaded', item);
+            item.active = false;
+            item.update();
         });
     };
 

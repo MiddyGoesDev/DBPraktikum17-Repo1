@@ -39,7 +39,7 @@ export function getInventory(character) {
     return {
         'BAQEND': {
             type: GET_INVENTORY,
-            payload: (db) => db.InventoryItem.find().equal('owner', character).resultList({depth: 1}, result => result)
+            payload: (db) => db.InventoryItem.find().equal('owner', character).equal('active', true).resultList({depth: 1}, result => result)
         }
     }
 }
