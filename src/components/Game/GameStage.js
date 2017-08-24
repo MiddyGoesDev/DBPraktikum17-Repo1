@@ -13,6 +13,7 @@ import IgaRyuHappo from "./Items/IgaRyuHappo";
 import Skull from "./Items/Skull";
 import Gate from "./Gate";
 import Key from "./Items/Key";
+import Dragon from "./Characters/Dragon";
 
 let gameStage = null;
 
@@ -44,6 +45,7 @@ function GameStage() {
         new Cottage(400, 220);
         new Gate(1725, 1075);
         new Key(1825, 1275);
+        new Dragon(1738, 710);
         this.stage.addChild(cowZone);
     };
 
