@@ -22,8 +22,8 @@ var objects = {};
 
 var cows = [];
 var aliveCows = 0;
-var maxCows = 5;
-var cowZone = { x: 1170, y: 3290, width: 200, height: 200 };
+var maxCows = 20;
+var cowZone = { x: 800, y: 3300, width: 1100, height: 700 };
 
 for (var i=0; i<maxCows; i++) {
     io.emit('spawn', deliverCow());
@@ -31,13 +31,14 @@ for (var i=0; i<maxCows; i++) {
 }
 
 function deliverCow() {
+    var dx = (Math.floor(Math.random() * 10000) % 3) -1;
     var cow = {
         id: Math.floor(new Date().valueOf() * Math.random()),
         type: 'Cow',
         x: Math.round(cowZone.x + cowZone.width * Math.random()),
         y: Math.round(cowZone.y + cowZone.height * Math.random()),
         animation: 'idle',
-        direction: { x: 0, y: 1, name: 'South' },
+        direction: { x: dx, y: 1, name: directionName(dx, 1) },
         currentHP: 20,
         aggro: {}
     };
@@ -109,7 +110,7 @@ io.on('connection', socket => {
     socket.on('hit cow', cow => {
         try {
             if (cow.hitter === characters[socket.id].id) {
-                objects[cow.id] = cow
+                objects[cow.id] = cow;
                 cow.x = objects[characters[socket.id].id].x;
                 cow.y = objects[characters[socket.id].id].y;
                 io.emit('update', cow);
@@ -122,7 +123,6 @@ io.on('connection', socket => {
                         clearInterval(id);
                     }
                 }, 200);
-
             }
         } catch (err) {
             console.log('could not update cow (character not known)');

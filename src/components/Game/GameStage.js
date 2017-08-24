@@ -41,7 +41,7 @@ function GameStage() {
         this.construct();
         this.activeObject = new PlayerGuy(x, y);
         var cowZone = new window.createjs.Shape();
-        cowZone.graphics.s("gray").f("transparent").drawRect(1170, 3290, 200, 200);
+        cowZone.graphics.s("gray").f("transparent").drawRect(800, 3300, 1100, 700);
         new Cottage(400, 220);
         new Gate(1725, 1075);
         new Key(653, 1263);
@@ -139,8 +139,8 @@ function GameStage() {
     this.activeKeys = [];
     this.db = db;
     this.fps = 40;
-    this.socket = io('http://localhost:8080');
-    // this.socket = io('207.154.243.43:8080');
+    // this.socket = io('http://localhost:8080');
+    this.socket = io('207.154.243.43:8080');
 
     this.socket.on('update', object => {
         switch (object.type) {
