@@ -57,7 +57,7 @@ export function updateOpponents() {
                         db.User.load(character.data.owner.id).then(user => opponent.rename(user.username));
                         GameStage().link(opponent);
 
-                        db.Equipment.find().equal('body', character).singleResult({depth: 1}, result => result).then(equipment => {
+                        db.Equipment.find().equal('body', character.data).singleResult({depth: 1}, result => result).then(equipment => {
                             if (equipment.main_hand !== null) {
                                 switch (equipment.main_hand.name) {
                                     case 'Manji': opponent.weapon = new Manji(0, 0); break;

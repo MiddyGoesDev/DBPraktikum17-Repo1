@@ -49,7 +49,7 @@ export default function GameObject(x, y) {
     };
 
     this.checkCollision = (object) => {
-        // TODO: pixelPerfect collision not working reliably
+        // TODO: pixelPerfect collision not working reliably (Chrome)
         return window.ndgmr.checkPixelCollision(this.sprite, object.sprite, 0, true);
     };
 
@@ -71,13 +71,9 @@ export default function GameObject(x, y) {
         this.updateText(x, y);
     };
 
-    this.push = (x, y, direction) => {
+    this.push = (x, y, direction) => { };
 
-    };
-
-    this.updateText = (x, y) => {
-
-    };
+    this.updateText = (x, y) => { };
 
     this.updateDirection = (destX, destY) => {
         this.direction.x = (destX - this.x) / Math.max(Math.abs(destX - this.x), 1);
