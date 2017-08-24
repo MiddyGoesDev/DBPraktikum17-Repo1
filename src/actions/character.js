@@ -7,6 +7,10 @@ import KoboriRyuHorenGata from "../components/Game/Items/KoboriRyuHorenGata";
 import IgaRyuHappo from "../components/Game/Items/IgaRyuHappo";
 import GurandoMasutaa from "../components/Game/Items/GurandoMasutaa";
 
+/*
+* Gets called when a user start actively playing the game with his character.
+* charater.playing is used to track the time a user spends playing the game
+*/
 export function join() {
     return {
         'BAQEND': {
@@ -19,6 +23,10 @@ export function join() {
     }
 }
 
+/*
+* Gets called when a user stops actively playing the game with his character, ie when the user logs out.
+* charater.playing is used to track the time a user spends playing the game
+*/
 export function leave() {
     return {
         'BAQEND': {
@@ -31,6 +39,9 @@ export function leave() {
     }
 }
 
+/*
+* Finds the character of the user that is currently logged in
+*/
 export function ownCharacter() {
     return {
         'BAQEND': {
@@ -83,6 +94,9 @@ export function updateOpponents() {
     }
 }
 
+/*
+* TODO
+*/
 export function updateCharacter(data) {
     return {
         'BAQEND': {
@@ -98,6 +112,10 @@ export function updateCharacter(data) {
     }
 }
 
+/*
+* Keeps the time played statsitic up to date by adding the time played in the current session to the
+* time that has been played before
+*/
 export function setTimer(joinTime) {
   return {
     'BAQEND': {

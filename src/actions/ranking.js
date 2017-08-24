@@ -1,4 +1,8 @@
 
+/*
+* Gets the statistics sorted by kills in a descending order.
+* @return the list of statistics
+*/
 export function getStatsByKillsAsc() {
   return {
     'BAQEND': {
@@ -12,6 +16,10 @@ export function getStatsByKillsAsc() {
   }
 }
 
+/*
+* Gets the statistics sorted by kills in a ascending order.
+* @return the list of statistics
+*/
 export function getStatsByKillsDsc() {
   return {
     'BAQEND': {
@@ -25,6 +33,10 @@ export function getStatsByKillsDsc() {
   }
 }
 
+/*
+* Gets the statistics sorted by profile name  in a ascending order.
+* @return the list of statistics
+*/
 export function getStatsByProfileAsc() {
   return {
     'BAQEND': {
@@ -38,6 +50,10 @@ export function getStatsByProfileAsc() {
   }
 }
 
+/*
+* Gets the statistics sorted by kills in a descending order.
+* @return the list of statistics
+*/
 export function getStatsByProfileDsc() {
   return {
     'BAQEND': {
@@ -51,6 +67,10 @@ export function getStatsByProfileDsc() {
   }
 }
 
+/*
+* Gets the statistics sorted by time played in a descending order.
+* @return the list of statistics
+*/
 export function getStatsByPlayingTimeDsc() {
   return {
     'BAQEND': {
@@ -64,6 +84,10 @@ export function getStatsByPlayingTimeDsc() {
   }
 }
 
+/*
+* Gets the statistics sorted by kills in a ascending order.
+* @return the list of statistics
+*/
 export function getStatsByPlayingTimeAsc() {
   return {
     'BAQEND': {
@@ -77,6 +101,10 @@ export function getStatsByPlayingTimeAsc() {
   }
 }
 
+/*
+* Gets the statistics of one specefic user.
+* @return the list of stats
+*/
 export function getStatistics(user) {
   return {
     'BAQEND': {
@@ -87,10 +115,3 @@ export function getStatistics(user) {
     }
   }
 }
-
-
-// .then((abort) => {
-// },
-// (error) => {
-// confirm(error.message);
-// })
