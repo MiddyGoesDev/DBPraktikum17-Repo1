@@ -24,6 +24,16 @@
     height: 100px;
 }
 
+.hands {
+    width: 200px;
+    height: 250px;
+}
+
+.wrists {
+    width: 200px;
+    height: 100px;
+}
+
 .torso {
     width: 200px;
     height: 200px;

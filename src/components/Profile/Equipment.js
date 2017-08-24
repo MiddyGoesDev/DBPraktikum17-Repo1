@@ -1,17 +1,25 @@
 import * as React from "react";
-import {Grid, Image, Rail, Segment} from "semantic-ui-react";
-import {equipment, mainHand, head} from '../../actions/profile';
+import {Grid, Image, Rail, Segment, Card, Statistic} from "semantic-ui-react";
+import {equipment} from '../../actions/profile';
 
 import './Equipment.css';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 class Equipment extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            showCurrent: false,
+            currentItem: '',
+            currentItemSrc: '',
+            currentItemVitality: 0,
+            currentItemStrength: 0,
+            currentItemDexterity: 0,
+            currentItemIntelligence: 0
+        }
     }
 
     static body() {
@@ -38,6 +46,26 @@ class Equipment extends React.Component {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    onHover(part) {
+        this.props.actions.equipment().then(equip => {
+            if (equip[part] !== undefined) {
+                this.setState({
+                    showCurrent: true,
+                    currentItem: equip[part].name,
+                    currentItemSrc: './assets/items/' + Equipment.capitalizeFirstLetter(Equipment.toCamelCase(equip[part].name)) + '.png',
+                    currentItemVitality: equip[part].vitality,
+                    currentItemStrength: equip[part].strength,
+                    currentItemDexterity: equip[part].dexterity,
+                    currentItemIntelligence: equip[part].intelligence
+                });
+            }
+        });
+    }
+
+    onLeave() {
+        this.setState({showCurrent: false});
+    }
+
     render() {
         return (
             <Grid columns={6} centered style={{paddingLeft: '200px'}}>
@@ -45,17 +73,25 @@ class Equipment extends React.Component {
                     <Grid.Column>
                         <Segment className="head">
                             <p className="item-title">Head</p>
-                            <Image fluid verticalAlign src={this.state.headSrc} className="item-img"/>
+                            <Image fluid verticalAlign src={this.state.headSrc} className="item-img"
+                                   onMouseEnter={this.onHover.bind(this, 'head')}
+                                   onMouseLeave={this.onLeave.bind(this)}/>
 
                             <Rail position='left'>
                                 <Segment className="shoulders" style={{marginLeft: 'auto'}}>
                                     <p className="item-title">Shoulders</p>
+                                </Segment>
+                                <Segment className="wrists" style={{marginLeft: 'auto'}}>
+                                    <p className="item-title">Wrists</p>
                                 </Segment>
                             </Rail>
 
                             <Rail position='right'>
                                 <Segment className="amulet">
                                     <p className="item-title">Neck</p>
+                                </Segment>
+                                <Segment className="hands">
+                                    <p className="item-title">Hands</p>
                                 </Segment>
                             </Rail>
                         </Segment>
@@ -73,7 +109,9 @@ class Equipment extends React.Component {
                                 </Segment>
                                 <Segment className="weapon" style={{marginLeft: 'auto'}}>
                                     <p className="item-title">Main-Hand</p>
-                                    <Image fluid verticalAlign src={this.state.mainHandSrc} className="item-img"/>
+                                    <Image fluid verticalAlign src={this.state.mainHandSrc} className="item-img"
+                                           onMouseEnter={this.onHover.bind(this, 'main_hand')}
+                                           onMouseLeave={this.onLeave.bind(this)}/>
                                     <p>{this.state.name}</p>
                                 </Segment>
                             </Rail>
@@ -96,6 +134,24 @@ class Equipment extends React.Component {
                         </Segment>
                     </Grid.Column>
                 </Grid.Row>
+                {(this.state.showCurrent ? (
+                    <Card style={{position: 'absolute', marginRight: '700px'}}>
+                        <Card.Content>
+                            <Card.Header>
+                                {this.state.currentItem}
+                            </Card.Header>
+                            <Card.Description>
+                                <Image src={this.state.currentItemSrc}/>
+                                <Statistic.Group horizontal mini items={[
+                                    {label: 'Vitality', value: this.state.currentItemVitality},
+                                    {label: 'Strength', value: this.state.currentItemStrength},
+                                    {label: 'Dexterity', value: this.state.currentItemDexterity},
+                                    {label: 'Intelligence', value: this.state.currentItemIntelligence},
+                                ]}/>
+                            </Card.Description>
+                        </Card.Content>
+                    </Card>
+                ) : '')}
             </Grid>
         );
     }
@@ -110,7 +166,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators({equipment, mainHand, head}, dispatch)};
+    return {actions: bindActionCreators({equipment}, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Equipment);
