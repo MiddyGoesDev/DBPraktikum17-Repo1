@@ -55,7 +55,6 @@ class Account extends Component {
 
     handleLogin = (event) => {
         event.preventDefault();
-        debugger;
         if (this.state.username === "" || this.state.password === "") {
             this.setState({
                 info: "Please enter a valid username and password."

@@ -13,18 +13,22 @@ class Chat extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            message: ""
+            message: "",
           }
     };
 
     componentWillMount() {
-        this.props.actions.getMessages();
+        this.props.actions.getMessages().then((sub) => this.messageStream = sub);
     };
 
     componentDidUpdate() {
         let el = this.refs.chatbox;
         el.scrollTop = el.scrollHeight;
     };
+
+    componentWillUnmount(){
+        this.messageStream.unsubscribe();
+    }
 
     handleMessage = (event) => {
         event.preventDefault();

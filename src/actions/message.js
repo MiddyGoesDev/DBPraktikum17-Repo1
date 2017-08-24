@@ -1,8 +1,10 @@
+import {MESSAGE_SEND, MESSAGES_NEXT} from './types';
+
 
 export function sendMessage(text) {
   return {
     'BAQEND': {
-      type: "MESSAGE_SEND",
+      type: MESSAGE_SEND,
       payload: (db) => {
         let messageObj = new db.Message({
           'name':db.User.me.username,
@@ -25,7 +27,7 @@ export function sendMessage(text) {
 export function getMessages() {
     return {
         'BAQEND': {
-            type: "MESSAGES_NEXT",
+            type: MESSAGES_NEXT,
             payload: (db) => {
               return db.Message.find().ge("createdAt", new Date().toISOString()).ascending("createdAt").resultStream()
             }
