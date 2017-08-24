@@ -95,18 +95,35 @@ export default function GameObject(x, y) {
         return frames;
     };
 
+    this.heal = (hitPoints) => {
+        this.currentHP = Math.min(this.currentHP + hitPoints, this.maxHP());
+    };
+
     this.takeDamage = (object) => {
-        this.currentHP -= Math.max(0, object.damage - this.armor);
+        this.currentHP = Math.max(0, this.currentHP - Math.max(0, object.damage - this.armor));
         this.hpBar.updateHealth();
-        if (this.currentHP <= 0) {
+        if (this.isDead()) {
             this.destruct();
         }
+    };
+
+    this.isDead = () => this.currentHP <= 0;
+
+    this.respawn = (timeout) => {
+        setTimeout(() => {
+            this.heal(this.maxHP());
+            this.updatePosition(this.spawnX, this.spawnY);
+            GameStage().add(this);
+            this.hpBar.updateHealth();
+        }, timeout);
     };
 
     this.type = 'GameObject';
     this.id = Math.floor(new Date().valueOf() * Math.random());
     this.x = x;
     this.y = y;
+    this.spawnX = x;
+    this.spawnY = y;
     this.height = 0;
     this.width = 0;
     this.data = null;

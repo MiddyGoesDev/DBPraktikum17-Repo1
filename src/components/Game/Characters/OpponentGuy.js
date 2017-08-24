@@ -32,6 +32,17 @@ export default function OpponentGuy(x, y) {
         this.text.y = y - 18;
     };
 
+    this.respawn = (timeout) => {
+        setTimeout(() => {
+            this.heal(this.maxHP());
+            this.updatePosition(this.spawnX, this.spawnY);
+            GameStage().add(this);
+            this.hpBar.updateHealth();
+            GameStage().draw(this.text);
+        }, timeout);
+    };
+
+
     this.height = 16;
     this.width = 16;
 

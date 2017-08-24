@@ -72,21 +72,24 @@ export default function PlayerGuy(x, y) {
     this.takeDamage = (object) => {
         this.currentHP -= Math.max(0, object.damage - this.armor);
         this.hpBar.updateHealth();
-        if (this.currentHP <= 0) {
+        if (this.isDead()) {
             this.destruct();
             GameStage().startCountdown(5);
-            setTimeout(this.respawn, 5000);
+            this.respawn(5000);
         }
         this.updateBaqend();
+        this.emit('change');
     };
 
-    this.respawn = () => {
-        this.currentHP = 100;
-        this.updatePosition(1290, 3000);
-        GameStage().add(this);
-        this.hpBar.updateHealth();
-        this.hpBar.displayHealth();
-        this.emit('change');
+    this.respawn = (timeout) => {
+        setTimeout(() => {
+            this.heal(this.maxHP());
+            this.updatePosition(this.spawnX, this.spawnY);
+            GameStage().add(this);
+            this.hpBar.updateHealth();
+            this.hpBar.displayHealth();
+            this.emit('change');
+        }, timeout);
     };
 
 
@@ -145,7 +148,6 @@ export default function PlayerGuy(x, y) {
                 break;
             case KEYCODE_K:
                 this.takeDamage({damage: 5000});
-                this.emit('change');
                 break;
             case KEYCODE_1:
                 // TODO type

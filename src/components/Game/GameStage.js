@@ -111,6 +111,7 @@ function GameStage() {
     };
 
     this.unlink = (id) => {
+        this.networkObjects[id].destruct();
         this.remove(this.networkObjects[id]);
         delete this.networkObjects[id];
     };
@@ -146,14 +147,21 @@ function GameStage() {
         switch (object.type) {
             case 'Player':
             case 'Character':
-                this.networkObjects[object.id].updatePosition(object.x, object.y);
-                this.networkObjects[object.id].nextDirection = object.direction;
-                this.networkObjects[object.id].nextAnimation = object.animation;
+                let character = this.networkObjects[object.id];
+                character.updatePosition(object.x, object.y);
+                character.nextDirection = object.direction;
+                character.nextAnimation = object.animation;
+                character.currentHP = object.currentHP;
+                if (character.isDead()) {
+                    character.destruct();
+                    character.respawn(5000);
+                }
                 break;
             case 'Cow':
-                this.networkObjects[object.id].destX = object.x;
-                this.networkObjects[object.id].destY = object.y;
-                this.networkObjects[object.id].currentHP = object.currentHP;
+                let cow = this.networkObjects[object.id];
+                cow.destX = object.x;
+                cow.destY = object.y;
+                cow.currentHP = object.currentHP;
                 break;
         }
     });

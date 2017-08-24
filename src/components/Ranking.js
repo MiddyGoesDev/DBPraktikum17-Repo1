@@ -21,6 +21,9 @@ import {me} from "../actions/auth";
 
 class Ranking extends React.Component {
 
+/*
+*Sets both the rankings' profile and the ranking itself to an empty state
+*/
     constructor(props) {
         super(props);
         this.state = {
@@ -37,7 +40,10 @@ class Ranking extends React.Component {
             me: null
         }
     }
-
+/*
+*Initializes the default sorting for the ranking as kills in ascending order and
+*Initialzes the default profile with the stats of the logged in User
+*/
     componentWillMount() {
         this.props.actions.getStatsByKillsAsc().then(result =>
             this.props.actions.myStatistics().then(statistics =>
@@ -73,6 +79,10 @@ class Ranking extends React.Component {
                     }))));
     }
 
+/*
+*Sorts the ranking by the profile
+*each click reverses the order
+*/
     handleProfile = (event) => {
         event.preventDefault();
         if (this.state.profileClicks === 1) {
@@ -93,6 +103,10 @@ class Ranking extends React.Component {
         }
     };
 
+    /*
+    *Sorts the ranking by the kills
+    *each click reverses the order
+    */
     handleKills = (event) => {
         event.preventDefault();
         if (this.state.killsClicks === 1) {
@@ -113,6 +127,10 @@ class Ranking extends React.Component {
         }
     };
 
+    /*
+    *Sorts the ranking by the played time
+    *each click reverses the order
+    */
     handlePlayingTime = (event) => {
         event.preventDefault();
         if (this.state.playingTimeClicks === 1) {
@@ -133,6 +151,9 @@ class Ranking extends React.Component {
         }
     };
 
+/*
+*gets the characterstats for a given user and sets the fields with it
+*/
     displayProfile = (e) => {
         let userName = e.target.parentNode.getAttribute('name');
 
