@@ -18,6 +18,9 @@ import {Button, Card, Form, Grid, Header, Message, Segment} from "semantic-ui-re
 
 class Account extends Component {
 
+  /*
+  * Initializes the fields with according values
+  */
     constructor(props) {
         super(props);
         this.state = {
@@ -27,7 +30,10 @@ class Account extends Component {
             error: false
         }
     }
-
+    /*
+    *Checks if the username input is shorter than 10 letters and has only alphabetical chars.
+    * If one of the above should be false, an error message gets displayed.
+    */
     handleInputChange = (event) => {
         let message = this.state.info;
         let invalidCharacters = /[^a-z0-9]/i;
@@ -52,7 +58,10 @@ class Account extends Component {
             error: err
         })
     };
-
+    /*
+    * Gets called when the login button is pressed. If one of the input fields should be empty or the username
+    * and password dont match, an error message  gets displayed. On sucess the inpiut fields are getting reseted.
+    */
     handleLogin = (event) => {
         event.preventDefault();
         if (this.state.username === "" || this.state.password === "") {
@@ -74,11 +83,16 @@ class Account extends Component {
                         this.setState({
                             info: err.message
                         });
-                    });
+                    }
+                );
             }
         }
     };
 
+    /*
+    * Gets called when the sign up button is pressed. If one of the input fields should be empty or the username
+    * already exists in the db, an error message gets displayed. On sucess the inpiut fields are getting reseted.
+    */
     handleRegister = (event) => {
         event.preventDefault();
         if (this.state.username === "" || this.state.password === "") {
@@ -101,10 +115,14 @@ class Account extends Component {
                             )
                         ), err => this.setState({
                             info: err.message
-                        }));
-                    }
-    };
+                        })
+                    );
+                }
+            };
 
+    /*
+    * Gets called when the logot button is pressed. The input fields are getting reseted
+    */
     handleLogout = (event) => {
         this.props.actions.logout();
         this.props.actions.sendMessage(" has logged out.");
@@ -116,6 +134,12 @@ class Account extends Component {
         }
     };
 
+    /*
+    * This component has tow different states it can display. It either shows a screen after a sucessfull
+    * registration or login, which says greets the user with a simple hey userXY. If there hasnt been a sucessfull
+    * login or registration, it renders two input fields, one fore the username and one for the password where the user then
+    * either can sign up or log in.
+    */
     render() {
         return (
             <div className="account" style={{height: '90%'}}>
@@ -158,11 +182,21 @@ class Account extends Component {
     }
 }
 
+/*
+* During runtime, this will throw a warning if the props in this definition dont match with the props
+* the component got passed.
+*/
 Account.propTypes = {user: PropTypes.object};
 
+/*
+* This makes the component subscribe to the redux store, meaning that anytime the state of the store
+* gets updated, mapStateToProps will be called, updating the state of the component
+* @param state the state of the store
+*/
 function mapStateToProps(state) {
     return {auth: state.auth, user: state.auth.user}
 }
+
 
 function mapDispatchToProps(dispatch) {
     return {

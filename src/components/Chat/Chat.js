@@ -30,10 +30,10 @@ class Chat extends React.Component {
 /*
 *If a meesage gets inserted, the chatbox will be shown at the very bottom with the latest message
 */
-    // componentDidUpdate() {
-    //     let el = this.refs.chatbox;
-    //     el.scrollTop = el.scrollHeight;
-    // };
+    componentDidUpdate() {
+        let el = this.refs.chatbox;
+        el.scrollTop = el.scrollHeight;
+    };
 
  /*
  *Unsubscribes to the stream of messages to no longer get alerted on changes
