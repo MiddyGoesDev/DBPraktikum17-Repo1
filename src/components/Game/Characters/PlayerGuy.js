@@ -81,7 +81,7 @@ export default function PlayerGuy(x, y) {
 
     this.respawn = () => {
         this.currentHP = 100;
-        this.updatePosition(894, 2596);
+        this.updatePosition(1290, 3000);
         GameStage().add(this);
         this.emit('change');
     };

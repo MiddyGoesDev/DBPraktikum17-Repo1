@@ -40,7 +40,7 @@ function GameStage() {
         this.construct();
         this.activeObject = new PlayerGuy(x, y);
         var cowZone = new window.createjs.Shape();
-        cowZone.graphics.s("gray").f("transparent").drawRect(800, 2900, 200, 200);
+        cowZone.graphics.s("gray").f("transparent").drawRect(1170, 3290, 200, 200);
         new Cottage(400, 220);
         new Gate(1725, 1075);
         new Key(1825, 1275);
