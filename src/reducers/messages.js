@@ -1,3 +1,4 @@
+import {MESSAGE_SEND, MESSAGES_NEXT} from '../actions/types';
 
 const initialState = {
   list: []
@@ -5,9 +6,9 @@ const initialState = {
 
 export default function messages(state = initialState, action = {}) {
   switch (action.type) {
-    case "MESSAGE_SEND":
+    case MESSAGE_SEND:
       return { ...state };
-    case "MESSAGES_NEXT":
+    case MESSAGES_NEXT:
       return { ...state, list: action.payload };
     default:
       return state
