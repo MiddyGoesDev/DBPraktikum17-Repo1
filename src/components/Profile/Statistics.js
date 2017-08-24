@@ -7,14 +7,14 @@ import PropTypes from 'prop-types'
 
 class Statistics extends React.Component {
 
+//TODO
     constructor(props) {
         super(props);
-        this.state = {}
     }
-
-    componentWillMount() {
-    }
-
+/*
+*Formats a given timevalue into a representative hh:mm form
+*@param time an integer that represents the time in miliseconds
+*/
     static timePlayed(time) {
         var min = time / 60000;
         var h = Math.floor(min / 60);
@@ -22,6 +22,10 @@ class Statistics extends React.Component {
         return h + ":" + (min.toString().length===1 ? '0' + min : min);
     }
 
+/*
+*gives a semantic.ui layout with a static profile picture
+*@return Sets the layout for both the ranking and the profile
+*/
     render() {
         return (
             <Card style={{padding: 0, minWidth: '180px'}}>
@@ -49,11 +53,17 @@ Statistics.propTypes = {
     action: PropTypes.object
 };
 
+//TODO
 function mapStateToProps(state) {
     return {};
 }
 
-
+/*
+*it will be called with the store state as the first parameter and the props
+*passed to the connected component as the second parameter, and will also be
+*re-invoked whenever the connected component receives new props as determined
+*by shallow equality comparisons.
+*/
 function mapDispatchToProps(dispatch) {
     return {actions: bindActionCreators({myStatistics}, dispatch)};
 }
