@@ -21,20 +21,20 @@ class Equipment extends React.Component {
     componentWillMount() {
         this.props.actions.equipment().then(equip =>
             this.setState({
-                mainHandSrc: './assets/items/' + this.capitalizeFirstLetter(this.toCamelCase(equip.main_hand.name)) + '.png',
+                mainHandSrc: './assets/items/' + Equipment.capitalizeFirstLetter(Equipment.toCamelCase(equip.main_hand.name)) + '.png',
                 mainHandName: equip.main_hand.name,
-                headSrc: './assets/items/' + this.capitalizeFirstLetter(this.toCamelCase(equip.head.name)) + '.png',
+                headSrc: './assets/items/' + Equipment.capitalizeFirstLetter(Equipment.toCamelCase(equip.head.name)) + '.png',
                 headName: equip.head.name
             }));
     }
 
-    toCamelCase(name) {
+    static toCamelCase(name) {
         return name.replace(/(?:^\w|[A-Z]|\b\w)/g, function (letter, index) {
             return index === 0 ? letter.toLowerCase() : letter.toUpperCase();
         }).replace(/\s+/g, '');
     }
 
-    capitalizeFirstLetter(string) {
+    static capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
@@ -100,7 +100,6 @@ class Equipment extends React.Component {
         );
     }
 }
-
 
 Equipment.propTypes = {
     action: PropTypes.object

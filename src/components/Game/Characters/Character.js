@@ -54,6 +54,13 @@ export default function Character(x, y) {
 
     this.handleCollision = (object, collision) => {
         switch (object.type) {
+            case 'Gate':
+                let keys = this.items.filter(item => item.name === 'Key');
+                if (keys.length !== 0) {
+                    keys.forEach(key => this.removeFromInventoryBaqend(key));
+                    this.items = this.items.filter(item => item.name !== 'Key');
+                    object.destruct();
+                }
             case 'CollisionMap':
             case 'Wall':
                 let previousX = this.x - this.direction.x * (this.speed + 1);

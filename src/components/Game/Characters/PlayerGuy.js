@@ -31,6 +31,7 @@ export default function PlayerGuy(x, y) {
     };
 
     this.createBaqendItem = (item) => {
+        let backupItem = item;
         item = new GameStage().db.Item({
             type: item.type,
             name: item.name,
@@ -42,14 +43,28 @@ export default function PlayerGuy(x, y) {
         });
         item.insert().then(baqendItem => {
             console.log('item inserted', baqendItem.id);
+            backupItem.id = baqendItem.id;
             this.equipBaqend(baqendItem);
         });
     };
 
     this.equipBaqend = (item) => {
         GameStage().db.Equipment.find().equal('body', this.character).singleResult().then(equipment => {
-            equipment[item.type] = item;
-            equipment.update();
+            if (equipment[item.type] !== undefined) {
+                equipment[item.type] = item;
+                equipment.update();
+            } else {
+                let inventoryItem = new GameStage().db.InventoryItem({ owner: this.character, item: item});
+                inventoryItem.insert();
+            }
+        });
+    };
+
+    this.removeFromInventoryBaqend = (item) => {
+        console.log(item.id);
+        GameStage().db.InventoryItem.load(item.id).then(item => {
+            console.log('inventory', item);
+            item.delete().then(result => console.log(result))
         });
     };
 

@@ -11,6 +11,8 @@ import KoboriRyuHorenGata from "./Items/KoboriRyuHorenGata";
 import YagyuRyuYayuji from "./Items/YagyuRyuYayuji";
 import IgaRyuHappo from "./Items/IgaRyuHappo";
 import Skull from "./Items/Skull";
+import Gate from "./Gate";
+import Key from "./Items/Key";
 
 let gameStage = null;
 
@@ -40,6 +42,8 @@ function GameStage() {
         var cowZone = new window.createjs.Shape();
         cowZone.graphics.s("gray").f("transparent").drawRect(1170, 3290, 200, 200);
         new Cottage(400, 220);
+        new Gate(1725, 1075);
+        new Key(1825, 1275);
         this.stage.addChild(cowZone);
     };
 
