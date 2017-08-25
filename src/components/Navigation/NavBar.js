@@ -26,7 +26,7 @@ class NavBar extends React.Component {
         return (
             <div className="ui secondary menu">
                 <NavLink className="item" to="/" style={{background: 'none'}}>
-                    <img src={logo} id="logo" alt="logo" style={{width: '135px'}}/>
+                    <img src='./assets/Logo2.png' id="logo" alt="logo" style={{height: '50px', width: '170px'}}/>
                 </NavLink>
 
                 <div className="menu" style={{marginLeft: 'auto'}}>
