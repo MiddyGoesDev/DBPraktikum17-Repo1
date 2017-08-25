@@ -11,9 +11,17 @@ import generateItem from './Items/ItemFactory';
 
 let gameStage = null;
 
+/**
+ * Manages objects on the canvas and establishes the connection to Socket.io
+ */
+
 function GameStage() {
 
+    /**
+     * Create the stage and place both map and collision map on it.
+     */
     this.construct = () => {
+        // the stage from createjs that makes working with the canvas easy
         this.stage = new window.createjs.Stage('game-field');
 
         this.add({
@@ -30,6 +38,11 @@ function GameStage() {
         })));
     };
 
+    /**
+     * Create all basic objects and places the player at the given location.
+     * @param x The x position to place the player at
+     * @param y The y position to place the player at
+     */
     this.initialize = (x, y) => {
         this.construct();
         this.activeObject = new PlayerGuy(x, y);
@@ -40,32 +53,59 @@ function GameStage() {
         generateItem('Key').drop(653, 1263);
     };
 
+    /**
+     * Use to remove all object from the stage.
+     */
     this.clear = () => {
         gameStage = null;
     };
 
+    /**
+     * Call this function every tick to update the stage.
+     * @param event Passed down to enable own FPS settings.
+     */
     this.update = (event) => {
+        // update all objects on the stage
         this.gameObjects.forEach((gameObject) => {
             gameObject.update();
         });
         this.centerCamera();
+        // redraw the stage
         this.stage.update(event);
     };
 
+    /**
+     *  Focus the camera on the active object.
+     */
     this.centerCamera = () => {
         this.stage.x = - this.activeObject.x + this.stage.canvas.clientWidth / 2;
         this.stage.y = - this.activeObject.y + this.stage.canvas.clientHeight / 2;
     };
+
+    /**
+     * Add the given object to the game.
+     * @param object
+     */
 
     this.add = (object) => {
         this.gameObjects.push(object);
         this.draw(object.sprite);
     };
 
+    /**
+     * Remove the object from the game.
+     * @param object
+     */
+
     this.remove = (object) => {
-        this.stage.removeChild(object.sprite);
+        this.erase(object.sprite);
         this.gameObjects = this.gameObjects.filter(gameObject => gameObject.id !== object.id);
     };
+
+    /**
+     * Draw a create.js sprite or shape to the canvas.
+     * @param visualRepresentation
+     */
 
     this.draw = (visualRepresentation) => {
         if (!this.hasChild(visualRepresentation)) {
@@ -73,6 +113,20 @@ function GameStage() {
         }
     };
 
+    /**
+     * Erase a create.js sprite or shape from the canvas.
+     * @param visualRepresentation
+     */
+    this.erase = (visualRepresentation) => {
+        if (this.hasChild(visualRepresentation)) {
+            this.stage.removeChild(visualRepresentation);
+        }
+    };
+
+    /**
+     * Start a countdown in the top left corner.
+     * @param time The time in seconds to be counted down from.
+     */
     this.startCountdown = (time) => {
         this.erase(this.text);
         let x = this.activeObject.x - this.stage.canvas.clientWidth / 2 + 7;
@@ -87,20 +141,28 @@ function GameStage() {
         }
     };
 
-    this.erase = (visualRepresentation) => {
-        if (this.hasChild(visualRepresentation)) {
-            this.stage.removeChild(visualRepresentation);
-        }
-    };
-
+    /**
+     * Checks whether the object is painted on the stage.
+     * @param visualRepresentation
+     * @returns {boolean}
+     */
     this.hasChild = (visualRepresentation) => {
         return this.stage.getChildIndex(visualRepresentation) !== -1;
     };
 
+    /**
+     * Adds the object to the networkObjects.
+     * @param object
+     */
     this.link = (object) => {
         this.networkObjects[object.id] = object;
     };
 
+
+    /**
+     * Removes the object from the networkObjects and removes it from the map.
+     * @param object
+     */
     this.unlink = (id) => {
         this.networkObjects[id].destruct();
         this.remove(this.networkObjects[id]);
@@ -111,13 +173,22 @@ function GameStage() {
         return this.networkObjects.hasOwnProperty(id);
     };
 
+    /**
+     * Return all objects close to a given object.
+     * @param object
+     * @returns {Array.<T>}
+     */
     this.near = (object) => {
-        // TODO: implement near
+        // TODO: implement near, currently all objects
         return this.gameObjects.filter(gameObject => gameObject.id !== object.id);
     };
 
     this.getNetworkObject = (index) => this.networkObjects[Object.keys(this.networkObjects)[index]];
 
+    /**
+     * Handle a keypress by adding it to the active keys.
+     * @param event The keyEvent triggered by the key that was pressed.
+     */
     this.keyPressed = (event) => {
         if (this.activeKeys.indexOf(event.keyCode) === -1) {
             this.activeKeys.push(event.keyCode);
@@ -125,18 +196,29 @@ function GameStage() {
         }
     };
 
+    /**
+     * Handle a keyrelease by removing it from the active keys.
+     * @param event The keyEvent triggered by the key that was released
+     */
     this.keyReleased = (event) => {
         this.activeKeys = this.activeKeys.filter(keyCode => keyCode !== event.keyCode);
         this.activeObject.keyChanged = true;
     };
 
     this.stage = null;
+    // all objects on the stage
     this.gameObjects = [];
+    // the object focused by the camera
     this.activeObject = null;
+    // relevant objects for socket.io
     this.networkObjects = { };
+    // currently pressed keys
     this.activeKeys = [];
+    // the baqend db
     this.db = db;
+    // the fps the game is played at. increase or decrease at own risk
     this.fps = 40;
+
     // this.socket = io('http://localhost:8080');
     this.socket = io('207.154.243.43:8080');
 
