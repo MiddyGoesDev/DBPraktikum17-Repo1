@@ -29,8 +29,9 @@ export default function OpponentGuy(x, y) {
     };
 
     this.updateText = (x, y) => {
-        this.text.x = x - 8;
-        this.text.y = y - 18;
+        console.log('text', this.text.getMeasuredWidth());
+        this.text.x = x - this.text.getMeasuredWidth() / 2 + 5;
+        this.text.y = y - 16;
     };
 
     this.respawn = (timeout) => {
@@ -82,7 +83,7 @@ export default function OpponentGuy(x, y) {
     this.nextAnimation = null;
     this.nextDirection = null;
     this.name = 'Tim';
-    this.text = new Text(this.name, this.x, this.y, 0.5, 0.4);
+    this.text = new Text(this.name, this.x, this.y, 11, 'Arial', '#fff');
 
     GameStage().draw(this.text);
     this.construct();

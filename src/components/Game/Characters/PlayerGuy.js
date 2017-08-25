@@ -74,9 +74,9 @@ export default function PlayerGuy(x, y) {
         this.hpBar.updateHealth();
         if (this.isDead()) {
             this.destruct();
+            GameStage().activeObject = GameStage().getNetworkObject(1);
             GameStage().startCountdown(5);
             this.respawn(5000);
-            GameStage().activeObject = GameStage().getNetworkObject(1);
         }
         this.updateBaqend();
         this.emit('change');
