@@ -1,12 +1,24 @@
-import {USER_LOGIN, USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE, USER_LOGOUT, CREATE_CHARACTER, CREATE_EQUIPMENT, CREATE_STATISTICS, ME, USER_REGISTER_SUCESS, USER_REGISTER_FAILURE, USER_REGISTER} from './types';
+import {
+    USER_LOGIN,
+    USER_LOGIN_SUCCESS,
+    USER_LOGIN_FAILURE,
+    USER_LOGOUT,
+    CREATE_CHARACTER,
+    CREATE_EQUIPMENT,
+    CREATE_STATISTICS,
+    ME,
+    USER_REGISTER_SUCESS,
+    USER_REGISTER_FAILURE,
+    USER_REGISTER
+} from './types';
 import {DIRECTION_SOUTH} from '../components/Game/Constants/Directions';
 
 /**
-* Baqend login function, if combination of password and user is correct, login is sucessfull.
-* @param username: the username to be logged in
-* @param password: the password belonging to the username
-* @return one of the types, gets dealed with in the reducer
-*/
+ * Baqend login function, if combination of password and user is correct, login is sucessfull.
+ * @param username: the username to be logged in
+ * @param password: the password belonging to the username
+ * @return one of the types, gets dealed with in the reducer
+ */
 export function login(username, password) {
     return {
         'BAQEND': {
@@ -21,12 +33,12 @@ export function login(username, password) {
 }
 
 /**
-* Baqend register function, inserts a new combination of username and password into the db.
-* User is loged in after sucessfull registration.
-* @param username: the username to be registered
-* @param password: the password to be registered with the username
-* @return one of the types, gets dealed with in the reducer
-*/
+ * Baqend register function, inserts a new combination of username and password into the db.
+ * User is loged in after sucessfull registration.
+ * @param username: the username to be registered
+ * @param password: the password to be registered with the username
+ * @return one of the types, gets dealed with in the reducer
+ */
 export function register(username, password) {
     return {
         'BAQEND': {
@@ -41,9 +53,9 @@ export function register(username, password) {
 }
 
 /**
-* Creates a playable character for the user and initializes the fields accordingly
-* @param user: the user for which the character gets created
-*/
+ * Creates a playable character for the user and initializes the fields accordingly
+ * @param user: the user for which the character gets created
+ */
 export function createCharacter(user) {
     return {
         'BAQEND': {
@@ -72,9 +84,9 @@ export function createCharacter(user) {
 }
 
 /**
-* Creates the equipment for the character which can be inspected in the profile
-* @param character: the character which gets the Equipment
-*/
+ * Creates the equipment for the character which can be inspected in the profile
+ * @param character: the character which gets the Equipment
+ */
 export function createEquipment(character) {
     return {
         'BAQEND': {
@@ -85,11 +97,11 @@ export function createEquipment(character) {
 }
 
 /**
-* Creates the statistics for a user and the users character, initializes the fields
-* @param character: the character to which the statistics belong
-* @param user: the user to which the statistics belong
-* TODO refactor wenn zeit username rausnehmen, müsste ja ohne auch gehen
-*/
+ * Creates the statistics for a user and the users character, initializes the fields
+ * @param character: the character to which the statistics belong
+ * @param user: the user to which the statistics belong
+ * TODO refactor wenn zeit username rausnehmen, müsste ja ohne auch gehen
+ */
 export function createStatistics(character, user) {
     return {
         'BAQEND': {
@@ -108,8 +120,8 @@ export function createStatistics(character, user) {
 }
 
 /**
-* Baqends logout function. Logs the user out that is loged in
-*/
+ * Baqends logout function. Logs the user out that is loged in
+ */
 export function logout() {
     return {
         'BAQEND': {
