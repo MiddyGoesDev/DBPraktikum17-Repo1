@@ -6,19 +6,17 @@ const initialState = {
     user: null
 };
 
+/**
+* tells the redux store how to react to the different types of actions.
+*/
 export default function auth(state = initialState, action = {}) {
     switch (action.type) {
         case BAQEND_CONNECTED:
             return {...state, user: action.user, isLoggedIn: !!action.user};
-        // case USER_LOGIN:
-        //     return {...state, user: action.payload, isLoggedIn: true};
         case USER_LOGIN_SUCCESS:
             return {...state, user: action.payload, isLoggedIn: true};
         case USER_LOGIN_FAILURE:
             return {...state, user: action.payload, isLoggedIn: false};
-        // case USER_REGISTER: //brauchen wir nichts weiter sagen, weil dies denke ich eine Art default Fall ist.
-        //     return {...state, user: action.payload, isLoggedIn: true};  //hätte wir den in der action aber auch nicht, würde er immer SUCESS nehmen
-        //und dann hätten wir immer isLoggedIn true was dann zu fehlern führen würde
         case USER_REGISTER_SUCESS:
             return {...state, user: action.payload, isLoggedIn: true};
         case USER_REGISTER_FAILURE:
