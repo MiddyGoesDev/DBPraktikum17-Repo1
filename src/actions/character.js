@@ -67,6 +67,8 @@ export function updateOpponents() {
                         }
                     });
                     GameStage().link(opponent);
+                } else if (!character.data.playing && character.data.id === GameStage().activeObject.id) {
+                    alert('Disconnected, please refresh.');
                 } else if (character.data.playing && character.data.id !== GameStage().activeObject.id) {
                     let opponent = GameStage().networkObjects[character.data.id];
                     opponent.updatePosition(character.data.x, character.data.y);
