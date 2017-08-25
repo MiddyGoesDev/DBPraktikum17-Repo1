@@ -112,6 +112,7 @@ export default function GameObject(x, y) {
     this.respawn = (timeout) => {
         setTimeout(() => {
             this.heal(this.maxHP());
+            console.log(this.currentHP);
             this.updatePosition(this.spawnX, this.spawnY);
             GameStage().add(this);
             this.hpBar.updateHealth();
