@@ -28,7 +28,7 @@ class Chat extends React.Component {
     };
 
     /**
-     * If a meesage gets inserted, the chatbox will be shown at the very bottom with the latest message
+     * If a message gets inserted, the chatbox will be shown at the very bottom with the latest message
      */
     componentDidUpdate() {
         let el = this.refs.chatbox;

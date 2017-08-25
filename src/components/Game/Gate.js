@@ -1,5 +1,11 @@
 import GameObject from './GameObject';
 
+/**
+ * A gate that can be opened with a key.
+ * @param x The x coordinate on the stage
+ * @param y The y coordinate on the stage
+ */
+
 export default function Gate(x, y) {
 
     GameObject.call(this, x, y);

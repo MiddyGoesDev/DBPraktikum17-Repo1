@@ -1,5 +1,11 @@
 import GameObject from './GameObject';
 
+/**
+ * A cottage that can be destroyed.
+ * @param x The x coordinate on the stage
+ * @param y The y coordinate on the stage
+ */
+
 export default function Cottage(x, y) {
 
     GameObject.call(this, x, y);
