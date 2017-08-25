@@ -198,7 +198,7 @@ class Ranking extends React.Component {
             <Grid stackable sivided centered style={{height: '90%'}}>
                 <Grid.Column width={6}>
                     <Table sortable celled>
-                        <Table.Header style={{backgroundColor: '#f5f5f5'}}> //in the header are all the buttons to sort the ranking
+                        <Table.Header style={{backgroundColor: '#f5f5f5'}}>
                             <Table.Row>
                                 <Table.Cell>
                                     #
@@ -228,13 +228,13 @@ class Ranking extends React.Component {
                         </Table.Header>
                         <Table.Body>
                             {this.state.ranking.map(statistics =>
-                                <Table.Row //one row for each registered user
+                                <Table.Row
                                     id={statistics.id}
                                     key={statistics.id}
                                     name={statistics.username}
                                     onClick={this.displayProfile}>
                                     <Table.Cell>
-                                        {this.state.me === statistics.username ? (<Label ribbon>{++i}</Label>) : ++i}// TODO was hier?
+                                        {this.state.me === statistics.username ? (<Label ribbon>{++i}</Label>) : ++i}
                                     </Table.Cell>
                                     <Table.Cell>{statistics.username}</Table.Cell>
                                     <Table.Cell>{Statistics.timePlayed(statistics.playingTime)}</Table.Cell>
