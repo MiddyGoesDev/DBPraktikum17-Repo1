@@ -1,3 +1,13 @@
+/**
+ * Creates a Create.js BitmapText to a given string
+ * @param string The text to display
+ * @param x The x position on the map
+ * @param y the y position on the map
+ * @param scaleX The horizontal scaling of the bitmap text
+ * @param scaleY The vertical scaling of the bitmap text
+ * @returns the create.js.BitmapText() object
+ */
+
 export default function BitmapText(string, x, y, scaleX, scaleY) {
 
     // Embedded SpriteSheet data.
@@ -86,13 +96,16 @@ export default function BitmapText(string, x, y, scaleX, scaleY) {
         }
     };
 
-
+    // construct the text
     var ss = new window.createjs.SpriteSheet(data);
     var text = new window.createjs.BitmapText(string , ss);
-    text.scaleX = scaleX;
-    text.scaleY = scaleY;
+
+    // set position
     text.x = x;
     text.y = y;
+    // set size
+    text.scaleX = scaleX;
+    text.scaleY = scaleY;
     text.letterSpacing = -12;
     text.lineHeight = 1;
 
