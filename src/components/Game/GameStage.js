@@ -37,7 +37,6 @@ function GameStage() {
         var cowZone = new window.createjs.Shape();
         cowZone.graphics.s("gray").f("transparent").drawRect(800, 3300, 1100, 700);
         new Cottage(400, 220);
-        new Gate(1725, 1075);
         generateItem('Key').drop(653, 1263);
         this.stage.addChild(cowZone);
     };
@@ -139,8 +138,8 @@ function GameStage() {
     this.activeKeys = [];
     this.db = db;
     this.fps = 40;
-    // this.socket = io('http://localhost:8080');
-    this.socket = io('207.154.243.43:8080');
+    this.socket = io('http://localhost:8080');
+    // this.socket = io('207.154.243.43:8080');
 
     this.socket.on('update', object => {
         switch (object.type) {
@@ -182,6 +181,10 @@ function GameStage() {
                 dragon.currentHP = monster.currentHP;
                 dragon.play(monster.animation);
                 this.networkObjects[dragon.id] = dragon;
+                break;
+            case 'Gate':
+                let gate = new Gate(monster.x, monster.y);
+                gate.id = monster.id;
         }
     });
 

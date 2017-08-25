@@ -13,7 +13,7 @@ var port = 8080;
 
 db.connect('black-water-73').then(() => console.log('Connected to Baqend'));
 
-app.listen(port, function(){
+app.listen(port, function () {
     console.log('listening on *:' + port);
 });
 
@@ -23,32 +23,43 @@ var objects = {};
 var cows = [];
 var aliveCows = 0;
 var maxCows = 10;
-var cowZone = { x: 800, y: 3300, width: 1100, height: 700 };
+var cowZone = {x: 800, y: 3300, width: 1100, height: 700};
 var dragon = {
     id: generateId(),
     type: 'Dragon',
     x: 1738,
     y: 710,
     animation: 'idle',
-    direction: { x: 0, y: 1, name: 'South' },
+    direction: {x: 0, y: 1, name: 'South'},
     currentHP: 500,
     aggro: {}
 };
+var gate = {
+    id: generateId(),
+    type: 'Gate',
+    x: 1725,
+    y: 1075,
+    opened: false
+};
 
-for (var i=0; i<maxCows; i++) {
+io.emit('spawn', dragon);
+if (!gate.opened) {
+    io.emit('spawn', gate);
+}
+for (var i = 0; i < maxCows; i++) {
     io.emit('spawn', deliverCow());
     aliveCows++;
 }
 
 function deliverCow() {
-    var dx = (Math.floor(Math.random() * 10000) % 3) -1;
+    var dx = (Math.floor(Math.random() * 10000) % 3) - 1;
     var cow = {
         id: generateId(),
         type: 'Cow',
         x: Math.round(cowZone.x + cowZone.width * Math.random()),
         y: Math.round(cowZone.y + cowZone.height * Math.random()),
         animation: 'idle',
-        direction: { x: dx, y: 1, name: directionName(dx, 1) },
+        direction: {x: dx, y: 1, name: directionName(dx, 1)},
         currentHP: 50,
         aggro: {}
     };
@@ -65,6 +76,10 @@ io.on('connection', socket => {
 
         cows.forEach(cow => socket.emit('spawn', cow));
         socket.emit('spawn', dragon);
+        if (!gate.opened) {
+            socket.emit('spawn', gate);
+            console.log('emit gate', gate);
+        }
     });
 
     socket.on('disconnect', () => {
@@ -91,7 +106,7 @@ io.on('connection', socket => {
     socket.on('destroy', object => {
         delete objects[object.id];
     });
-    
+
     socket.on('cow died', cow => {
         if (cow.hitter === characters[socket.id].id) {
             console.log('cow died: ' + cow.id);
@@ -119,8 +134,8 @@ io.on('connection', socket => {
                     }
                 });
                 socket.emit('drop gold', {
-                    x: cow.x + (Math.ceil(32 * Math.random()) -16),
-                    y: cow.y + (Math.ceil(32 * Math.random()) -16),
+                    x: cow.x + (Math.ceil(32 * Math.random()) - 16),
+                    y: cow.y + (Math.ceil(32 * Math.random()) - 16),
                     amount: Math.ceil(10 * Math.random())
                 });
             });
@@ -136,9 +151,9 @@ io.on('connection', socket => {
                 io.emit('update', cow);
                 var id = setInterval(() => {
                     try {
-                    cow.x = objects[characters[socket.id].id].x;
-                    cow.y = objects[characters[socket.id].id].y;
-                    io.emit('update', cow);
+                        cow.x = objects[characters[socket.id].id].x;
+                        cow.y = objects[characters[socket.id].id].y;
+                        io.emit('update', cow);
                     } catch (err) {
                         clearInterval(id);
                     }
@@ -150,8 +165,17 @@ io.on('connection', socket => {
 
     });
 
-    socket.on('open gate', gate => {
-        socket.broadcast.emit('gate opened', gate);
+    socket.on('open gate', () => {
+        if (!gate.opened) {
+            gate.opened = true;
+            socket.broadcast.emit('gate opened', gate);
+            console.log('gate opened', gate);
+            setTimeout(() => {
+                gate.opened = false;
+                socket.emit('spawn', gate);
+                console.log('gate closed', gate);
+            }, 300000);
+        }
     });
 
     console.log(socket.id + ' is connected');
@@ -162,32 +186,32 @@ function roll(item, attribute) {
 }
 
 /*
-cows.forEach(cow => setInterval(() => {
-    var distance = (Math.floor(Math.random() * 20) - 10);
-    var destX = cow.x;
-    var destY = cow.y;
+ cows.forEach(cow => setInterval(() => {
+ var distance = (Math.floor(Math.random() * 20) - 10);
+ var destX = cow.x;
+ var destY = cow.y;
 
-    if (Math.random() > 0.5) {
-        if (cow.x + distance < cowZone.x || cow.x + distance > cowZone.x + cowZone.width) {
-            destX -= distance;
-        } else {
-            destX += distance;
-        }
-    } else {
-        if (cow.y + distance < cowZone.y || cow.y + distance > cowZone.y + cowZone.height) {
-            destY -= distance;
-        } else {
-            destY += distance;
-        }
-    }
+ if (Math.random() > 0.5) {
+ if (cow.x + distance < cowZone.x || cow.x + distance > cowZone.x + cowZone.width) {
+ destX -= distance;
+ } else {
+ destX += distance;
+ }
+ } else {
+ if (cow.y + distance < cowZone.y || cow.y + distance > cowZone.y + cowZone.height) {
+ destY -= distance;
+ } else {
+ destY += distance;
+ }
+ }
 
-    cow.direction = getDirection(cow.x, cow.y, destX, destY);
-    cow.x = destX;
-    cow.y = destY;
-    io.emit('update', cow);
-    console.log('emit cow ' + cow.id + ' x: ' + cow.x + ' y: ' + cow.y);
-}, 5000 + Math.floor(Math.random() * 5000)));
-*/
+ cow.direction = getDirection(cow.x, cow.y, destX, destY);
+ cow.x = destX;
+ cow.y = destY;
+ io.emit('update', cow);
+ console.log('emit cow ' + cow.id + ' x: ' + cow.x + ' y: ' + cow.y);
+ }, 5000 + Math.floor(Math.random() * 5000)));
+ */
 
 function generateId() {
     return Math.floor(new Date().valueOf() * Math.random());

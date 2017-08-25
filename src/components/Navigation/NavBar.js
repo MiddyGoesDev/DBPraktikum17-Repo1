@@ -1,4 +1,3 @@
-import logo from '../../react_baqend.svg';
 import Game from '../Game/Game';
 import * as React from 'react';
 import {NavLink, withRouter} from "react-router-dom";
