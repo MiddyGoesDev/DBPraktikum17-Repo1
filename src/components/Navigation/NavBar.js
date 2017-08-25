@@ -9,18 +9,18 @@ import {leave} from "../../actions/character";
 
 class NavBar extends React.Component {
 
-    /*
-    * If the Logout button in the navbar gets clicked, those actions have to be executed
-    */
+    /**
+     * If the Logout button in the navbar gets clicked, those actions have to be executed
+     */
     handleLogout = (event) => {
         this.props.actions.leave();
         Game.closeGame();
         this.props.actions.logout();
     };
 
-    /*
-    * Renders the Links on the top of the page which lead to the according components
-    */
+    /**
+     * Renders the Links on the top of the page which lead to the according components
+     */
     render() {
         return (
             <div className="ui secondary menu">
@@ -58,26 +58,26 @@ class NavBar extends React.Component {
                             Login
                         </Button>
                     </NavLink>
-                    )
+                )
                 }
             </div>
         );
     }
 }
 
-/*
-* This makes the component subscribe to the redux store, meaning that anytime the state of the store
-* gets updated, mapStateToProps will be called, updating the state of the component accordingly
-* @param state the state of the redux store
-*/
+/**
+ * This makes the component subscribe to the redux store, meaning that anytime the state of the store
+ * gets updated, mapStateToProps will be called, updating the state of the component accordingly
+ * @param state the state of the redux store
+ */
 function mapStateToProps(state) {
     return {auth: state.auth}
 }
 
-/*
-* This will be re-invoked whenever the connected component (Account) receives new props. This
-* works the other way arround compared to how mapStateToProps works.
-*/
+/**
+ * This will be re-invoked whenever the connected component (Account) receives new props. This
+ * works the other way arround compared to how mapStateToProps works.
+ */
 function mapDispatchToProps(dispatch) {
     return {actions: bindActionCreators({logout, leave}, dispatch)}
 }
