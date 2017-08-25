@@ -8,8 +8,8 @@ export function myStatistics() {
         'BAQEND': {
             type: MY_STATISTICS,
             payload: (db) => {
-                return db.Character.find().equal('owner', db.User.me.id).singleResult().then((result) => {
-                    return db.Statistic.find().equal('character', result).singleResult().then((stats) => {
+                return db.Character.find().equal('owner', db.User.me.id).singleResult().then((result) => { //returns the right character for the logged in User
+                    return db.Statistic.find().equal('character', result).singleResult().then((stats) => { //returns the right statistic for the just found character
                         return stats
                     })
                   })
@@ -25,8 +25,8 @@ export function equipment() {
     return {
         'BAQEND': {
             type: EQUIPMENT,
-            payload: (db) => db.Character.find().equal('owner', db.User.me.id).singleResult(character =>
-                db.Equipment.find().equal('body', character).singleResult({depth: 1}, result => result))
+            payload: (db) => db.Character.find().equal('owner', db.User.me.id).singleResult(character => //returns the character object for the logged in User
+                db.Equipment.find().equal('body', character).singleResult({depth: 1}, result => result)) //finds the equipment for the just found character
         }
     }
 }
