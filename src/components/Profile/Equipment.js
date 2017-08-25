@@ -9,9 +9,9 @@ import PropTypes from 'prop-types';
 
 class Equipment extends React.Component {
 
-/**
-*Initializes the fields
-*/
+    /**
+     * Initializes the fields
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -26,16 +26,17 @@ class Equipment extends React.Component {
     }
 
     /**
-    * In other components we use this methode to iterate over the body
-    * @return all parts of they character that can hold an item
-    */
+     * In other components we use this methode to iterate over the body.
+     * @return [] all parts of the character that can hold an item
+     */
     static body() {
         return ['head', 'neck', 'torso', 'shoulders', 'hands', 'wrists', 'waist', 'finger_1', 'finger_2', 'legs', 'feet', 'main_hand', 'off_hand'];
     }
 
     /**
-    * TODO
-    */
+     * Adds the name and the picture of your own equip to the state for visualization purpose.
+     * TODO: rest of the body
+     */
     componentWillMount() {
         this.props.actions.equipment().then(equip =>
             this.setState({
@@ -47,23 +48,27 @@ class Equipment extends React.Component {
         );
     }
 
+    /**
+     * Format a string to camel case, to find the picture file, mostly used to remove spaces in item names.
+     * @param name string to camelcase
+     */
     static toCamelCase(name) {
         return name.replace(/(?:^\w|[A-Z]|\b\w)/g, (letter, index) =>
             index === 0 ? letter.toLowerCase() : letter.toUpperCase()).replace(/\s+/g, '');
     }
 
     /**
-    * capitalizes the first Letter of a string
-    * @param string: the string of which the first letter will be capitalized
-    */
+     * capitalizes the first Letter of a string
+     * @param string: the string of which the first letter will be capitalized
+     */
     static capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     /**
-    * When the user hovers of a piece of equipment, this will show the stats of the equipment
-    * @param part: the piece of equipment over which the mouse is
-    */
+     * When the user hovers of a piece of equipment, this will show the stats of the equipment
+     * @param part: the piece of equipment over which the mouse is
+     */
     onHover(part) {
         this.props.actions.equipment().then(equip => {
             if (equip[part] !== undefined) {
@@ -79,17 +84,19 @@ class Equipment extends React.Component {
             }
         });
     }
+
     /**
-    * when the mouse is no longer over the piece of equipment, the window with the stats disapears
-    */
+     * when the mouse is no longer over the piece of equipment, the window with the stats disapears
+     */
     onLeave() {
         this.setState({showCurrent: false});
     }
 
     /**
-    * renders the equipment segments, uses Segmantic-UI Grid and segments. this column lies in the center,
-    * rail left and right are putting elements left and right of the centered element
-    */
+     * renders the equipment segments, uses Segmantic-UI Grid and segments. this column lies in the center,
+     * rail left and right are putting elements left and right of the centered element
+     * TODO: rest of the body
+     */
     render() {
         return (
             <Grid columns={6} centered style={{paddingLeft: '200px'}}>
@@ -182,26 +189,26 @@ class Equipment extends React.Component {
 }
 
 /**
-* During runtime, this will throw a warning if the props in this definition dont match with the props
-* the component got passed.
-*/
+ * During runtime, this will throw a warning if the props in this definition dont match with the props
+ * the component got passed.
+ */
 Equipment.propTypes = {
     action: PropTypes.object
 };
 
 /**
-* This makes the component subscribe to the redux store, meaning that anytime the state of the store
-* gets updated, mapStateToProps will be called, updating the state of the component accordingly
-* @param state the state of the redux store
-*/
+ * This makes the component subscribe to the redux store, meaning that anytime the state of the store
+ * gets updated, mapStateToProps will be called, updating the state of the component accordingly
+ * @param state the state of the redux store
+ */
 function mapStateToProps(state) {
     return {};
 }
 
 /**
-* This will be re-invoked whenever the connected component (Account) receives new props. This
-* works the other way arround compared to how mapStateToProps works.
-*/
+ * This will be re-invoked whenever the connected component (Account) receives new props. This
+ * works the other way arround compared to how mapStateToProps works.
+ */
 function mapDispatchToProps(dispatch) {
     return {actions: bindActionCreators({equipment}, dispatch)};
 }

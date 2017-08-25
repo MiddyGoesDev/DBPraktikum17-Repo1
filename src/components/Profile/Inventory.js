@@ -11,9 +11,9 @@ import {myCharacter, getInventory} from "../../actions/profile";
 class Inventory extends React.Component {
 
 
-/**
-*Initializes every Inventoryslot with an empty string
-*/
+    /**
+     * Initializes every inventory-slots with an empty string
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -30,34 +30,35 @@ class Inventory extends React.Component {
         }
     }
 
-/**
-*Sets every Inventory slot with the name of its item for a given Character
-*/
+    /**
+     * Sets every inventory-slot with the name of its item for a given Character
+     */
     componentWillMount() {
         this.props.actions.myCharacter().then(character =>
             this.props.actions.getInventory(character).then(inventory => {
                 let state = {};
-                for (let i=1; i<=10 && i<=inventory.length; i++) {
-                    state['src' + i] ='./assets/items/' + Equipment.capitalizeFirstLetter(Equipment.toCamelCase(inventory[i-1].item.name)) + '.png';
+                for (let i = 1; i <= 10 && i <= inventory.length; i++) {
+                    state['src' + i] = './assets/items/' + Equipment.capitalizeFirstLetter(Equipment.toCamelCase(inventory[i - 1].item.name)) + '.png';
                 }
                 this.setState(state);
             }));
     }
-//TODO
-/**
-*
-*
-*@return returns the images for every inventory slot
-*/
+
+    /**
+     * Displays the inventory-slots
+     * TODO iterate through full inventory
+     * @return returns the images for every inventory slot
+     */
     render() {
         return (
-            <Grid centered style={{paddingLeft: '200px', float:'right'}}>
+            <Grid centered style={{paddingLeft: '200px', float: 'right'}}>
                 <Segment className="Inventory">
                     <p className="item-title">Inventory</p>
                     <Grid.Row>
                         {[...Array(5)].map((x, i) => (
                             <Segment className="item-slot">
-                                {this.state['src' + (i+1)].length===0 ? i+1 : (<Image src={this.state['src' + (i+1)]}/>)}
+                                {this.state['src' + (i + 1)].length === 0 ? i + 1 : (
+                                    <Image src={this.state['src' + (i + 1)]}/>)}
                             </Segment>
                         ))}
                     </Grid.Row>
@@ -86,26 +87,26 @@ class Inventory extends React.Component {
 }
 
 /**
-* During runtime, this will throw a warning if the props in this definition dont match with the props
-* the component got passed.
-*/
+ * During runtime, this will throw a warning if the props in this definition dont match with the props
+ * the component got passed.
+ */
 Inventory.propTypes = {
     action: PropTypes.object
 };
 
 /**
-* This makes the component subscribe to the redux store, meaning that anytime the state of the store
-* gets updated, mapStateToProps will be called, updating the state of the component accordingly
-* @param state the state of the redux store
-*/
+ * This makes the component subscribe to the redux store, meaning that anytime the state of the store
+ * gets updated, mapStateToProps will be called, updating the state of the component accordingly
+ * @param state the state of the redux store
+ */
 function mapStateToProps(state) {
     return {};
 }
 
 /**
-* This will be re-invoked whenever the connected component (Account) receives new props. This
-* works the other way arround compared to how mapStateToProps works.
-*/
+ * This will be re-invoked whenever the connected component (Account) receives new props. This
+ * works the other way arround compared to how mapStateToProps works.
+ */
 function mapDispatchToProps(dispatch) {
     return {actions: bindActionCreators({myCharacter, getInventory}, dispatch)};
 }
