@@ -71,7 +71,7 @@ class NavBar extends React.Component {
 * @param state the state of the redux store
 */
 function mapStateToProps(state) {
-    return {auth: state.auth, user: state.auth.user}
+    return {auth: state.auth}
 }
 
 /*
