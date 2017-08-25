@@ -66,6 +66,7 @@ class Chat extends React.Component {
     *@return Returns the Layout of the Chatbox with every message and the chat-interface with a inputfield and a submitbutton
     */
     render() {
+        if (this.props.auth.isLoggedIn) {
         return (
             <div className="chat-room">
                 <div id="chat-messages" ref="chatbox">
@@ -88,7 +89,8 @@ class Chat extends React.Component {
                     </form>
                 </div>
             </div>
-        );
+        ); } else {
+        return (<div> Please login to chat and play the game.</div>)}
     }
 }
 
@@ -106,7 +108,7 @@ Chat.propTypes = {
  will be called.
  **/
 function mapStateToProps(state) {
-    return {messages: state.messages}
+    return {messages: state.messages, auth: state.auth, user: state.auth.user}
 }
 
 /**
