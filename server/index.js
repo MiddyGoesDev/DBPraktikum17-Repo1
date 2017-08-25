@@ -34,6 +34,7 @@ var dragon = {
     currentHP: 500,
     aggro: {}
 };
+objects[dragon.id] = dragon;
 var gate = {
     id: generateId(),
     type: 'Gate',
@@ -41,13 +42,10 @@ var gate = {
     y: 1075,
     opened: false
 };
+objects[gate.id] = gate;
 
-io.emit('spawn', dragon);
-if (!gate.opened) {
-    io.emit('spawn', gate);
-}
 for (var i = 0; i < maxCows; i++) {
-    io.emit('spawn', deliverCow());
+    deliverCow();
     aliveCows++;
 }
 
@@ -71,19 +69,23 @@ function deliverCow() {
 io.on('connection', socket => {
 
     socket.on('join', character => {
+        console.log('character ' + character.id + ' joined');
+
         characters[socket.id] = character;
         objects[character.id] = character;
 
         cows.forEach(cow => socket.emit('spawn', cow));
         socket.emit('spawn', dragon);
+        console.log('spawn ' + dragon.id + ' dragon');
         if (!gate.opened) {
             socket.emit('spawn', gate);
-            console.log('emit gate', gate);
+            console.log('spawn ' + gate.id + ' gate');
         }
     });
 
     socket.on('disconnect', () => {
         delete characters[socket.id];
+        console.log(socket.id + ' is disconnected');
     });
 
     socket.on('add', object => {
@@ -180,6 +182,23 @@ io.on('connection', socket => {
 
     console.log(socket.id + ' is connected');
 });
+
+io.emit('socket up');
+
+/**
+ * Timeout player not playing
+ */
+function checkTimeout() {
+    db.Character.find().equal('playing', true).resultList().then(result => {
+        var notConnected = result.filter(character => objects[character.id] === undefined);
+        notConnected.forEach(character => {
+            character.playing = false;
+            character.update();
+        })
+    });
+}
+setInterval(checkTimeout, 300000);
+setTimeout(checkTimeout, 10000);
 
 function roll(item, attribute) {
     return item['min_' + attribute] + Math.ceil((item['max_' + attribute] - item['min_' + attribute]) * Math.random());

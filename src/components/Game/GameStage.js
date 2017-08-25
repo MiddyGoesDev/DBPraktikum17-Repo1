@@ -35,9 +35,9 @@ function GameStage() {
         this.activeObject = new PlayerGuy(x, y);
         var cowZone = new window.createjs.Shape();
         cowZone.graphics.s("gray").f("transparent").drawRect(800, 3300, 1100, 700);
+        this.draw(cowZone);
         new Cottage(400, 220);
         generateItem('Key').drop(653, 1263);
-        this.draw(cowZone);
     };
 
     this.clear = () => {
@@ -164,6 +164,7 @@ function GameStage() {
     });
 
     this.socket.on('spawn', monster => {
+        console.log('spawn', monster.type);
         switch (monster.type) {
             case 'Cow':
                 let cow = new Cow(monster.x, monster.y);
@@ -211,8 +212,6 @@ function GameStage() {
         this.gameObjects[gate.id].destruct();
     });
 }
-
-
 
 export default function getStage() {
     if (gameStage === null) {

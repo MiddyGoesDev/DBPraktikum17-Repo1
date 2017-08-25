@@ -48,7 +48,12 @@ class Game extends React.Component {
                     player.character = character;
                     player.animation = 'idle';
                     GameStage().link(player);
+
                     player.emit('join');
+                    GameStage().socket.on('reconnect_attempt', () => {
+                        console.log('reconnect');
+                        // player.emit('join');
+                    });
 
                     if (equipment.main_hand !== null) {
                         GameStage().activeObject.weapon = generateItem(equipment.main_hand.name, 0, 0);

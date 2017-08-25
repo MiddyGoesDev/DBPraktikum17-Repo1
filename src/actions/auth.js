@@ -79,12 +79,7 @@ export function createEquipment(character) {
     return {
         'BAQEND': {
             type: CREATE_EQUIPMENT,
-            payload: (db) => {
-                let equipment = new db.Equipment({
-                    'body': character,
-                });
-                return equipment.insert();
-            }
+            payload: (db) => (new db.Equipment({'body': character})).insert()
         }
     };
 }
