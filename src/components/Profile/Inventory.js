@@ -11,7 +11,7 @@ import {myCharacter, getInventory} from "../../actions/profile";
 class Inventory extends React.Component {
 
 
-/*
+/**
 *Initializes every Inventoryslot with an empty string
 */
     constructor(props) {
@@ -30,23 +30,21 @@ class Inventory extends React.Component {
         }
     }
 
-/*
+/**
 *Sets every Inventory slot with the name of its item for a given Character
 */
     componentWillMount() {
         this.props.actions.myCharacter().then(character =>
             this.props.actions.getInventory(character).then(inventory => {
-                //console.log(inventory.length, inventory[0]);
                 let state = {};
                 for (let i=1; i<=10 && i<=inventory.length; i++) {
                     state['src' + i] ='./assets/items/' + Equipment.capitalizeFirstLetter(Equipment.toCamelCase(inventory[i-1].item.name)) + '.png';
                 }
-                //console.log('state', state);
                 this.setState(state);
             }));
     }
 //TODO
-/*
+/**
 *
 *
 *@return returns the images for every inventory slot
@@ -87,14 +85,27 @@ class Inventory extends React.Component {
     }
 }
 
+/**
+* During runtime, this will throw a warning if the props in this definition dont match with the props
+* the component got passed.
+*/
 Inventory.propTypes = {
     action: PropTypes.object
 };
 
+/**
+* This makes the component subscribe to the redux store, meaning that anytime the state of the store
+* gets updated, mapStateToProps will be called, updating the state of the component accordingly
+* @param state the state of the redux store
+*/
 function mapStateToProps(state) {
     return {};
 }
 
+/**
+* This will be re-invoked whenever the connected component (Account) receives new props. This
+* works the other way arround compared to how mapStateToProps works.
+*/
 function mapDispatchToProps(dispatch) {
     return {actions: bindActionCreators({myCharacter, getInventory}, dispatch)};
 }

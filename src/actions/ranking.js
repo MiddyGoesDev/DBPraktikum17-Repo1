@@ -1,5 +1,5 @@
 
-/*
+/**
 * Gets the statistics sorted by kills in a descending order.
 */
 export function getStatsByKillsAsc() {
@@ -15,7 +15,7 @@ export function getStatsByKillsAsc() {
   }
 }
 
-/*
+/**
 * Gets the statistics sorted by kills in an ascending order.
 */
 export function getStatsByKillsDsc() {
@@ -31,7 +31,7 @@ export function getStatsByKillsDsc() {
   }
 }
 
-/*
+/**
 * Gets the statistics sorted by profile name in an ascending order.
 */
 export function getStatsByProfileAsc() {
@@ -47,7 +47,7 @@ export function getStatsByProfileAsc() {
   }
 }
 
-/*
+/**
 * Gets the statistics sorted by kills in a descending order.
 */
 export function getStatsByProfileDsc() {
@@ -63,7 +63,7 @@ export function getStatsByProfileDsc() {
   }
 }
 
-/*
+/**
 * Gets the statistics sorted by time played in a descending order.
 */
 export function getStatsByPlayingTimeDsc() {
@@ -79,7 +79,7 @@ export function getStatsByPlayingTimeDsc() {
   }
 }
 
-/*
+/**
 * Gets the statistics sorted by kills in an ascending order.
 */
 export function getStatsByPlayingTimeAsc() {
@@ -95,7 +95,7 @@ export function getStatsByPlayingTimeAsc() {
   }
 }
 
-/*
+/**
 * Gets the statistics of any specefic user given as parameter.
 * @param user: the user for which we want the statistics.
 */

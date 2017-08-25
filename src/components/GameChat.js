@@ -7,7 +7,7 @@ import {Card, Grid} from 'semantic-ui-react'
 
 class GameChat extends React.Component {
 
-  /*
+  /**
   *Puts the game next to the chat
   */
     render() {

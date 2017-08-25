@@ -21,7 +21,7 @@ import {me} from "../actions/auth";
 
 class Ranking extends React.Component {
 
-/*
+/**
 *Sets both the rankings' profile and the ranking itself to an empty state
 *the click fields are tracking the current order of the table, ascending and descending
 */
@@ -41,11 +41,12 @@ class Ranking extends React.Component {
             me: null
         }
     }
-/*
+/**
 *Initializes the default sorting for the ranking as kills in ascending order and
 *Initialzes the default profile with the stats of the logged in User
 */
     componentWillMount() {
+        //gets the values for the profile of the user that is logged in
         this.props.actions.getStatsByKillsAsc().then(result =>
             this.props.actions.myStatistics().then(statistics =>
                 this.props.actions.loadCharacter(statistics.character).then(character =>
@@ -63,9 +64,8 @@ class Ranking extends React.Component {
                                 intelligence += equipment[part].intelligence;
                             }
                         });
-
                         this.setState({
-                            ranking: result,
+                            ranking: result, //the list of arrays in which all the users in the ranking are displayed
                             currentProfileName: statistics.username,
                             me: statistics.username,
                             kills: statistics.kills,
@@ -80,7 +80,7 @@ class Ranking extends React.Component {
                     }))));
     }
 
-/*
+/**
 *Sorts the ranking by the profile
 *each click reverses the order
 */
@@ -104,7 +104,7 @@ class Ranking extends React.Component {
         }
     };
 
-    /*
+    /**
     *Sorts the ranking by the kills
     *each click reverses the order
     */
@@ -128,7 +128,7 @@ class Ranking extends React.Component {
         }
     };
 
-    /*
+    /**
     *Sorts the ranking by the played time
     *each click reverses the order
     */
@@ -152,12 +152,12 @@ class Ranking extends React.Component {
         }
     };
 
-/*
+/**
 *gets the character statistics for the user clicked on in the ranking and displays the information
-*on the right side.
+*in the window next to the ranking
 */
     displayProfile = (e) => {
-        let userName = e.target.parentNode.getAttribute('name');
+        let userName = e.target.parentNode.getAttribute('name'); //gets the username of the user clicked on
 
         this.props.actions.getStatistics(userName).then(statistics => //finds the statistics for the user clicked on
             this.props.actions.loadCharacter(statistics.character).then(character =>
@@ -189,14 +189,16 @@ class Ranking extends React.Component {
                     })
                 })));
     };
-
+/**
+*Renders the ranking list and the window to inscpect the users statistics, Grid gets imported from Semantic UI
+*/
     render() {
         var i = 0;
         return (
             <Grid stackable sivided centered style={{height: '90%'}}>
                 <Grid.Column width={6}>
                     <Table sortable celled>
-                        <Table.Header style={{backgroundColor: '#f5f5f5'}}>
+                        <Table.Header style={{backgroundColor: '#f5f5f5'}}> //in the header are all the buttons to sort the ranking
                             <Table.Row>
                                 <Table.Cell>
                                     #
@@ -226,13 +228,13 @@ class Ranking extends React.Component {
                         </Table.Header>
                         <Table.Body>
                             {this.state.ranking.map(statistics =>
-                                <Table.Row
+                                <Table.Row //one row for each registered user
                                     id={statistics.id}
                                     key={statistics.id}
                                     name={statistics.username}
                                     onClick={this.displayProfile}>
                                     <Table.Cell>
-                                        {this.state.me === statistics.username ? (<Label ribbon>{++i}</Label>) : ++i}
+                                        {this.state.me === statistics.username ? (<Label ribbon>{++i}</Label>) : ++i}// TODO was hier?
                                     </Table.Cell>
                                     <Table.Cell>{statistics.username}</Table.Cell>
                                     <Table.Cell>{Statistics.timePlayed(statistics.playingTime)}</Table.Cell>
@@ -243,7 +245,7 @@ class Ranking extends React.Component {
                     </Table>
                 </Grid.Column>
                 <Grid.Column width={2}>
-                    <Statistics
+                    <Statistics //displays the statistics of a user on the right side of the ranking
                         user={{name: this.state.currentProfileName}}
                         items={[
                             {label: 'Level', value: this.state.level},
@@ -261,15 +263,28 @@ class Ranking extends React.Component {
     }
 }
 
+/**
+* During runtime, this will throw a warning if the props in this definition dont match with the props
+* the component got passed.
+*/
 Ranking.propTypes = {
     action: PropTypes.object,
     rankings: PropTypes.object
 };
 
+/**
+* This makes the component subscribe to the redux store, meaning that anytime the state of the store
+* gets updated, mapStateToProps will be called, updating the state of the component accordingly
+* @param state the state of the redux store
+*/
 function mapStateToProps(state) {
     return {rankings: state.rankings};
 }
 
+/**
+* This will be re-invoked whenever the connected component (Ranking) receives new props. This
+* works the other way arround compared to how mapStateToProps works.
+*/
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
