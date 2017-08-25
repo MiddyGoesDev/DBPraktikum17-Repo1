@@ -12,6 +12,7 @@ import GameStage from './GameStage';
 import {KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT, KEYCODE_UP} from "./Constants/KeyCodes";
 import generateItem from './Items/ItemFactory';
 import Key from "./Items/Key";
+import {Dimmer, Header, Icon, Button} from "semantic-ui-react";
 
 class Game extends React.Component {
 
@@ -27,7 +28,6 @@ class Game extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.refs);
         this.setState({width: this.refs.gameWindow.clientWidth, height: this.refs.gameWindow.clientHeight});
         this.startGame();
     }
@@ -50,10 +50,6 @@ class Game extends React.Component {
                     GameStage().link(player);
 
                     player.emit('join');
-                    GameStage().socket.on('reconnect_attempt', () => {
-                        console.log('reconnect');
-                        // player.emit('join');
-                    });
 
                     if (equipment.main_hand !== null) {
                         GameStage().activeObject.weapon = generateItem(equipment.main_hand.name, 0, 0);
@@ -134,6 +130,17 @@ class Game extends React.Component {
         return (
             <div ref="gameWindow" id="game-window" className="game-window" onClick={Game.stopChatting}>
                 <canvas ref="gameField" id="game-field" width={this.state.width} height={this.state.height}/>
+                <Dimmer id="game-dimmer" active={false} page>
+                    <Header as='h2' icon inverted>
+                        <Icon name='time' />
+                        Timed out!
+                        <Header.Subheader>
+                            Please refresh your page and check connection with the Socket.io game-server
+                        </Header.Subheader>
+                        <br/>
+                        <Button primary onClick={() => location.reload()}>refresh</Button>
+                    </Header>
+                </Dimmer>
             </div>
         );
     }

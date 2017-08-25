@@ -42,7 +42,6 @@ export default function PlayerGuy(x, y) {
             movement_speed: item.movementSpeed
         });
         item.insert().then(baqendItem => {
-            console.log('item inserted', baqendItem.id);
             backupItem.id = baqendItem.id;
             this.equipBaqend(baqendItem);
         });
@@ -61,9 +60,7 @@ export default function PlayerGuy(x, y) {
     };
 
     this.removeFromInventoryBaqend = (item) => {
-        console.log('delete item', item.id);
         GameStage().db.InventoryItem.find().equal('item', item.id).singleResult().then(item => {
-            console.log('item loaded', item);
             item.active = false;
             item.update();
         });
@@ -85,7 +82,6 @@ export default function PlayerGuy(x, y) {
     this.respawn = (timeout) => {
         setTimeout(() => {
             this.heal(this.maxHP());
-            console.log('curhp', this.currentHP);
             this.updatePosition(this.spawnX, this.spawnY);
             GameStage().add(this);
             this.hpBar.updateHealth();

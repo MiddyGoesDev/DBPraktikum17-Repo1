@@ -1,12 +1,12 @@
+/**
+ * Gets called when a user start actively playing the game with his character.
+ * charater.playing is used to track the time a user spends playing the game
+ */
 import {JOIN, LEAVE, OWN_CHARACTER, UPDATE_OPPONENTS, UPDATE_CHARACTER, SET_TIMER} from './types'
 import GameStage from '../components/Game/GameStage';
 import Opponent from '../components/Game/Characters/OpponentGuy';
 import generateItem from "../components/Game/Items/ItemFactory";
 
-/**
- * Gets called when a user start actively playing the game with his character.
- * charater.playing is used to track the time a user spends playing the game
- */
 export function join() {
     return {
         'BAQEND': {
@@ -68,8 +68,30 @@ export function updateOpponents() {
                     });
                     GameStage().link(opponent);
                 } else if (!character.data.playing && character.data.id === GameStage().activeObject.id) {
-                    alert('Timed out. Refreshing the page. Check your connection with Socket.');
-                    location.reload();
+                    // TODO find a way to set the state in Game js, so #game-dimmer becomes true, else use quickfix:
+                    if (!document.body.classList.contains('dimmed')) {
+                        document.body.innerHTML +=
+                            '<div class="">' +
+                            '<div data-reactroot="" id="game-dimmer" class="ui active transition visible page dimmer">' +
+                            '<div class="content">' +
+                            '<div class="center">' +
+                            '<h2 class="ui icon inverted header">' +
+                            '<i aria-hidden="true" class="time icon"></i>' +
+                            'Timed out!' +
+                            '<div class="sub header">' +
+                            'Please refresh your page and check connection with the Socket.io game-server</div>' +
+                            '<br>' +
+                            '<button class="ui primary button" onclick=location=\'/\'>' +
+                            'refresh' +
+                            '</button>' +
+                            '</h2>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                        document.body.classList.add('dimmed');
+                        document.body.classList.add('dimmable');
+                    }
                 } else if (character.data.playing && character.data.id !== GameStage().activeObject.id) {
                     let opponent = GameStage().networkObjects[character.data.id];
                     opponent.updatePosition(character.data.x, character.data.y);

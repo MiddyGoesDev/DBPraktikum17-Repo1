@@ -29,7 +29,6 @@ export default function OpponentGuy(x, y) {
     };
 
     this.updateText = (x, y) => {
-        console.log('text', this.text.getMeasuredWidth());
         this.text.x = x - this.text.getMeasuredWidth() / 2 + 5;
         this.text.y = y - 16;
     };

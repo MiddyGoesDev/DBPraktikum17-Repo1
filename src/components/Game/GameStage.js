@@ -164,7 +164,6 @@ function GameStage() {
     });
 
     this.socket.on('spawn', monster => {
-        console.log('spawn', monster.type);
         switch (monster.type) {
             case 'Cow':
                 let cow = new Cow(monster.x, monster.y);
