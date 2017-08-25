@@ -14,8 +14,8 @@ export const DIRECTION_NORTHWEST = Object.freeze({ x: -1, y: -1, name: 'NorthWes
 
 /**
  * Returns the name of the direction corresponding to given the x and y factor.
- * @param x
- * @param y
+ * @param x sign -1 0 1
+ * @param y sign -1 0 1
  * @returns {string}
  */
 export function directionName(x, y) {

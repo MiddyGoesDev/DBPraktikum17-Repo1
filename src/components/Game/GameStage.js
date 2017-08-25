@@ -86,7 +86,6 @@ function GameStage() {
      * Add the given object to the game.
      * @param object
      */
-
     this.add = (object) => {
         this.gameObjects.push(object);
         this.draw(object.sprite);
@@ -96,7 +95,6 @@ function GameStage() {
      * Remove the object from the game.
      * @param object
      */
-
     this.remove = (object) => {
         this.erase(object.sprite);
         this.gameObjects = this.gameObjects.filter(gameObject => gameObject.id !== object.id);
@@ -106,7 +104,6 @@ function GameStage() {
      * Draw a create.js sprite or shape to the canvas.
      * @param visualRepresentation
      */
-
     this.draw = (visualRepresentation) => {
         if (!this.hasChild(visualRepresentation)) {
             this.stage.addChild(visualRepresentation);
@@ -222,6 +219,9 @@ function GameStage() {
     // this.socket = io('http://localhost:8080');
     this.socket = io('207.154.243.43:8080');
 
+    /**
+     * updates the state of an object
+     */
     this.socket.on('update', object => {
         switch (object.type) {
             case 'Player':
@@ -245,6 +245,9 @@ function GameStage() {
         }
     });
 
+    /**
+     * spawn an object serverside
+     */
     this.socket.on('spawn', monster => {
         switch (monster.type) {
             case 'Cow':
@@ -269,17 +272,25 @@ function GameStage() {
         }
     });
 
+    /**
+     * spawn fists of an opponent player
+     */
     this.socket.on('spawn fist', player => {
         let character = this.networkObjects[player.id];
         character.nextAnimation = player.animation;
         character.punch();
     });
 
+    /**
+     * spawn a weapon of an opponent player
+     */
     this.socket.on('spawn weapon', player => {
         this.networkObjects[player.id].use();
     });
 
-
+    /**
+     * generate the loot and set the stats
+     */
     this.socket.on('drop loot', loot => {
         let item = generateItem(loot.item.name);
         item.vitality = loot.item.vitality;
@@ -289,11 +300,18 @@ function GameStage() {
         item.drop(loot.x, loot.y);
     });
 
+    /**
+     * open the gate if someone opens it
+     */
     this.socket.on('gate opened', gate => {
         this.gameObjects[gate.id].destruct();
     });
 }
 
+/**
+ * get a singleton object of the GameStage
+ * @returns {*}
+ */
 export default function getStage() {
     if (gameStage === null) {
         gameStage = new GameStage();

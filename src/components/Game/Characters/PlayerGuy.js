@@ -241,5 +241,6 @@ export default function PlayerGuy(x, y) {
 
     this.construct();
     this.idle();
+    // display healthbar on create
     this.hpBar.displayHealth();
 }

@@ -25,7 +25,6 @@ export default function GameObject(x, y) {
     /**
      * Removes the GameObject and its affiliated components from the map.
      */
-
     this.destruct = () => {
         GameStage().erase(this.text);
         GameStage().erase(this.hpBar.bar);
@@ -35,20 +34,17 @@ export default function GameObject(x, y) {
     /**
      * Abstract method, is supposed to be called every tick.
      */
-
     this.update = () => { };
 
     /**
      * Abstract method, used to handle key events.
      */
-
     this.handleEvent = () => { };
 
     /**
      * Sends an action and status of a GameObject to the socket server
      * @param action The action to be sent
      */
-
     this.emit = (action) => {
         GameStage().socket.emit(action, {
             type: this.type,
@@ -95,7 +91,6 @@ export default function GameObject(x, y) {
      * Sets and plays a given animation on this object.
      * @param animation The animation
      */
-
     this.play = (animation) => {
         this.animation = animation;
         this.sprite.gotoAndPlay(this.animation + this.direction.name);
@@ -134,7 +129,6 @@ export default function GameObject(x, y) {
      * @param destX The new x coordinate
      * @param destY The new y coordinate
      */
-
     this.updateDirection = (destX, destY) => {
         this.direction.x = (destX - this.x) / Math.max(Math.abs(destX - this.x), 1);
         this.direction.y = (destY - this.y) / Math.max(Math.abs(destY - this.y), 1);
@@ -146,7 +140,6 @@ export default function GameObject(x, y) {
      * @param direction The old direction to compare to
      * @returns {boolean}
      */
-
     this.directionChanged = (direction) => {
         return this.direction.name !== direction.name;
     };
@@ -157,7 +150,6 @@ export default function GameObject(x, y) {
      * @param y The amount of sprites in each row
      * @returns {Array}
      */
-
     this.spriteSheet = (x, y) => {
         let frames = [];
         for (let j = 0; j < y; j++) {
@@ -180,7 +172,6 @@ export default function GameObject(x, y) {
      * Deals damage to the GameObject, taking armor under account. Can only reduce HP to 0
      * @param object The object that inflicted damage. Needs a damage property
      */
-
     this.takeDamage = (object) => {
         this.currentHP = Math.max(0, this.currentHP - Math.max(0, object.damage - this.armor));
         this.hpBar.updateHealth();
@@ -192,14 +183,12 @@ export default function GameObject(x, y) {
     /**
      * Returns true, if the character has 0 or less HP.
      */
-
     this.isDead = () => this.currentHP <= 0;
 
     /**
      * Respawns the GameObject at its original spawn location after a given delay
      * @param timeout The delay in milliseconds.
      */
-
     this.respawn = (timeout) => {
         setTimeout(() => {
             this.heal(this.maxHP());
