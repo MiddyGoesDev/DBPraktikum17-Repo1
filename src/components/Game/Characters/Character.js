@@ -5,12 +5,19 @@ export default function Character(x, y) {
 
     GameObject.call(this, x, y);
 
+    /**
+     * Play the idle animation
+     */
     this.idle = () => {
         if (!this.isIdling()) {
             this.play('idle');
         }
     };
 
+    /**
+     * Play the punch animation
+     * Spawn a Fist in current direction
+     */
     this.punch = () => {
         if (!this.isPunching()) {
             this.play('punch');
@@ -19,42 +26,75 @@ export default function Character(x, y) {
         }
     };
 
+    /**
+     * Uses the current weapon, play the punch animation.
+     */
     this.use = () => {
-        if(!this.isUsing() && this.weapon !== null) {
+        if (!this.isUsing() && this.weapon !== null) {
             this.play('punch');
             let projectile = this.weapon.use(this.x + this.direction.x * 5, this.y + this.direction.y * 5, this.direction);
             projectile.owner = this.id;
         }
     };
 
+    /**
+     * Play the walking animation.
+     */
     this.walk = () => {
         this.play('walk');
     };
 
+    /**
+     * Check if player is doing something.
+     * @returns {boolean}
+     */
     this.isBusy = () => {
         return this.isPunching() || this.isUsing();
     };
 
+    /**
+     * Check if player is idling.
+     * @returns {boolean}
+     */
     this.isIdling = () => {
         return this.animation === 'idle';
     };
 
+    /**
+     * Check if player is punching
+     * @returns {boolean}
+     */
     this.isPunching = () => {
         return this.animation === 'punch';
     };
 
-    // TODO parameter, switch
+    /**
+     * Check if player is using something
+     * TODO parameter, switch
+     * @returns {boolean}
+     */
     this.isUsing = () => {
         return this.animation === 'punch';
     };
 
+    /**
+     * Check if player is walking
+     * @returns {boolean}
+     */
     this.isWalking = () => {
         return this.animation === 'walk';
     };
 
+    /**
+     * Handle collision with Gate, Walls and items.
+     * Overwrite parent method, calls when player is colliding with object
+     * @param object player is colliding with
+     * @param collision the detected collision object
+     */
     this.handleCollision = (object, collision) => {
         switch (object.type) {
             case 'Gate':
+                // opens the gate and uses all keys in your bag
                 let keys = this.items.filter(item => item.name === 'Key');
                 if (keys.length !== 0) {
                     this.items = this.items.filter(item => item.name !== 'Key');
@@ -64,6 +104,7 @@ export default function Character(x, y) {
                 }
             case 'CollisionMap':
             case 'Wall':
+                // stops the movement when player tries to walk through
                 let previousX = this.x - this.direction.x * (this.speed + 1);
                 let previousY = this.y - this.direction.y * (this.speed + 1);
                 let currentX = this.x;
@@ -111,14 +152,17 @@ export default function Character(x, y) {
                 this.updatePosition(nextX, nextY);
 
                 // failsafe
-                if(this.checkCollision(object) !== false) {
+                if (this.checkCollision(object) !== false) {
                     this.updatePosition(previousX, previousY);
                 }
                 break;
             case 'head':
             case 'main_hand':
-            case 'Item': object.handleCollision(this, collision);
-            break;
+            case 'Item':
+                // "check"-call on item, handleCollision just for efficiency,
+                // the item object, doesn't have to check collision after every tick.
+                object.handleCollision(this, collision);
+                break;
         }
     };
 

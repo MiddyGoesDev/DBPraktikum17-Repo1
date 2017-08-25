@@ -3,6 +3,12 @@ import Character from './Character';
 
 export default function Dragon(x, y) {
 
+    /**
+     * Dragon does the same like a cow.
+     * TODO: Attacks with fireballs
+     * TODO: Cant leave his mountain
+     * TODO: Enrages
+     */
     Character.call(this, x, y);
 
     this.update = () => {
@@ -94,6 +100,7 @@ export default function Dragon(x, y) {
     };
 
     this.type = 'Cow';
+    // He is just much more powerful.
     this.damage = 50;
     this.baseHP = 10000;
     this.hitter = null;

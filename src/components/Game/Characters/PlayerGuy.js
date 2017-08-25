@@ -11,6 +11,9 @@ export default function PlayerGuy(x, y) {
 
     Character.call(this, x, y);
 
+    /**
+     * Moves and checks the collision every tick, when walking
+     */
     this.update = () => {
         if (!this.isBusy() && this.isWalking()) {
             this.move();
@@ -18,6 +21,9 @@ export default function PlayerGuy(x, y) {
         }
     };
 
+    /**
+     * writes the current position and state to baqend
+     */
     this.updateBaqend = () => {
         this.character.x = this.x;
         this.character.y = this.y;
@@ -25,11 +31,16 @@ export default function PlayerGuy(x, y) {
         this.character.animation = this.animation;
         this.character.current_hp = this.currentHP;
 
-        if(this.character._metadata.isReady) {
+        // use the isReady hack to suppress the write lock error
+        if (this.character._metadata.isReady) {
             this.character.update({force: true});
         }
     };
 
+    /**
+     * Creates a item in baqend and equip it after
+     * @param item
+     */
     this.createBaqendItem = (item) => {
         let backupItem = item;
         item = new GameStage().db.Item({
@@ -47,18 +58,28 @@ export default function PlayerGuy(x, y) {
         });
     };
 
+    /**
+     * equips a item or puts it in to inventory
+     * @param item
+     */
     this.equipBaqend = (item) => {
         GameStage().db.Equipment.find().equal('body', this.character).singleResult().then(equipment => {
             if (equipment[item.type] !== undefined) {
+                // equip it
                 equipment[item.type] = item;
                 equipment.update();
             } else {
+                // put it in inventory
                 let inventoryItem = new GameStage().db.InventoryItem({ owner: this.character, item: item, active: true});
                 inventoryItem.insert();
             }
         });
     };
 
+    /**
+     * remove an item from your inventory
+     * @param item
+     */
     this.removeFromInventoryBaqend = (item) => {
         GameStage().db.InventoryItem.find().equal('item', item.id).singleResult().then(item => {
             item.active = false;
@@ -66,7 +87,12 @@ export default function PlayerGuy(x, y) {
         });
     };
 
+    /**
+     * takes damage, emits to all and updates baqend
+     * @param object
+     */
     this.takeDamage = (object) => {
+        // make sure that you can't have hp < 0
         this.currentHP = Math.max(0, this.currentHP - Math.max(0, object.damage - this.armor));
         this.hpBar.updateHealth();
         if (this.isDead()) {
@@ -79,6 +105,10 @@ export default function PlayerGuy(x, y) {
         this.emit('change');
     };
 
+    /**
+     * respawns and tell other that you are back
+     * @param timeout
+     */
     this.respawn = (timeout) => {
         setTimeout(() => {
             this.heal(this.maxHP());
@@ -92,14 +122,17 @@ export default function PlayerGuy(x, y) {
     };
 
 
-
-    // TODO: refactor this! use math
+    /**
+     * Handle key down and key up event.
+     * TODO: refactor this! use math
+     */
     this.handleEvent = () => {
         let lastKey = GameStage().activeKeys[GameStage().activeKeys.length - 1];
         let secondToLastKey = GameStage().activeKeys[GameStage().activeKeys.length - 2];
         let direction = this.direction;
         switch (lastKey) {
             case KEYCODE_LEFT:
+                // move left
                 if (secondToLastKey === KEYCODE_UP) this.direction = DIRECTION_NORTHWEST;
                 else if (secondToLastKey === KEYCODE_DOWN) this.direction = DIRECTION_SOUTHWEST;
                 else this.direction = DIRECTION_WEST;
@@ -110,6 +143,7 @@ export default function PlayerGuy(x, y) {
                 }
                 break;
             case KEYCODE_RIGHT:
+                // move right
                 if (secondToLastKey === KEYCODE_UP) this.direction = DIRECTION_NORTHEAST;
                 else if (secondToLastKey === KEYCODE_DOWN) this.direction = DIRECTION_SOUTHEAST;
                 else this.direction = DIRECTION_EAST;
@@ -120,6 +154,7 @@ export default function PlayerGuy(x, y) {
                 }
                 break;
             case KEYCODE_UP:
+                // move up
                 if (secondToLastKey === KEYCODE_LEFT) this.direction = DIRECTION_NORTHWEST;
                 else if (secondToLastKey === KEYCODE_RIGHT) this.direction = DIRECTION_NORTHEAST;
                 else this.direction = DIRECTION_NORTH;
@@ -130,11 +165,10 @@ export default function PlayerGuy(x, y) {
                 }
                 break;
             case KEYCODE_DOWN:
+                // move down
                 if (secondToLastKey === KEYCODE_LEFT) this.direction = DIRECTION_SOUTHWEST;
                 else if (secondToLastKey === KEYCODE_RIGHT) this.direction = DIRECTION_SOUTHEAST;
                 else this.direction = DIRECTION_SOUTH;
-
-
 
                 if (this.directionChanged(direction) || !this.isWalking()) {
                     this.walk();
@@ -142,13 +176,16 @@ export default function PlayerGuy(x, y) {
                 }
                 break;
             case KEYCODE_S:
+                // punch
                 this.punch();
                 this.emit('punch');
                 break;
             case KEYCODE_K:
+                // suicide
                 this.takeDamage({damage: 5000});
                 break;
             case KEYCODE_1:
+                // use weapon
                 // TODO type
                 if (this.weapon !== null) {
                    this.use();
@@ -157,6 +194,7 @@ export default function PlayerGuy(x, y) {
                 this.emit('change');
                 break;
             default:
+                // idle and update baqend
                 this.idle();
                 this.emit('change');
                 this.updateBaqend();

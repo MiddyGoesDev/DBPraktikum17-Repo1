@@ -6,6 +6,10 @@ export default function OpponentGuy(x, y) {
 
     Character.call(this, x, y);
 
+    /**
+     * Plays the animation it gets by sync
+     * Moves the opponent
+     */
     this.update = () => {
         switch (this.nextAnimation) {
             case 'idle': this.idle(); break;
@@ -17,22 +21,36 @@ export default function OpponentGuy(x, y) {
                 }
                 break;
         }
+        // calc the movement and collision client-side
         if (!this.isBusy() && this.isWalking()) {
             this.move();
             this.check();
         }
     };
 
+    /**
+     * renames the player, set the text on the top
+     * @param name text
+     */
     this.rename = (name) => {
         this.name = name;
         this.text.text = name;
     };
 
+    /**
+     * Updates the text position
+     * @param x
+     * @param y
+     */
     this.updateText = (x, y) => {
         this.text.x = x - this.text.getMeasuredWidth() / 2 + 5;
         this.text.y = y - 16;
     };
 
+    /**
+     * called when a opponent dies, respawns after timeout in city with full hp
+     * @param timeout respawn time
+     */
     this.respawn = (timeout) => {
         setTimeout(() => {
             this.heal(this.maxHP());
@@ -81,10 +99,12 @@ export default function OpponentGuy(x, y) {
 
     this.nextAnimation = null;
     this.nextDirection = null;
+    // Set Tim as undefined name
     this.name = 'Tim';
     this.text = new Text(this.name, this.x, this.y, 11, 'Arial', '#fff');
 
     GameStage().draw(this.text);
     this.construct();
+    // idle initially
     this.idle();
 }

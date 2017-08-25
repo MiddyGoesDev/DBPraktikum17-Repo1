@@ -5,6 +5,9 @@ export default function Cow(x, y) {
 
     Character.call(this, x, y);
 
+    /**
+     * Moves the cow to given a position (destX, destY)
+     */
     this.update = () => {
         if (this.destX !== Math.round(this.x) || this.destY !== Math.round(this.y)) {
             let direction = this.direction;
@@ -22,6 +25,10 @@ export default function Cow(x, y) {
         }
     };
 
+    /**
+     * emit last-hitter too
+     * @param action
+     */
     this.emit = (action) => {
         GameStage().socket.emit(action, {
             type: this.type,
@@ -35,6 +42,10 @@ export default function Cow(x, y) {
         });
     };
 
+    /**
+     * Like parent method plus tells the other, that a cow died.
+     * @param object
+     */
     this.takeDamage = (object) => {
             this.currentHP = Math.max(0, this.currentHP - Math.max(0, object.damage - this.armor));
             this.hpBar.updateHealth();
@@ -47,12 +58,18 @@ export default function Cow(x, y) {
             }
     };
 
+    /**
+     * Handle collision with player to push him
+     * @param object cow collided with
+     * @param collision
+     */
     this.handleCollision = (object, collision) => {
         switch (object.type) {
             case 'Player':
                 let tempDirection = object.direction;
                 object.direction = this.direction;
                 for(var i = 0; i < 3; i++) {
+                    // push him 3 times, take care of collision with wall
                     object.move();
                     object.check();
                 }
