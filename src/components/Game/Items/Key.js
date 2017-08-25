@@ -1,5 +1,9 @@
 import Item from './Item';
 
+/**
+ * A key to unlock locks with. Refer to Item.js for further details
+ */
+
 export default function Key() {
 
     Item.call(this);

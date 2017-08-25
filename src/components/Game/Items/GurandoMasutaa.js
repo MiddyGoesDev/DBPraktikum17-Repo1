@@ -1,6 +1,10 @@
 import Item from './Item';
 import Projectile from '../Projectiles/GurandoMasutaa';
 
+/**
+ * A shuriken with unlimited uses. Refer to Item.js for further details
+ */
+
 export default function GurandoMasutaa() {
 
     Item.call(this);
@@ -15,6 +19,12 @@ export default function GurandoMasutaa() {
         }
     };
 
+    /**
+     * Throws a shuriken toward a direction
+     * @param x The x origin
+     * @param y The y origin
+     * @param direction The direction the projectile flies towards.
+     */
     this.use = (x, y, direction) => new Projectile(x, y, direction);
 
     this.hp = 1;
