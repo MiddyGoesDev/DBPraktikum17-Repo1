@@ -1,12 +1,12 @@
-/**
- * Gets called when a user start actively playing the game with his character.
- * charater.playing is used to track the time a user spends playing the game
- */
 import {JOIN, LEAVE, OWN_CHARACTER, UPDATE_OPPONENTS, UPDATE_CHARACTER, SET_TIMER} from './types'
 import GameStage from '../components/Game/GameStage';
 import Opponent from '../components/Game/Characters/OpponentGuy';
 import generateItem from "../components/Game/Items/ItemFactory";
 
+/**
+ * Gets called when a user start actively playing the game with his character.
+ * charater.playing is used to track the time a user spends playing the game
+ */
 export function join() {
     return {
         'BAQEND': {
@@ -47,12 +47,21 @@ export function character() {
     }
 }
 
-// TODO refactor
+/**
+ * Synchronize position, direction, hp and animation from Baqend Real-Time and
+ * gives feedback when the player get timed out wrongly.
+ * Uses an eventSream listener, so it updates immediately after update.
+ * TODO: refactor this: Bad smells
+ *  ~ long method
+ *  ~ to many responsibility
+ *  ~ inline html / javascript hack
+ */
 export function updateOpponents() {
     return {
         'BAQEND': {
             type: UPDATE_OPPONENTS,
             payload: (db) => db.Character.find().eventStream().subscribe(character => {
+                // Opponent joined the game:
                 if (character.data.playing && !GameStage().isConnected(character.data.id)) {
                     let opponent = new Opponent(character.data.x, character.data.y);
                     opponent.id = character.data.id;
@@ -67,7 +76,9 @@ export function updateOpponents() {
                         }
                     });
                     GameStage().link(opponent);
-                } else if (!character.data.playing && character.data.id === GameStage().activeObject.id) {
+                }
+                // Player wrongly timed out:
+                else if (!character.data.playing && character.data.id === GameStage().activeObject.id) {
                     // TODO find a way to set the state in Game js, so #game-dimmer becomes true, else use quickfix:
                     if (!document.body.classList.contains('dimmed')) {
                         document.body.innerHTML +=
@@ -92,13 +103,17 @@ export function updateOpponents() {
                         document.body.classList.add('dimmed');
                         document.body.classList.add('dimmable');
                     }
-                } else if (character.data.playing && character.data.id !== GameStage().activeObject.id) {
+                }
+                // opponent already playing, but got new position:
+                else if (character.data.playing && character.data.id !== GameStage().activeObject.id) {
                     let opponent = GameStage().networkObjects[character.data.id];
                     opponent.updatePosition(character.data.x, character.data.y);
                     opponent.nextDirection = character.data.direction;
                     opponent.nextAnimation = character.data.animation;
                     opponent.currentHP = character.data.current_hp;
-                } else if (!character.data.playing && GameStage().isConnected(character.data.id)) {
+                }
+                // opponent left the game:
+                else if (!character.data.playing && GameStage().isConnected(character.data.id)) {
                     GameStage().unlink(character.data.id);
                 }
             })
@@ -106,9 +121,10 @@ export function updateOpponents() {
     }
 }
 
-/*
-* TODO
-*/
+/**
+ * Place the player from last saved position in db,
+ * mainly used to place him initially
+ */
 export function updateCharacter(data) {
     return {
         'BAQEND': {
@@ -128,7 +144,7 @@ export function updateCharacter(data) {
  * Keeps the time played statsitic up to date by adding the time played of the current session to the
  * time that has been played before
  * @param joinTime: time at which the user started playing the game
-*/
+ */
 export function setTimer(joinTime) {
     return {
         'BAQEND': {
