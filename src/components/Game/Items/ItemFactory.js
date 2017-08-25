@@ -5,6 +5,12 @@ import IgaRyuHappo from "./IgaRyuHappo";
 import GurandoMasutaa from "./GurandoMasutaa";
 import Key from "./Key";
 
+/**
+ * Generates an item from a given name
+ * @param name The name of the item to create
+ * @returns a new Item
+ */
+
 export default function generateItem(name) {
     switch (name) {
         case 'Manji': return new Manji();
