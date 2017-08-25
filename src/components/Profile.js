@@ -21,9 +21,10 @@ class Profile extends React.Component {
         this.state = {}
     }
      /*
+     *TODO
      * 1) gets the values that get displayed in the profile out of the statistics, from the user that is loged in
      * 2) gets the values that get display in the profile out of the character, from the user that is loged in
-     * 3) TODO richtig? calculates the values to be displayed with bonis from the equipment
+     * 3) calculates the values to be displayed with bonuses from the equipment
      */
     componentWillMount() {
         this.props.actions.myStatistics().then((stats) => { // 1)
