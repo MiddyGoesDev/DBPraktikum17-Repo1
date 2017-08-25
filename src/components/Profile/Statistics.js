@@ -11,7 +11,7 @@ class Statistics extends React.Component {
     constructor(props) {
         super(props);
     }
-/*
+/**
 *Formats a given timevalue into a representative hh:mm form
 *@param time an integer that represents the time in miliseconds
 */
@@ -22,7 +22,7 @@ class Statistics extends React.Component {
         return h + ":" + (min.toString().length===1 ? '0' + min : min);
     }
 
-/*
+/**
 *gives a semantic.ui layout with a static profile picture
 *@return Sets the layout for both the ranking and the profile
 */
@@ -49,16 +49,24 @@ class Statistics extends React.Component {
     }
 }
 
+/**
+* During runtime, this will throw a warning if the props in this definition dont match with the props
+* the component got passed.
+*/
 Statistics.propTypes = {
     action: PropTypes.object
 };
 
-//TODO
+/**
+* This makes the component subscribe to the redux store, meaning that anytime the state of the store
+* gets updated, mapStateToProps will be called, updating the state of the component accordingly
+* @param state the state of the redux store
+*/
 function mapStateToProps(state) {
     return {};
 }
 
-/*
+/**
 *it will be called with the store state as the first parameter and the props
 *passed to the connected component as the second parameter, and will also be
 *re-invoked whenever the connected component receives new props as determined

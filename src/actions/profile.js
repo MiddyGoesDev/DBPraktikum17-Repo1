@@ -1,6 +1,6 @@
 import {EQUIPMENT, INVENTORY, MY_STATISTICS, MY_CHARACTER, GET_CHARACTER, GET_EQUIPMENT, GET_INVENTORY, LOAD_CHARACTER} from "./types";
 
-/*
+/**
 * Finds the statistics for the user that is loged in via the character that user ownes.
 */
 export function myStatistics() {
@@ -18,7 +18,7 @@ export function myStatistics() {
             }
           }
 
-/*
+/**
 * Finds the equipment for the user that is loged in via the character that user ownes.
 */
 export function equipment() {
@@ -31,7 +31,7 @@ export function equipment() {
     }
 }
 
-/*
+/**
 * Finds the inventory for the user that is loged in via the character that user ownes.
 */
 export function inventory() {
@@ -44,7 +44,7 @@ export function inventory() {
     }
 }
 
-/*
+/**
 * Finds the equipment for any character given as parameter.
 * @param character: the charater for which the equipment is wanted
 */
@@ -57,7 +57,7 @@ export function getEquipment(character) {
     }
 }
 
-/*
+/**
 * Finds the inventory for any character given as paraeter.
 * @param character: the charater for which the invntory is wanted
 */
@@ -70,7 +70,7 @@ export function getInventory(character) {
     }
 }
 
-/*
+/**
 * Finds the Character of the user that is logged in.
 */
 export function myCharacter() {
@@ -82,7 +82,7 @@ export function myCharacter() {
     }
 }
 
-/*
+/**
 * Finds the character for any user given as parameter.
 * @param user: user for which the character is wanted
 */
@@ -97,7 +97,7 @@ export function getCharacter(user) {
     }
 }
 
-/*
+/**
 * Loads the character based on its id, this is needed for the ranking where we only have the characters id,
 * but not the character entire charater information.
 * @param charcter: the character of which we have the id and want the entire character
