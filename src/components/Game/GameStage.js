@@ -57,11 +57,11 @@ function GameStage() {
         this.gameObjects.forEach((gameObject) => {
             gameObject.update();
         });
-        this.moveCamera();
+        this.centerCamera();
         this.stage.update(event);
     };
 
-    this.moveCamera = () => {
+    this.centerCamera = () => {
         this.stage.x = - this.activeObject.x + this.stage.canvas.clientWidth / 2;
         this.stage.y = - this.activeObject.y + this.stage.canvas.clientHeight / 2;
     };
@@ -120,6 +120,8 @@ function GameStage() {
         // TODO: implement near
         return this.gameObjects.filter(gameObject => gameObject.id !== object.id);
     };
+
+    this.getNetworkObject = (index) => this.networkObjects[Object.keys(this.networkObjects)[index]];
 
     this.keyPressed = (event) => {
         if (this.activeKeys.indexOf(event.keyCode) === -1) {

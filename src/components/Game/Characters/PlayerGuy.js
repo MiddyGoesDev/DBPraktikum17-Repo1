@@ -70,12 +70,13 @@ export default function PlayerGuy(x, y) {
     };
 
     this.takeDamage = (object) => {
-        this.currentHP -= Math.max(0, object.damage - this.armor);
+        this.currentHP = Math.max(0, this.currentHP - Math.max(0, object.damage - this.armor));
         this.hpBar.updateHealth();
         if (this.isDead()) {
             this.destruct();
             GameStage().startCountdown(5);
             this.respawn(5000);
+            GameStage().activeObject = GameStage().getNetworkObject(1);
         }
         this.updateBaqend();
         this.emit('change');
@@ -84,10 +85,12 @@ export default function PlayerGuy(x, y) {
     this.respawn = (timeout) => {
         setTimeout(() => {
             this.heal(this.maxHP());
+            console.log('curhp', this.currentHP);
             this.updatePosition(this.spawnX, this.spawnY);
             GameStage().add(this);
             this.hpBar.updateHealth();
             this.hpBar.displayHealth();
+            GameStage().activeObject = this;
             this.emit('change');
         }, timeout);
     };
