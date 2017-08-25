@@ -103,7 +103,6 @@ io.on('connection', socket => {
 
     // remove character from lists
     socket.on('disconnect', () => {
-        delete objects[characters[socket.id].id];
         delete characters[socket.id];
         console.log(socket.id + ' is disconnected');
     });
