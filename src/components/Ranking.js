@@ -205,21 +205,21 @@ class Ranking extends React.Component {
                                 </Table.Cell>
                                 <Table.Cell>
                                     <button className="ui button"
-                                            style={{backgroundColor: '#f5f5f5'}}
+                                            style={{backgroundColor: '#f5f5f5'}} //button to sort by usernames
                                             onClick={this.handleProfile}>
                                         <h3>Username</h3>
                                     </button>
                                 </Table.Cell>
                                 <Table.Cell>
                                     <button className="ui button"
-                                            style={{backgroundColor: '#f5f5f5'}}
+                                            style={{backgroundColor: '#f5f5f5'}} //button to sort by played time
                                             onClick={this.handlePlayingTime}>
                                         <h3>Total Time</h3>
                                     </button>
                                 </Table.Cell>
                                 <Table.Cell>
                                     <button className="ui button"
-                                            style={{backgroundColor: '#f5f5f5'}}
+                                            style={{backgroundColor: '#f5f5f5'}}//button to sort by kills
                                             onClick={this.handleKills}>
                                         <h3>Cow Kills</h3>
                                     </button>
@@ -235,7 +235,7 @@ class Ranking extends React.Component {
                                     onClick={this.displayProfile}>
                                     <Table.Cell>
                                         {this.state.me === statistics.username ? (<Label ribbon>{++i}</Label>) : ++i}// TODO was hier?
-                                    </Table.Cell>
+                                    </Table.Cell> //3 columns with every username, played time and kills in it
                                     <Table.Cell>{statistics.username}</Table.Cell>
                                     <Table.Cell>{Statistics.timePlayed(statistics.playingTime)}</Table.Cell>
                                     <Table.Cell>{statistics.kills}</Table.Cell>

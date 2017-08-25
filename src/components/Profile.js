@@ -13,14 +13,14 @@ import {Grid} from "semantic-ui-react";
 
 class Profile extends React.Component {
 
-    /*
+    /**
     *Initializes the state as an empty list
     */
     constructor(props) {
         super(props);
         this.state = {}
     }
-     /*
+     /**
      *TODO
      * 1) gets the values that get displayed in the profile out of the statistics, from the user that is loged in
      * 2) gets the values that get display in the profile out of the character, from the user that is loged in
@@ -60,7 +60,7 @@ class Profile extends React.Component {
             });
         });
     }
-     /*
+     /**
      *Renders the Statistics on the left side with the two components inventory and equipment on the right side
      */
     render() {
@@ -91,7 +91,7 @@ class Profile extends React.Component {
     }
 }
 
-/*
+/**
 * During runtime, this will throw a warning if the props in this definition dont match with the props
 * the component got passed.
 */
@@ -100,7 +100,7 @@ Profile.propTypes = {
     statistics: PropTypes.object
 };
 
-/*
+/**
 * This makes the component subscribe to the redux store, meaning that anytime the state of the store
 * gets updated, mapStateToProps will be called, updating the state of the component accordingly
 * @param state the state of the redux store
@@ -109,7 +109,7 @@ function mapStateToProps(state) {
     return {statistics: state.statistics};
 }
 
-/*
+/**
 * This will be re-invoked whenever the connected component (Account) receives new props. This
 * works the other way arround compared to how mapStateToProps works.
 */
