@@ -1,9 +1,9 @@
 import Item from './Item';
 import Projectile from "../Projectiles/KoboriRyuHorenGata";
 
-export default function KoboriRyuHorenGata(x, y) {
+export default function KoboriRyuHorenGata() {
 
-    Item.call(this, x, y);
+    Item.call(this);
 
     this.height = 16;
     this.width = 16;

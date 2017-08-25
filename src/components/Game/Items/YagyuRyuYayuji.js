@@ -1,9 +1,9 @@
 import Item from './Item';
 import Projectile from "../Projectiles/YagyuRyuYayuji";
 
-export default function YagyuRyuYayuji(x, y) {
+export default function YagyuRyuYayuji() {
 
-    Item.call(this, x, y);
+    Item.call(this);
 
     this.height = 16;
     this.width = 16;

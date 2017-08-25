@@ -21,10 +21,10 @@ import {me} from "../actions/auth";
 
 class Ranking extends React.Component {
 
-/**
-*Sets both the rankings' profile and the ranking itself to an empty state
-*the click fields are tracking the current order of the table, ascending and descending
-*/
+    /**
+     * Sets both the rankings' profile and the ranking itself to an empty state
+     * the click fields are tracking the current order of the table, ascending and descending
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -41,10 +41,11 @@ class Ranking extends React.Component {
             me: null
         }
     }
-/**
-*Initializes the default sorting for the ranking as kills in ascending order and
-*Initialzes the default profile with the stats of the logged in User
-*/
+
+    /**
+     * Initializes the default sorting for the ranking as kills in ascending order and
+     * initializes the default profile with the stats of the logged in User
+     */
     componentWillMount() {
         //gets the values for the profile of the user that is logged in
         this.props.actions.getStatsByKillsAsc().then(result =>
@@ -64,6 +65,7 @@ class Ranking extends React.Component {
                                 intelligence += equipment[part].intelligence;
                             }
                         });
+
                         this.setState({
                             ranking: result, //the list of arrays in which all the users in the ranking are displayed
                             currentProfileName: statistics.username,
@@ -77,13 +79,17 @@ class Ranking extends React.Component {
                             dexterity: dexterity,
                             intelligence: intelligence
                         })
-                    }))));
+                    })
+                )
+            )
+        );
     }
 
-/**
-*Sorts the ranking by the profile
-*each click reverses the order
-*/
+    /**
+     * Sorts the ranking by the profile
+     * each click reverses the order
+     * @param event
+     */
     handleProfile = (event) => {
         event.preventDefault();
         if (this.state.profileClicks === 1) {
@@ -105,9 +111,10 @@ class Ranking extends React.Component {
     };
 
     /**
-    *Sorts the ranking by the kills
-    *each click reverses the order
-    */
+     * Sorts the ranking by the kills
+     * each click reverses the order
+     * @param event
+     */
     handleKills = (event) => {
         event.preventDefault();
         if (this.state.killsClicks === 1) {
@@ -129,9 +136,10 @@ class Ranking extends React.Component {
     };
 
     /**
-    *Sorts the ranking by the played time
-    *each click reverses the order
-    */
+     * Sorts the ranking by the played time
+     * each click reverses the order
+     * @param event
+     */
     handlePlayingTime = (event) => {
         event.preventDefault();
         if (this.state.playingTimeClicks === 1) {
@@ -152,12 +160,13 @@ class Ranking extends React.Component {
         }
     };
 
-/**
-*gets the character statistics for the user clicked on in the ranking and displays the information
+    /**
+     * gets the character statistics for the user clicked on in the ranking and displays the information
 *in the window next to the ranking
-*/
-    displayProfile = (e) => {
-        let userName = e.target.parentNode.getAttribute('name'); //gets the username of the user clicked on
+     * @param event
+     */
+    displayProfile = (event) => {
+        let userName = event.target.parentNode.getAttribute('name'); //gets the username of the user clicked on
 
         this.props.actions.getStatistics(userName).then(statistics => //finds the statistics for the user clicked on
             this.props.actions.loadCharacter(statistics.character).then(character =>
@@ -187,11 +196,14 @@ class Ranking extends React.Component {
                         dexterity: dexterity,
                         intelligence: intelligence
                     })
-                })));
+                })
+            )
+        );
     };
-/**
-*Renders the ranking list and the window to inscpect the users statistics, Grid gets imported from Semantic UI
-*/
+
+    /**
+     * Renders the ranking list and the window to inscpect the users statistics, Grid gets imported from Semantic UI
+     */
     render() {
         var i = 0;
         return (
@@ -205,21 +217,21 @@ class Ranking extends React.Component {
                                 </Table.Cell>
                                 <Table.Cell>
                                     <button className="ui button"
-                                            style={{backgroundColor: '#f5f5f5'}} //button to sort by usernames
+                                            style={{backgroundColor: '#f5f5f5'}}
                                             onClick={this.handleProfile}>
                                         <h3>Username</h3>
                                     </button>
                                 </Table.Cell>
                                 <Table.Cell>
                                     <button className="ui button"
-                                            style={{backgroundColor: '#f5f5f5'}} //button to sort by played time
+                                            style={{backgroundColor: '#f5f5f5'}}
                                             onClick={this.handlePlayingTime}>
                                         <h3>Total Time</h3>
                                     </button>
                                 </Table.Cell>
                                 <Table.Cell>
                                     <button className="ui button"
-                                            style={{backgroundColor: '#f5f5f5'}}//button to sort by kills
+                                            style={{backgroundColor: '#f5f5f5'}}
                                             onClick={this.handleKills}>
                                         <h3>Cow Kills</h3>
                                     </button>
@@ -245,7 +257,7 @@ class Ranking extends React.Component {
                     </Table>
                 </Grid.Column>
                 <Grid.Column width={2}>
-                    <Statistics //displays the statistics of a user on the right side of the ranking
+                    <Statistics
                         user={{name: this.state.currentProfileName}}
                         items={[
                             {label: 'Level', value: this.state.level},

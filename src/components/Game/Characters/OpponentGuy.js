@@ -9,6 +9,7 @@ export default function OpponentGuy(x, y) {
     this.update = () => {
         switch (this.nextAnimation) {
             case 'idle': this.idle(); break;
+            case 'punch': this.play('punch'); break;
             case 'walk':
                 if (this.directionChanged(this.nextDirection) || !this.isWalking()) {
                     this.direction = this.nextDirection;

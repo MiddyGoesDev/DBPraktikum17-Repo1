@@ -24,6 +24,16 @@ var cows = [];
 var aliveCows = 0;
 var maxCows = 10;
 var cowZone = { x: 800, y: 3300, width: 1100, height: 700 };
+var dragon = {
+    id: generateId(),
+    type: 'Dragon',
+    x: 1738,
+    y: 710,
+    animation: 'idle',
+    direction: { x: 0, y: 1, name: 'South' },
+    currentHP: 500,
+    aggro: {}
+};
 
 for (var i=0; i<maxCows; i++) {
     io.emit('spawn', deliverCow());
@@ -33,7 +43,7 @@ for (var i=0; i<maxCows; i++) {
 function deliverCow() {
     var dx = (Math.floor(Math.random() * 10000) % 3) -1;
     var cow = {
-        id: Math.floor(new Date().valueOf() * Math.random()),
+        id: generateId(),
         type: 'Cow',
         x: Math.round(cowZone.x + cowZone.width * Math.random()),
         y: Math.round(cowZone.y + cowZone.height * Math.random()),
@@ -54,6 +64,7 @@ io.on('connection', socket => {
         objects[character.id] = character;
 
         cows.forEach(cow => socket.emit('spawn', cow));
+        socket.emit('spawn', dragon);
     });
 
     socket.on('disconnect', () => {
@@ -147,7 +158,7 @@ io.on('connection', socket => {
 });
 
 function roll(item, attribute) {
-    return item['min_' + attribute] + Math.floor((item['max_' + attribute] - item['min_' + attribute]) * Math.random());
+    return item['min_' + attribute] + Math.ceil((item['max_' + attribute] - item['min_' + attribute]) * Math.random());
 }
 
 /*
@@ -177,6 +188,10 @@ cows.forEach(cow => setInterval(() => {
     console.log('emit cow ' + cow.id + ' x: ' + cow.x + ' y: ' + cow.y);
 }, 5000 + Math.floor(Math.random() * 5000)));
 */
+
+function generateId() {
+    return Math.floor(new Date().valueOf() * Math.random());
+}
 
 function directionName(x, y) {
     return (y < 0 ? 'North' : y > 0 ? 'South' : '') + (x < 0 ? 'West' : x > 0 ? 'East' : '');

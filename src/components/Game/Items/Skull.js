@@ -1,8 +1,8 @@
 import Item from './Item';
 
-export default function Skull(x, y) {
+export default function Skull() {
 
-    Item.call(this, x, y);
+    Item.call(this);
 
     this.height = 10;
     this.width = 10;

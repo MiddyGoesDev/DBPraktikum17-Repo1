@@ -1,9 +1,9 @@
 import Item from './Item';
 import Projectile from "../Projectiles/IgaRyuHappo";
 
-export default function IgaRyuHappo(x, y) {
+export default function IgaRyuHappo() {
 
-    Item.call(this, x, y);
+    Item.call(this);
 
     this.height = 16;
     this.width = 16;

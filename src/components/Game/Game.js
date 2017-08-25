@@ -5,16 +5,12 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux'
 
-import {join, leave, ownCharacter, updateOpponents, updateCharacter, setTimer} from '../../actions/character';
+import {join, leave, character, updateOpponents, updateCharacter, setTimer} from '../../actions/character';
 import {equipment, inventory} from '../../actions/profile';
 
 import GameStage from './GameStage';
 import {KEYCODE_DOWN, KEYCODE_LEFT, KEYCODE_RIGHT, KEYCODE_UP} from "./Constants/KeyCodes";
-import Manji from "./Items/Manji";
-import YagyuRyuYayuji from "./Items/YagyuRyuYayuji";
-import KoboriRyuHorenGata from "./Items/KoboriRyuHorenGata";
-import IgaRyuHappo from "./Items/IgaRyuHappo";
-import GurandoMasutaa from "./Items/GurandoMasutaa";
+import generateItem from './Items/ItemFactory';
 import Key from "./Items/Key";
 
 class Game extends React.Component {
@@ -43,24 +39,19 @@ class Game extends React.Component {
     }
 
     startGame() {
-        this.props.actions.ownCharacter().then(character => {
-            GameStage().initialize(character.x, character.y);
-            GameStage().activeObject.id = character.id;
-            GameStage().activeObject.character = character;
-            GameStage().activeObject.animation = 'idle';
-            GameStage().activeObject.emit('join');
-            GameStage().networkObjects[character.id] = GameStage().activeObject;
-
-            this.props.actions.equipment().then(equipment => {
+        this.props.actions.character().then(character =>
+            this.props.actions.equipment().then(equipment =>
                 this.props.actions.inventory().then(inventory => {
+                    GameStage().initialize(character.x, character.y);
+                    let player = GameStage().activeObject;
+                    player.id = character.id;
+                    player.character = character;
+                    player.animation = 'idle';
+                    GameStage().link(player);
+                    player.emit('join');
+
                     if (equipment.main_hand !== null) {
-                        switch (equipment.main_hand.name) {
-                            case 'Manji': GameStage().activeObject.weapon = new Manji(0, 0); break;
-                            case 'Yagyu Ryu Yayuji': GameStage().activeObject.weapon = new YagyuRyuYayuji(0, 0); break;
-                            case 'Kobori Ryu Horen Gata': GameStage().activeObject.weapon = new KoboriRyuHorenGata(0, 0); break;
-                            case 'Iga Ryu Happo': GameStage().activeObject.weapon = new IgaRyuHappo(0, 0); break;
-                            case 'Gurando Masutaa': GameStage().activeObject.weapon = new GurandoMasutaa(0, 0); break;
-                        }
+                        GameStage().activeObject.weapon = generateItem(equipment.main_hand.name, 0, 0);
                     }
                     inventory.forEach(inventoryItem => {
                         switch (inventoryItem.item.name) {
@@ -69,14 +60,12 @@ class Game extends React.Component {
                                 key.id = inventoryItem.item.id;
                                 GameStage().activeObject.items.push(key);
                         }
-                    })
-                });
-            });
+                    });
 
-            this.props.actions.updateOpponents();
+                    this.props.actions.updateOpponents();
 
-            Game.addListeners();
-        });
+                    Game.addListeners();
+                })));
     }
 
     static closeGame() {
@@ -104,7 +93,6 @@ class Game extends React.Component {
         window.removeEventListener('resize', Game.resizeGame);
         document.removeEventListener('keydown', Game.handleKeyDown);
         document.removeEventListener('keyup', Game.handleKeyUp);
-        // Actions carried out each tick (aka frame)
         window.createjs.Ticker.removeEventListener('tick', Game.handleTick);
     }
 
@@ -156,7 +144,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             join,
             leave,
-            ownCharacter,
+            character,
             updateOpponents,
             updateCharacter,
             setTimer,

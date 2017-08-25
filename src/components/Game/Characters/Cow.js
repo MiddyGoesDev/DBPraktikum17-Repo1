@@ -49,16 +49,15 @@ export default function Cow(x, y) {
 
     this.handleCollision = (object, collision) => {
         switch (object.type) {
-            case 'Player': 
-                object.takeDamage(this);
+            case 'Player':
                 let tempDirection = object.direction;
                 object.direction = this.direction;
                 for(var i = 0; i < 3; i++) {
                     object.move();
                     object.check();
                 }
-                object.emit('change');
                 object.direction = tempDirection;
+                object.takeDamage(this);
                 break;
         }
     };

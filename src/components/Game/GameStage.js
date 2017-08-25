@@ -4,16 +4,10 @@ import Text from './Text';
 
 import { db } from 'baqend/realtime';
 import io from 'socket.io-client';
-import Cottage from "./Cottage";
-import Manji from "./Items/Manji";
-import GurandoMasutaa from "./Items/GurandoMasutaa";
-import KoboriRyuHorenGata from "./Items/KoboriRyuHorenGata";
-import YagyuRyuYayuji from "./Items/YagyuRyuYayuji";
-import IgaRyuHappo from "./Items/IgaRyuHappo";
-import Skull from "./Items/Skull";
-import Gate from "./Gate";
-import Key from "./Items/Key";
-import Dragon from "./Characters/Dragon";
+import Cottage from './Cottage';
+import Gate from './Gate';
+import Dragon from './Characters/Dragon';
+import generateItem from './Items/ItemFactory';
 
 let gameStage = null;
 
@@ -44,8 +38,7 @@ function GameStage() {
         cowZone.graphics.s("gray").f("transparent").drawRect(800, 3300, 1100, 700);
         new Cottage(400, 220);
         new Gate(1725, 1075);
-        new Key(653, 1263);
-        new Dragon(1738, 710);
+        generateItem('Key').drop(653, 1263);
         this.stage.addChild(cowZone);
     };
 
@@ -116,6 +109,10 @@ function GameStage() {
         delete this.networkObjects[id];
     };
 
+    this.isConnected = (id) => {
+        return this.networkObjects.hasOwnProperty(id);
+    };
+
     this.near = (object) => {
         // TODO: implement near
         return this.gameObjects.filter(gameObject => gameObject.id !== object.id);
@@ -142,8 +139,8 @@ function GameStage() {
     this.activeKeys = [];
     this.db = db;
     this.fps = 40;
-    // this.socket = io('http://localhost:8080');
-    this.socket = io('207.154.243.43:8080');
+    this.socket = io('http://localhost:8080');
+    // this.socket = io('207.154.243.43:8080');
 
     this.socket.on('update', object => {
         switch (object.type) {
@@ -178,11 +175,20 @@ function GameStage() {
                 cow.play(monster.animation);
                 this.networkObjects[cow.id] = cow;
                 break;
+            case 'Dragon':
+                let dragon = new Dragon(monster.x, monster.y);
+                dragon.id = monster.id;
+                dragon.direction = monster.direction;
+                dragon.currentHP = monster.currentHP;
+                dragon.play(monster.animation);
+                this.networkObjects[dragon.id] = dragon;
         }
     });
 
     this.socket.on('spawn fist', player => {
-        this.networkObjects[player.id].punch();
+        let character = this.networkObjects[player.id];
+        character.nextAnimation = player.animation;
+        character.punch();
     });
 
     this.socket.on('spawn weapon', player => {
@@ -191,20 +197,12 @@ function GameStage() {
 
 
     this.socket.on('drop loot', loot => {
-        var item = null;
-        console.log(loot.item.name);
-        switch (loot.item.name) {
-            case 'Manji': item = new Manji(loot.x, loot.y); break;
-            case 'Yagyu Ryu Yayuji': item = new YagyuRyuYayuji(loot.x, loot.y); break;
-            case 'Kobori Ryu Horen Gata': item = new KoboriRyuHorenGata(loot.x, loot.y); break;
-            case 'Iga Ryu Happo': item = new IgaRyuHappo(loot.x, loot.y); break;
-            case 'Gurando Masutaa': item = new GurandoMasutaa(loot.x, loot.y); break;
-            case 'Steven\'s Skull':  item = new Skull(loot.x, loot.y); break;
-        }
+        let item = generateItem(loot.item.name);
         item.vitality = loot.item.vitality;
         item.strength = loot.item.strength;
         item.dexterity = loot.item.dexterity;
         item.intelligence = loot.item.intelligence;
+        item.drop(loot.x, loot.y);
     });
 
     this.socket.on('gate opened', gate => {

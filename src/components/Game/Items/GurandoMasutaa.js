@@ -1,9 +1,9 @@
 import Item from './Item';
 import Projectile from '../Projectiles/GurandoMasutaa';
 
-export default function GurandoMasutaa(x, y) {
+export default function GurandoMasutaa() {
 
-    Item.call(this, x, y);
+    Item.call(this);
 
     this.height = 16;
     this.width = 16;

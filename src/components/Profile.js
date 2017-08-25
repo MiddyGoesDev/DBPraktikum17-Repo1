@@ -27,41 +27,40 @@ class Profile extends React.Component {
      * 3) calculates the values to be displayed with bonuses from the equipment
      */
     componentWillMount() {
-        this.props.actions.myStatistics().then((stats) => { // 1)
-            this.setState({
-                username: stats.username,
-                kills: stats.kills,
-                playingTime: stats.playingTime
-            })
-        });
-        this.props.actions.myCharacter().then(character => { // 2)
-            this.props.actions.equipment().then(equipment => {
-                let vitality = character.vitality;
-                let strength = character.strength;
-                let dexterity = character.dexterity;
-                let intelligence = character.intelligence;
+        this.props.actions.myStatistics().then(statistics =>
+            this.props.actions.myCharacter().then(character => {
+                this.props.actions.equipment().then(equipment => {
+                    let vitality = character.vitality;
+                    let strength = character.strength;
+                    let dexterity = character.dexterity;
+                    let intelligence = character.intelligence;
 
-                Equipment.body().forEach(part => { // 3)
-                    if (equipment[part] !== null) {
-                        vitality += equipment[part].vitality;
-                        strength += equipment[part].strength;
-                        dexterity += equipment[part].dexterity;
-                        intelligence += equipment[part].intelligence;
-                    }
-                });
+                    Equipment.body().forEach(part => {
+                        if (equipment[part] !== null) {
+                            vitality += equipment[part].vitality;
+                            strength += equipment[part].strength;
+                            dexterity += equipment[part].dexterity;
+                            intelligence += equipment[part].intelligence;
+                        }
+                    });
 
-                this.setState({
-                    level: character.level,
-                    vitality: vitality,
-                    strength: strength,
-                    dexterity: dexterity,
-                    intelligence: intelligence
+                    this.setState({
+                        username: statistics.username,
+                        level: character.level,
+                        vitality: vitality,
+                        strength: strength,
+                        dexterity: dexterity,
+                        intelligence: intelligence,
+                        kills: statistics.kills,
+                        playingTime: statistics.playingTime
+                    })
                 })
-            });
-        });
+            })
+        );
     }
+
      /**
-     *Renders the Statistics on the left side with the two components inventory and equipment on the right side
+     * Renders the Statistics on the left side with the two components inventory and equipment on the right side
      */
     render() {
         return (
@@ -85,7 +84,7 @@ class Profile extends React.Component {
                         <Equipment/>
                     </Grid.Column>
                 </Grid.Row>
-                    <Inventory/>
+                <Inventory/>
             </Grid>
         );
     }

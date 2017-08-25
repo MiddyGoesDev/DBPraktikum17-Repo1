@@ -1,8 +1,8 @@
 import Item from './Item';
 
-export default function Key(x, y) {
+export default function Key() {
 
-    Item.call(this, x, y);
+    Item.call(this);
 
     this.height = 16;
     this.width = 16;

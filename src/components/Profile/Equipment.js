@@ -48,9 +48,8 @@ class Equipment extends React.Component {
     }
 
     static toCamelCase(name) {
-        return name.replace(/(?:^\w|[A-Z]|\b\w)/g, function (letter, index) {
-            return index === 0 ? letter.toLowerCase() : letter.toUpperCase();
-        }).replace(/\s+/g, '');
+        return name.replace(/(?:^\w|[A-Z]|\b\w)/g, (letter, index) =>
+            index === 0 ? letter.toLowerCase() : letter.toUpperCase()).replace(/\s+/g, '');
     }
 
     /**
