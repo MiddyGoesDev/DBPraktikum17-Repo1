@@ -28,7 +28,6 @@ function GameStage() {
             images: ['./assets/world.png'],
             frames: {width: 2400, height: 5280, count: 1, regX: 0, regY: 0, spacing: 0, margin: 0}
         })));
-        this.text = new Text('5', 0, 0, 1, 1);
     };
 
     this.initialize = (x, y) => {
@@ -38,7 +37,7 @@ function GameStage() {
         cowZone.graphics.s("gray").f("transparent").drawRect(800, 3300, 1100, 700);
         new Cottage(400, 220);
         generateItem('Key').drop(653, 1263);
-        this.stage.addChild(cowZone);
+        this.draw(cowZone);
     };
 
     this.clear = () => {
@@ -76,15 +75,15 @@ function GameStage() {
 
     this.startCountdown = (time) => {
         this.erase(this.text);
-        let x = this.activeObject.x - this.stage.canvas.clientWidth / 2;
-        let y = this.activeObject.y - this.stage.canvas.clientHeight / 2;
-        this.text = new Text(time + '', x, y, 1, 1.3);
+        let x = this.activeObject.x - this.stage.canvas.clientWidth / 2 + 7;
+        let y = this.activeObject.y - this.stage.canvas.clientHeight / 2 + 3;
+        this.text = new Text(time, x, y, 30, 'Arial' ,'#fff');
         this.draw(this.text);
         if(time > 0) {
             setTimeout(this.startCountdown, 1000, time - 1);
         }
         else {
-            setTimeout(this.erase, 1000, this.text);
+            setTimeout(this.erase, 500, this.text);
         }
     };
 

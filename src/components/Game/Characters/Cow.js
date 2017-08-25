@@ -36,10 +36,10 @@ export default function Cow(x, y) {
     };
 
     this.takeDamage = (object) => {
-            this.currentHP -= Math.max(0, object.damage - this.armor);
+            this.currentHP = Math.max(0, this.currentHP - Math.max(0, object.damage - this.armor));
             this.hpBar.updateHealth();
             this.hitter = object.owner;
-            if (this.currentHP <= 0) {
+            if (this.isDead()) {
                 this.destruct();
                 this.emit('cow died');
             } else {
