@@ -1,5 +1,12 @@
 import Projectile from './Projectile';
 
+/**
+ * A shuriken that flies a distance and deals damage to things in its path. Refer to Projectile for further details
+ * @param x The x origin
+ * @param y The y origin
+ * @param direction The direction to fly towards
+ */
+
 export default function GurandoMasutaa(x, y, direction) {
 
     Projectile.call(this, x, y, direction);

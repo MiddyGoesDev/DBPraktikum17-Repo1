@@ -1,5 +1,12 @@
 import Projectile from './Projectile';
 
+/**
+ * The default projectile used by PlayerGuy and Opponents. Refer to Projectile for further details
+ * @param x The x origin
+ * @param y The y origin
+ * @param direction The direction to fly towards
+ */
+
 export default function Fist(x, y, direction) {
 
     Projectile.call(this, x, y, direction);
