@@ -49,7 +49,7 @@ function GameStage() {
         var cowZone = new window.createjs.Shape();
         cowZone.graphics.s("gray").f("transparent").drawRect(800, 3300, 1100, 700);
         this.draw(cowZone);
-        new Cottage(400, 220);
+        new Cottage(420, 220);
         generateItem('Key').drop(653, 1263);
     };
 
