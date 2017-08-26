@@ -1,8 +1,8 @@
-#Black Water
+# Black Water
 Unsere Empfehlung ist es, das Spiel in *Firefox* laufen zu lassen.
 *Chrome* und *Opera* funktionieren auch. *Safari* zeigt das Spielfeld nicht vollständig an.
 
-##Steuerung
+## Steuerung
 
 | Taste           | Aktion                 |
 | ---------------:|:---------------------- |
@@ -11,11 +11,11 @@ Unsere Empfehlung ist es, das Spiel in *Firefox* laufen zu lassen.
 | **1**           | Werfen von Wurfsternen |
 | **K**           | Selbstmord             |
 
-#####Tips zum Spiel: 
+##### Tips zum Spiel: 
 Den Schlüssel findet man, wenn man dem Weg nach oben links folgt. 
 Damit ist rechts das Tor zu öffnen, hinter welchem man etwas interessantes finden könnte.
 
-##Known Bugs
+## Known Bugs
 - Collision funktioniert nicht immer einwandfrei, die Fäuste treffen teilweise nicht ihre Ziele.
 - *Chrome* wirft manchmal Fehler, die ebenfalls Collision bedingt sind, und das Spiel quasi lahmlegen
 - Firefox stürzt in seltenen Fällen ab.
@@ -23,7 +23,7 @@ Damit ist rechts das Tor zu öffnen, hinter welchem man etwas interessantes find
 
 All diese Bugs lassen sich in der Regel durch **refreshen** der Seite beheben.
 
-##Socket.io Guide:
+## Socket.io Guide:
 Der Realtime-Austausch zwischen Spielern läuft über unseren eigenen Server mit Socket.io.
 Inaktive Spieler werden hin und wieder zum refresh gezwungen.
 Ist der Socket-Server nicht online, kann in GameStage.js this.socket auf http://localhost:8080 gesetzt werden 
